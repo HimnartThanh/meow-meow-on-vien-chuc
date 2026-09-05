@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 130" width="100%" height="100%">
+  <!-- Shadow -->
+  <ellipse cx="80" cy="105" rx="55" ry="18" fill="#5C4533" opacity="0.18"/>
+
+  <!-- Wooden Table Top (Triangular rounded cozy table from video) -->
+  <g id="table-legs">
+    <line x1="45" y1="65" x2="45" y2="98" stroke="#875E3B" stroke-width="6" stroke-linecap="round"/>
+    <line x1="45" y1="65" x2="45" y2="98" stroke="#5E432E" stroke-width="1"/>
+    <line x1="115" y1="65" x2="115" y2="98" stroke="#875E3B" stroke-width="6" stroke-linecap="round"/>
+    <line x1="80" y1="85" x2="80" y2="112" stroke="#A1744B" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Table Top Thickness -->
+  <path d="M 30,55 Q 80,25 130,55 Q 105,85 80,85 Q 55,85 30,55 Z" fill="#D3A779"/>
+  <!-- Table Top Surface -->
+  <path d="M 30,48 Q 80,18 130,48 Q 105,78 80,78 Q 55,78 30,48 Z" fill="#FDF3E7" stroke="#684D35" stroke-width="3"/>
+  <path d="M 30,48 Q 55,78 80,78 L 80,85 Q 55,85 30,55 Z" fill="#E6C4A2" stroke="#684D35" stroke-width="3"/>
+  <path d="M 80,78 Q 105,78 130,48 L 130,55 Q 105,85 80,85 Z" fill="#C89D73" stroke="#684D35" stroke-width="3"/>
+
+  <!-- Ceramic Flower Vase on Table -->
+  <ellipse cx="80" cy="50" rx="14" ry="7" fill="#FCE4EC" stroke="#C2185B" stroke-width="1.5"/>
+  <path d="M 72,50 Q 68,36 75,34 L 85,34 Q 92,36 88,50 Z" fill="#FFFFFF" stroke="#684D35" stroke-width="2"/>
+  <!-- Tulip Flower -->
+  <path d="M 80,34 L 80,22" stroke="#4CAF50" stroke-width="2"/>
+  <path d="M 75,18 Q 80,12 85,18 Q 83,24 80,22 Q 77,24 75,18 Z" fill="#FF5252" stroke="#B71C1C" stroke-width="1.5"/>
+
+  <!-- Little Strawberry Plate on Table -->
+  <ellipse cx="102" cy="58" rx="10" ry="5" fill="#FFFFFF" stroke="#875E3B" stroke-width="1.5"/>
+  <circle cx="102" cy="57" r="3" fill="#FF5252"/>
+</svg>

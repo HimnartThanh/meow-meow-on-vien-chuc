@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" width="100%" height="100%">
+  <!-- Shadow -->
+  <ellipse cx="60" cy="142" rx="35" ry="12" fill="#5C4533" opacity="0.18"/>
+
+  <!-- Wooden Plant Stand (3 legs) -->
+  <line x1="38" y1="105" x2="32" y2="142" stroke="#875E3B" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="60" y1="105" x2="60" y2="146" stroke="#A1744B" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="82" y1="105" x2="88" y2="142" stroke="#875E3B" stroke-width="4.5" stroke-linecap="round"/>
+
+  <!-- Ceramic Terracotta Planter Pot -->
+  <path d="M 40,82 L 80,82 L 72,112 L 48,112 Z" fill="#E07A5F" stroke="#5E432E" stroke-width="2.5"/>
+  <ellipse cx="60" cy="82" rx="20" ry="7" fill="#F4A261" stroke="#5E432E" stroke-width="2.5"/>
+  <ellipse cx="60" cy="82" rx="16" ry="5" fill="#4A3525"/>
+
+  <!-- Lush Monstera Leaves -->
+  <!-- Leaf 1 Left -->
+  <path d="M 58,80 Q 30,55 32,32 Q 48,38 58,70" fill="#66BB6A" stroke="#2E7D32" stroke-width="2"/>
+  <path d="M 38,40 Q 42,42 46,41" stroke="#2E7D32" stroke-width="1.5"/>
+  <path d="M 36,50 Q 42,53 48,51" stroke="#2E7D32" stroke-width="1.5"/>
+  
+  <!-- Leaf 2 Center Up -->
+  <path d="M 60,78 Q 60,30 68,15 Q 76,30 62,78" fill="#81C784" stroke="#2E7D32" stroke-width="2"/>
+  <path d="M 62,35 Q 67,37 72,35" stroke="#2E7D32" stroke-width="1.5"/>
+
+  <!-- Leaf 3 Right -->
+  <path d="M 62,80 Q 90,55 88,32 Q 72,38 62,70" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+  <path d="M 82,40 Q 78,42 74,41" stroke="#2E7D32" stroke-width="1.5"/>
+  <path d="M 84,50 Q 78,53 72,51" stroke="#2E7D32" stroke-width="1.5"/>
+
+  <!-- Little Sprout Leaf -->
+  <path d="M 58,80 Q 45,70 50,60 Q 56,66 60,78" fill="#A5D6A7" stroke="#2E7D32" stroke-width="1.5"/>
+</svg>

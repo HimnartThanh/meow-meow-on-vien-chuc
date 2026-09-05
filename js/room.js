@@ -60,6 +60,7 @@
 
     // Setup Event Listeners
     setupHUD();
+    setupFloorSwitcher();
     setupRoomDrag();
     setupPetInteraction();
     setupInventoryDrawer();
@@ -83,8 +84,27 @@
   document.readyState !== 'loading' ? init() : document.addEventListener('DOMContentLoaded', init);
 
   // ─────────────────────────────────────────────────────────────────────────
-  // 3. HUD CONTROLLER
+  // 3. HUD & FLOOR SWITCHER CONTROLLERS
   // ─────────────────────────────────────────────────────────────────────────
+  function setupFloorSwitcher() {
+    const floorBar = document.getElementById('floor-switcher-bar');
+    if (!floorBar) return;
+
+    floorBar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.floor-btn');
+      if (!btn) return;
+      const targetFloor = btn.dataset.floor;
+      if (window.GameEngine && window.GameEngine.switchFloor) {
+        window.GameEngine.switchFloor(targetFloor);
+        if (window.GameEngine.playSound) {
+          window.GameEngine.playSound('tap');
+        }
+        renderRoom();
+        showToast(`Đã chuyển sang ${btn.textContent.trim()}!`);
+      }
+    });
+  }
+
   function setupHUD() {
     const soundBtn = document.getElementById('btn-sound-toggle');
     if (soundBtn) {
@@ -123,26 +143,31 @@
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // 4. RENDER ROOM & THEME
+  // 4. RENDER ROOM & THEME (ISOMETRIC 2.5D)
   // ─────────────────────────────────────────────────────────────────────────
   function renderRoom() {
     if (!window.GameEngine || !roomStageEl) return;
     const room = window.GameEngine.getRoom();
     if (!room) return;
 
-    // Apply Wallpaper
-    const wpClass = normalizeWallpaperClass(room.wallpaper);
-    if (roomWallEl) {
-      roomWallEl.className = `room-wall ${wpClass}`;
-    }
+    // Apply Isometric Background based on Floor
+    const currentFloor = room.currentFloor || 'floor_1';
+    const bgUrl = currentFloor === 'floor_2'
+      ? 'assets/isometric/rooms/room_floor_2.svg'
+      : 'assets/isometric/rooms/room_floor_1.svg';
+    roomStageEl.style.backgroundImage = `url('${bgUrl}')`;
 
-    // Apply Floor
-    const floorClass = normalizeFloorClass(room.floor);
-    if (roomFloorEl) {
-      roomFloorEl.className = `room-floor ${floorClass}`;
-    }
+    // Update Floor Switcher Active Button
+    const floorBtns = document.querySelectorAll('.floor-btn');
+    floorBtns.forEach(btn => {
+      if (btn.dataset.floor === currentFloor) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
 
-    // Render Placed Items
+    // Render Placed Items with Isometric Illustrations & Rotation
     if (itemsLayerEl) {
       itemsLayerEl.innerHTML = '';
       const catalog = (window.DATA && window.DATA.shopItems) ? window.DATA.shopItems : [];
@@ -156,20 +181,37 @@
         };
 
         const itemEl = document.createElement('div');
-        itemEl.className = 'room-item';
+        itemEl.className = 'room-item iso-placed-item';
         itemEl.dataset.itemId = placed.itemId;
         itemEl.style.left = `${placed.x}%`;
         itemEl.style.top = `${placed.y}%`;
+        itemEl.style.zIndex = Math.floor(placed.y * 10) + 10;
         itemEl.setAttribute('tabindex', '0');
         itemEl.setAttribute('role', 'button');
         itemEl.setAttribute('aria-label', itemData.name);
 
-        // Visual Representation
-        const visual = document.createElement('div');
-        visual.className = `item-visual ${itemData.cssClass || ''}`;
-        itemEl.appendChild(visual);
+        const rot = placed.rotation || 0;
 
-        // Stow / Delete Button
+        // Visual Representation: High-res SVG or CSS Class
+        if (itemData.image) {
+          const img = document.createElement('img');
+          img.src = itemData.image;
+          img.className = 'iso-item-img';
+          img.alt = itemData.name;
+          if (rot !== 0) {
+            img.style.transform = `rotate(${rot}deg)`;
+          }
+          itemEl.appendChild(img);
+        } else {
+          const visual = document.createElement('div');
+          visual.className = `item-visual ${itemData.cssClass || ''}`;
+          if (rot !== 0) {
+            visual.style.transform = `rotate(${rot}deg)`;
+          }
+          itemEl.appendChild(visual);
+        }
+
+        // Stow Button
         const stowBtn = document.createElement('button');
         stowBtn.type = 'button';
         stowBtn.className = 'item-stow-btn';
@@ -181,6 +223,12 @@
         });
         itemEl.appendChild(stowBtn);
 
+        // Click on item toggles floating control bubble
+        itemEl.addEventListener('click', (e) => {
+          if (e.target.closest('.item-stow-btn') || e.target.closest('.item-control-bubble')) return;
+          toggleItemControlBubble(itemEl, placed, itemData);
+        });
+
         itemsLayerEl.appendChild(itemEl);
       });
     }
@@ -189,6 +237,83 @@
     if (inventoryDrawerEl && inventoryDrawerEl.classList.contains('open')) {
       renderInventoryGrid();
     }
+  }
+
+  function toggleItemControlBubble(itemEl, placed, itemData) {
+    const existing = itemEl.querySelector('.item-control-bubble');
+    if (existing) {
+      existing.remove();
+      return;
+    }
+
+    // Remove any other control bubbles
+    document.querySelectorAll('.item-control-bubble').forEach(b => b.remove());
+
+    const bubble = document.createElement('div');
+    bubble.className = 'item-control-bubble';
+
+    // 1. Rotate Button (Xoay 90 độ)
+    const rotateBtn = document.createElement('button');
+    rotateBtn.type = 'button';
+    rotateBtn.className = 'item-btn-action';
+    rotateBtn.title = 'Xoay 90°';
+    rotateBtn.innerHTML = '🔄';
+    rotateBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.GameEngine && window.GameEngine.rotateItem) {
+        window.GameEngine.rotateItem(placed.itemId);
+        if (window.GameEngine.playSound) window.GameEngine.playSound('tap');
+        renderRoom();
+      }
+    });
+    bubble.appendChild(rotateBtn);
+
+    // 2. Invite Pet Button (Mời pet ngồi/ngủ)
+    const petBtn = document.createElement('button');
+    petBtn.type = 'button';
+    petBtn.className = 'item-btn-action';
+    petBtn.title = itemData.anchor === 'bed' ? 'Mời pet nằm ngủ' : 'Mời pet ngồi học';
+    petBtn.innerHTML = itemData.anchor === 'bed' ? '🛏️' : '🐾';
+    petBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      invitePetToItem(placed, itemData);
+      bubble.remove();
+    });
+    bubble.appendChild(petBtn);
+
+    // 3. Stow Button (Cất vào kho)
+    const stowBtn = document.createElement('button');
+    stowBtn.type = 'button';
+    stowBtn.className = 'item-btn-action';
+    stowBtn.title = 'Cất vào kho';
+    stowBtn.innerHTML = '🗑️';
+    stowBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      stowItem(placed.itemId);
+    });
+    bubble.appendChild(stowBtn);
+
+    itemEl.appendChild(bubble);
+  }
+
+  function invitePetToItem(placed, itemData) {
+    if (!petAnchorEl || !window.GameEngine) return;
+    petAnchorEl.style.left = `${placed.x}%`;
+    petAnchorEl.style.top = `${Math.max(15, placed.y - 4)}%`;
+
+    if (itemData.anchor === 'bed') {
+      window.GameEngine.setPetPose('sleep');
+      showToast('Bé cưng đã cuộn tròn ngủ say trên giường rồi! 💤');
+    } else if (itemData.anchor === 'seat') {
+      window.GameEngine.setPetPose('sit');
+      showToast('Bé cưng đang ngồi học bài cực chăm chỉ nè! 📖✨');
+    } else {
+      window.GameEngine.setPetPose('idle');
+      showToast('Bé cưng đang vui vẻ chơi đùa cùng món đồ mới! 💕');
+    }
+
+    if (window.GameEngine.playSound) window.GameEngine.playSound('tap');
+    renderPet();
   }
 
   function normalizeWallpaperClass(wp) {
@@ -379,14 +504,29 @@
   function onPetTapped() {
     if (!window.GameEngine) return;
 
-    // React with happy state
+    // Cycle pet pose: idle -> sit -> sleep -> idle
+    const currentPose = window.GameEngine.getPetPose ? window.GameEngine.getPetPose() : 'idle';
+    let nextPose = 'idle';
+    if (currentPose === 'idle') nextPose = 'sit';
+    else if (currentPose === 'sit') nextPose = 'sleep';
+    else nextPose = 'idle';
+
+    if (window.GameEngine.setPetPose) {
+      window.GameEngine.setPetPose(nextPose);
+    }
     window.GameEngine.setPetState('happy');
     if (window.GameEngine.playSound) {
       window.GameEngine.playSound('tap');
     }
 
-    // Pick random sweet encouragement quote
-    const randomQuote = PET_QUOTES[Math.floor(Math.random() * PET_QUOTES.length)];
+    // Dynamic quote according to pose
+    let randomQuote = PET_QUOTES[Math.floor(Math.random() * PET_QUOTES.length)];
+    if (nextPose === 'sit') {
+      randomQuote = "Tớ đang ngồi chăm chỉ đọc sách ôn thi cùng bạn nè! 📖✨";
+    } else if (nextPose === 'sleep') {
+      randomQuote = "Khò khò... Bạn ôn thi mệt thì cùng tớ chợp mắt xíu nhé! 💤💕";
+    }
+
     if (petBubbleTextEl && petBubbleEl) {
       petBubbleTextEl.textContent = randomQuote;
       petBubbleEl.style.display = 'block';
@@ -404,23 +544,44 @@
   }
 
   function renderPet() {
-    if (!window.GameEngine || !roomPetEl) return;
+    if (!window.GameEngine) return;
     const petObj = window.GameEngine.getPet ? window.GameEngine.getPet() : { type: 'cat', state: 'idle' };
+    const pose = window.GameEngine.getPetPose ? window.GameEngine.getPetPose() : 'idle';
 
     const type = petObj.type || 'cat';
     const state = petObj.state || 'idle';
 
-    // Update class on room pet element
-    roomPetEl.className = `pet pet-${type} ${state} pet-lg`;
+    // Update fallback CSS pet (preserves test backwards-compatibility)
+    if (roomPetEl) {
+      roomPetEl.className = `pet pet-${type} ${state} pet-lg`;
+      const fxEl = roomPetEl.querySelector('.pet-fx');
+      if (fxEl) {
+        if (state === 'happy') fxEl.textContent = '❤️';
+        else if (state === 'excited') fxEl.textContent = '✨';
+        else if (state === 'sad') fxEl.textContent = '💧';
+        else if (state === 'sleeping') fxEl.textContent = '💤';
+        else fxEl.textContent = '❤️';
+      }
+    }
 
-    // Update status FX emoji
-    const fxEl = roomPetEl.querySelector('.pet-fx');
-    if (fxEl) {
-      if (state === 'happy') fxEl.textContent = '❤️';
-      else if (state === 'excited') fxEl.textContent = '✨';
-      else if (state === 'sad') fxEl.textContent = '💧';
-      else if (state === 'sleeping') fxEl.textContent = '💤';
-      else fxEl.textContent = '❤️';
+    // Update Full-Body Vector SVG Graphic from Catalog
+    const isoPetGraphic = document.getElementById('iso-pet-graphic');
+    if (isoPetGraphic && window.DATA && window.DATA.petCatalog) {
+      const petDef = window.DATA.petCatalog.find(p => p.type === type);
+      if (petDef && petDef.poses) {
+        const svgSrc = petDef.poses[pose] || petDef.poses['idle'] || petDef.image;
+        if (svgSrc) {
+          isoPetGraphic.src = svgSrc;
+        }
+      }
+    }
+
+    // Update container z-index and pose classes
+    if (petAnchorEl) {
+      petAnchorEl.classList.remove('pet-pose-idle', 'pet-pose-sit', 'pet-pose-sleep', 'pet-pose-walk');
+      petAnchorEl.classList.add(`pet-pose-${pose}`);
+      const curY = parseFloat(petAnchorEl.style.top || '72');
+      petAnchorEl.style.zIndex = Math.floor(curY * 10) + 15;
     }
   }
 

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <!-- Ground Shadow -->
+  <ellipse cx="60" cy="108" rx="35" ry="10" fill="#5C4533" opacity="0.2"/>
+
+  <!-- Tail (Swishing gently) -->
+  <path d="M 85,85 Q 105,75 100,55 Q 92,52 90,65 Q 88,78 80,88 Z" fill="#FFAAA6" stroke="#5E432E" stroke-width="2.5"/>
+  <circle cx="98" cy="56" r="4" fill="#FFFFFF"/>
+
+  <!-- Feet / Paws -->
+  <ellipse cx="45" cy="102" rx="9" ry="6" fill="#FFFFFF" stroke="#5E432E" stroke-width="2"/>
+  <ellipse cx="75" cy="102" rx="9" ry="6" fill="#FFFFFF" stroke="#5E432E" stroke-width="2"/>
+
+  <!-- Chubby Body -->
+  <path d="M 35,65 Q 30,100 60,102 Q 90,100 85,65 Z" fill="#FFB7B2" stroke="#5E432E" stroke-width="2.5"/>
+  <!-- Belly White Patch -->
+  <ellipse cx="60" cy="85" rx="16" ry="14" fill="#FFFFFF"/>
+  <!-- Cute Pink Bow Tie -->
+  <polygon points="53,68 67,68 64,74 56,74" fill="#FF4081" stroke="#5E432E" stroke-width="1.5"/>
+  <circle cx="60" cy="71" r="3" fill="#FF80AB"/>
+
+  <!-- Arms / Little Hands -->
+  <path d="M 38,70 Q 34,80 44,82" stroke="#5E432E" stroke-width="2.5" fill="#FFB7B2"/>
+  <circle cx="44" cy="81" r="4" fill="#FFFFFF" stroke="#5E432E" stroke-width="1.5"/>
+  <path d="M 82,70 Q 86,80 76,82" stroke="#5E432E" stroke-width="2.5" fill="#FFB7B2"/>
+  <circle cx="76" cy="81" r="4" fill="#FFFFFF" stroke="#5E432E" stroke-width="1.5"/>
+
+  <!-- Head -->
+  <ellipse cx="60" cy="45" rx="34" ry="28" fill="#FFB7B2" stroke="#5E432E" stroke-width="2.5"/>
+
+  <!-- Cat Ears -->
+  <!-- Left Ear -->
+  <path d="M 34,30 L 26,8 L 48,20 Z" fill="#FFB7B2" stroke="#5E432E" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 34,26 L 30,14 L 44,21 Z" fill="#FF8A80"/>
+  <!-- Right Ear -->
+  <path d="M 86,30 L 94,8 L 72,20 Z" fill="#FFB7B2" stroke="#5E432E" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 86,26 L 90,14 L 76,21 Z" fill="#FF8A80"/>
+
+  <!-- Whiskers -->
+  <line x1="22" y1="46" x2="10" y2="44" stroke="#5E432E" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="22" y1="50" x2="10" y2="52" stroke="#5E432E" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="98" y1="46" x2="110" y2="44" stroke="#5E432E" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="98" y1="50" x2="110" y2="52" stroke="#5E432E" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Face: Sparkly Big Eyes -->
+  <circle cx="48" cy="44" r="5.5" fill="#2C1810"/>
+  <circle cx="46.5" cy="42" r="2.2" fill="#FFFFFF"/>
+  <circle cx="50" cy="46" r="1.2" fill="#FFFFFF"/>
+
+  <circle cx="72" cy="44" r="5.5" fill="#2C1810"/>
+  <circle cx="70.5" cy="42" r="2.2" fill="#FFFFFF"/>
+  <circle cx="74" cy="46" r="1.2" fill="#FFFFFF"/>
+
+  <!-- Blushing Cheeks -->
+  <ellipse cx="38" cy="50" rx="5" ry="3" fill="#FF5252" opacity="0.4"/>
+  <ellipse cx="82" cy="50" rx="5" ry="3" fill="#FF5252" opacity="0.4"/>
+
+  <!-- Cute Cat Mouth & Nose -->
+  <polygon points="58,48 62,48 60,51" fill="#D81B60"/>
+  <path d="M 56,51 Q 60,54 60,51 Q 60,54 64,51" fill="none" stroke="#5E432E" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

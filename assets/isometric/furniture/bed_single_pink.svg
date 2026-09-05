@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 180" width="100%" height="100%">
+  <!-- Shadow -->
+  <ellipse cx="110" cy="145" rx="90" ry="25" fill="#5C4533" opacity="0.2"/>
+
+  <!-- Wooden Bed Frame Headboard (High Back) -->
+  <path d="M 20,60 L 70,30 L 95,45 L 45,75 Z" fill="#A87954" stroke="#5E432E" stroke-width="3"/>
+  <path d="M 20,40 L 70,10 L 95,25 L 45,55 Z" fill="#C99C75" stroke="#5E432E" stroke-width="3"/>
+  <path d="M 20,40 L 20,60 L 45,75 L 45,55 Z" fill="#B3845C" stroke="#5E432E" stroke-width="3"/>
+
+  <!-- Bed Mattress Base -->
+  <path d="M 35,70 L 140,130 L 195,95 L 90,38 Z" fill="#FFFFFF" stroke="#5E432E" stroke-width="3"/>
+  
+  <!-- Mattress Thickness -->
+  <path d="M 35,70 L 140,130 L 140,145 L 35,85 Z" fill="#E8D5C4" stroke="#5E432E" stroke-width="3"/>
+  <path d="M 140,130 L 195,95 L 195,110 L 140,145 Z" fill="#D4BEA9" stroke="#5E432E" stroke-width="3"/>
+
+  <!-- Fluffy White Pillow -->
+  <g id="pillow">
+    <ellipse cx="75" cy="52" rx="26" ry="14" fill="#FFFFFF" stroke="#D1C4E9" stroke-width="2.5" transform="rotate(30, 75, 52)"/>
+    <ellipse cx="75" cy="52" rx="22" ry="11" fill="#F8F9FA" transform="rotate(30, 75, 52)"/>
+  </g>
+
+  <!-- Pink Cozy Quilt / Blanket -->
+  <g id="blanket">
+    <path d="M 65,85 L 140,130 L 195,95 L 120,55 Z" fill="#FFB6C1" stroke="#E91E63" stroke-width="3"/>
+    <!-- Folded top rim of blanket -->
+    <path d="M 65,85 L 120,55 L 115,52 L 60,82 Z" fill="#FFFFFF" stroke="#5E432E" stroke-width="2"/>
+    <!-- Cute Polka Dots on Blanket -->
+    <circle cx="95" cy="85" r="4" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="135" cy="105" r="4" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="165" cy="90" r="4" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="115" cy="115" r="4" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="145" cy="75" r="4" fill="#FFFFFF" opacity="0.8"/>
+  </g>
+
+  <!-- Wooden Bed Posts / Feet -->
+  <path d="M 32,83 L 32,100 L 38,100 L 38,87 Z" fill="#754F32" stroke="#5E432E" stroke-width="2"/>
+  <path d="M 137,143 L 137,155 L 143,155 L 143,145 Z" fill="#754F32" stroke="#5E432E" stroke-width="2"/>
+  <path d="M 192,108 L 192,120 L 198,120 L 198,110 Z" fill="#754F32" stroke="#5E432E" stroke-width="2"/>
+</svg>

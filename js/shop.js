@@ -176,7 +176,13 @@
 
       // Preview Element
       let previewHtml = '';
-      if (item.isPet) {
+      if (item.isPet && item.image) {
+        previewHtml = `
+          <div style="height: 75px; display: flex; align-items: center; justify-content: center;">
+            <img src="${item.image}" alt="${item.name}" style="max-height: 70px; max-width: 75px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));">
+          </div>
+        `;
+      } else if (item.isPet) {
         previewHtml = `
           <div class="pet pet-${item.type} happy pet-sm" style="transform: scale(1.15);">
             <div class="pet-character">
@@ -199,6 +205,12 @@
               </div>
               <div class="pet-tail"></div>
             </div>
+          </div>
+        `;
+      } else if (item.image) {
+        previewHtml = `
+          <div style="height: 75px; display: flex; align-items: center; justify-content: center;">
+            <img src="${item.image}" alt="${item.name}" style="max-height: 70px; max-width: 90px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));">
           </div>
         `;
       } else {

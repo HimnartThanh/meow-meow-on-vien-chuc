@@ -63,9 +63,14 @@
       idle: ''
     };
 
+    const petCatalog = (typeof DATA !== 'undefined' && DATA.petCatalog) ? DATA.petCatalog : [];
+    const petDef = petCatalog.find(p => p.type === type);
+    const svgImg = (petDef && petDef.image) ? petDef.image : null;
+
     container.innerHTML = `
       <div class="pet-fx">${fxMap[state] || ''}</div>
-      <div class="pet-character">
+      ${svgImg ? `<img src="${svgImg}" alt="${type}" style="width: 105px; height: 105px; display: block; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15)); margin: 0 auto;">` : ''}
+      <div class="pet-character" style="${svgImg ? 'display:none;' : ''}">
         <div class="pet-ear left"></div>
         <div class="pet-ear right"></div>
         <div class="pet-head">

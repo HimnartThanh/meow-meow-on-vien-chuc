@@ -468,23 +468,30 @@ const DATA = {
     // ── Category 1: furniture (4 items) ──
     {
       id: "desk_pink",
-      name: "Bàn Học Hồng",
+      name: "Bàn Học Gỗ",
       category: "furniture",
       price: 25,
       icon: "🪑",
       emoji: "🪑",
       cssClass: "item-desk-pink",
-      description: "Bàn học xinh xắn màu hồng pastel tiếp thêm cảm hứng ôn thi."
+      image: "assets/isometric/furniture/desk_study.svg",
+      width: 120,
+      height: 110,
+      description: "Bàn học gỗ phong cách pastel có sách và đèn bàn tiếp thêm cảm hứng ôn thi."
     },
     {
       id: "shelf_wood",
-      name: "Kệ Sách Gỗ",
+      name: "Sofa Vàng Cozy",
       category: "furniture",
       price: 30,
-      icon: "📚",
-      emoji: "📚",
+      icon: "🛋️",
+      emoji: "🛋️",
       cssClass: "item-shelf",
-      description: "Kệ sách gỗ đựng đầy tài liệu ôn thi công chức, viên chức."
+      image: "assets/isometric/furniture/sofa_yellow.svg",
+      anchor: "seat",
+      width: 140,
+      height: 110,
+      description: "Chiếc sofa vàng êm ái có gối ôm socola cho bé cưng ngồi chill."
     },
     {
       id: "chair_cute",
@@ -494,29 +501,40 @@ const DATA = {
       icon: "💺",
       emoji: "💺",
       cssClass: "item-chair",
-      description: "Chiếc ghế đệm bông êm ái chống mỏi lưng khi học bài khuya."
+      image: "assets/isometric/furniture/chair_study.svg",
+      anchor: "seat",
+      width: 80,
+      height: 95,
+      description: "Chiếc ghế gỗ đệm bông êm ái, bé pet có thể ngồi lên để chăm chỉ học bài."
     },
     {
       id: "bed_cozy",
-      name: "Giường Mini",
+      name: "Giường Ngủ Hồng",
       category: "furniture",
       price: 45,
       icon: "🛏️",
       emoji: "🛏️",
       cssClass: "item-bed",
-      description: "Giường ngủ nhỏ ấm áp cho bé thú cưng cuộn tròn say giấc."
+      image: "assets/isometric/furniture/bed_single_pink.svg",
+      anchor: "bed",
+      width: 150,
+      height: 125,
+      description: "Giường ngủ nhỏ ấm áp có chăn hồng chấm bi cho bé thú cưng say giấc nồng."
     },
 
     // ── Category 2: lighting (3 items) ──
     {
       id: "lamp_table",
-      name: "Đèn Bàn Học",
+      name: "Máy Lọc Khí & Đèn",
       category: "lighting",
       price: 15,
       icon: "💡",
       emoji: "💡",
       cssClass: "item-lamp-table",
-      description: "Đèn bàn ánh sáng vàng dịu mắt, bảo vệ thị lực trong đêm ôn bài."
+      image: "assets/isometric/furniture/air_purifier.svg",
+      width: 70,
+      height: 110,
+      description: "Tháp lọc không khí thông minh hiển thị nhiệt độ, giữ phòng luôn thoáng đãng."
     },
     {
       id: "lamp_fairy",
@@ -542,23 +560,29 @@ const DATA = {
     // ── Category 3: plant (4 items) ──
     {
       id: "cactus_pot",
-      name: "Xương Rồng Nhỏ",
+      name: "Chậu Cây Chân Gỗ",
       category: "plant",
       price: 10,
-      icon: "🌵",
-      emoji: "🌵",
+      icon: "🪴",
+      emoji: "🪴",
       cssClass: "item-cactus",
-      description: "Chậu xương rồng tai thỏ kiên cường, tượng trưng cho nghị lực vượt khó."
+      image: "assets/isometric/furniture/plant_monstera.svg",
+      width: 90,
+      height: 120,
+      description: "Chậu cây Monstera lá xanh tươi trên chân đôn gỗ sồi sang trọng."
     },
     {
       id: "tulip_vase",
-      name: "Bình Hoa Tulip",
+      name: "Bàn Trà Hoa Tulip",
       category: "plant",
       price: 15,
       icon: "🌷",
       emoji: "🌷",
       cssClass: "item-tulip",
-      description: "Bình hoa tulip hồng tươi tắn lan tỏa năng lượng tích cực mỗi ngày."
+      image: "assets/isometric/furniture/tea_table.svg",
+      width: 120,
+      height: 100,
+      description: "Bàn trà gỗ tam giác bo tròn cắm bình hoa tulip đỏ tươi tắn."
     },
     {
       id: "succulent_box",
@@ -572,13 +596,17 @@ const DATA = {
     },
     {
       id: "ivy_wall",
-      name: "Dây Leo Tường",
+      name: "Cầu Trượt Sân Vườn",
       category: "plant",
       price: 18,
-      icon: "🌿",
-      emoji: "🌿",
+      icon: "🎢",
+      emoji: "🎢",
       cssClass: "item-ivy",
-      description: "Dây thường xuân xanh mát làm dịu mắt sau những giờ làm trắc nghiệm."
+      image: "assets/isometric/furniture/garden_slide.svg",
+      anchor: "play",
+      width: 130,
+      height: 140,
+      description: "Cầu trượt pastel mát mẻ đặt ngoài sân vườn cho các bé vui chơi thỏa thích."
     },
 
     // ── Category 4: wall (4 items) ──
@@ -689,18 +717,49 @@ const DATA = {
       icon: "🐱",
       emoji: "🐱",
       cssClass: "pet-cat",
-      personality: "Tinh nghịch, hay leo trèo",
-      description: "Bé mèo tam thể tinh nghịch, luôn quanh quẩn bên bạn mỗi khi học bài."
+      image: "assets/isometric/pets/cat_idle.svg",
+      poses: {
+        idle: "assets/isometric/pets/cat_idle.svg",
+        sit: "assets/isometric/pets/cat_sit.svg",
+        sleep: "assets/isometric/pets/cat_sleep.svg",
+        walk: "assets/isometric/pets/cat_idle.svg"
+      },
+      personality: "Tinh nghịch, thích đọc sách",
+      description: "Bé mèo tam thể thông minh, luôn ngồi bên cạnh bạn mỗi khi ôn bài thi."
     },
     {
       type: "bunny",
-      name: "Thỏ Con",
+      name: "Thỏ Bông",
       price: 80,
       icon: "🐰",
       emoji: "🐰",
       cssClass: "pet-bunny",
-      personality: "Nhút nhát nhưng siêu cute",
-      description: "Bé thỏ trắng tai dài đáng yêu, thích ăn cà rốt và chăm chỉ làm flashcard."
+      image: "assets/isometric/pets/bunny_idle.svg",
+      poses: {
+        idle: "assets/isometric/pets/bunny_idle.svg",
+        sit: "assets/isometric/pets/cat_sit.svg",
+        sleep: "assets/isometric/pets/cat_sleep.svg",
+        walk: "assets/isometric/pets/bunny_idle.svg"
+      },
+      personality: "Nhút nhát, thích mặc yếm hồng",
+      description: "Bé thỏ trắng mặc quần yếm hồng siêu ngọt ngào, cùng bạn chăm chỉ giải đề."
+    },
+    {
+      type: "hamster",
+      name: "Hamster",
+      price: 120,
+      icon: "🐹",
+      emoji: "🐹",
+      cssClass: "pet-hamster",
+      image: "assets/isometric/pets/hamster_idle.svg",
+      poses: {
+        idle: "assets/isometric/pets/hamster_idle.svg",
+        sit: "assets/isometric/pets/hamster_sit.svg",
+        sleep: "assets/isometric/pets/hamster_sleep.svg",
+        walk: "assets/isometric/pets/hamster_idle.svg"
+      },
+      personality: "Đội mũ cói, thích ăn phô mai",
+      description: "Bé chuột hamster má phúng phính đội mũ cói, biểu tượng kiên trì đỗ viên chức!"
     },
     {
       type: "bear",
@@ -709,6 +768,13 @@ const DATA = {
       icon: "🐻",
       emoji: "🐻",
       cssClass: "pet-bear",
+      image: "assets/isometric/pets/cat_idle.svg",
+      poses: {
+        idle: "assets/isometric/pets/cat_idle.svg",
+        sit: "assets/isometric/pets/cat_sit.svg",
+        sleep: "assets/isometric/pets/cat_sleep.svg",
+        walk: "assets/isometric/pets/cat_idle.svg"
+      },
       personality: "Hiền lành, hay ngủ nướng",
       description: "Chú gấu nâu tròn trĩnh ấm áp, luôn kiên nhẫn cổ vũ bạn vượt qua câu khó."
     },
@@ -719,18 +785,15 @@ const DATA = {
       icon: "🦆",
       emoji: "🦆",
       cssClass: "pet-duck",
+      image: "assets/isometric/pets/bunny_idle.svg",
+      poses: {
+        idle: "assets/isometric/pets/bunny_idle.svg",
+        sit: "assets/isometric/pets/hamster_sit.svg",
+        sleep: "assets/isometric/pets/hamster_sleep.svg",
+        walk: "assets/isometric/pets/bunny_idle.svg"
+      },
       personality: "Vui vẻ, hay lắc lư",
       description: "Chú vịt vàng lí lắc, biết nhảy múa ăn mừng mỗi khi bạn làm đúng 100% quiz."
-    },
-    {
-      type: "hamster",
-      name: "Hamster",
-      price: 120,
-      icon: "🐹",
-      emoji: "🐹",
-      cssClass: "pet-hamster",
-      personality: "Chăm chỉ, thích chạy bánh xe",
-      description: "Bé chuột hamster má phúng phính, biểu tượng cho sự nỗ lực bền bỉ mỗi ngày."
     }
   ],
 

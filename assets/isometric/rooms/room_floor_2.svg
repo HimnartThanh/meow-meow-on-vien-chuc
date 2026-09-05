@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="100%" height="100%">
+  <defs>
+    <linearGradient id="wallF2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFF0F5"/>
+      <stop offset="100%" stop-color="#FCE4EC"/>
+    </linearGradient>
+    <linearGradient id="wallF2Right" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F3E5F5"/>
+      <stop offset="100%" stop-color="#E8EAF6"/>
+    </linearGradient>
+    <linearGradient id="floorF2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EAD5BE"/>
+      <stop offset="50%" stop-color="#DEC0A2"/>
+      <stop offset="100%" stop-color="#CFAC8B"/>
+    </linearGradient>
+    <pattern id="parquet" width="50" height="25" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+      <line x1="0" y1="0" x2="50" y2="0" stroke="#B89472" stroke-width="1.2" opacity="0.4"/>
+      <line x1="25" y1="0" x2="25" y2="25" stroke="#B89472" stroke-width="1.2" opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Left Wall (Pastel Pink) -->
+  <path d="M 0,0 L 500,0 L 500,380 L 0,260 Z" fill="url(#wallF2)"/>
+  
+  <!-- Right Wall (Pastel Lavender) -->
+  <path d="M 500,0 L 1000,0 L 1000,260 L 500,380 Z" fill="url(#wallF2Right)"/>
+
+  <!-- Left Wall Arched Window -->
+  <path d="M 120,180 L 120,100 A 60,60 0 0,1 240,100 L 240,180 Z" fill="#75563D" stroke="#5E432E" stroke-width="4"/>
+  <path d="M 128,175 L 128,103 A 52,52 0 0,1 232,103 L 232,175 Z" fill="#DCEBFA"/>
+  <line x1="180" y1="48" x2="180" y2="175" stroke="#5E432E" stroke-width="3"/>
+  <line x1="128" y1="120" x2="232" y2="120" stroke="#5E432E" stroke-width="3"/>
+  <rect x="110" y="180" width="140" height="12" rx="4" fill="#936F52" stroke="#5E432E" stroke-width="2"/>
+
+  <!-- Fairy Lights String on Wall -->
+  <path d="M 280,60 Q 380,100 490,70 Q 600,110 720,70 Q 820,100 920,60" fill="none" stroke="#684D35" stroke-width="1.5" stroke-dasharray="2 3"/>
+  <g fill="#FFE66D" stroke="#E59866" stroke-width="1">
+    <circle cx="310" cy="74" r="4.5"/>
+    <circle cx="360" cy="88" r="4.5"/>
+    <circle cx="420" cy="86" r="4.5"/>
+    <circle cx="470" cy="74" r="4.5"/>
+    <circle cx="530" cy="85" r="4.5"/>
+    <circle cx="580" cy="98" r="4.5"/>
+    <circle cx="640" cy="95" r="4.5"/>
+    <circle cx="690" cy="80" r="4.5"/>
+    <circle cx="760" cy="85" r="4.5"/>
+    <circle cx="820" cy="92" r="4.5"/>
+    <circle cx="880" cy="75" r="4.5"/>
+  </g>
+
+  <!-- Wall Bookshelf built-in (Right wall) -->
+  <g id="right-wall-decor">
+    <rect x="740" y="90" width="140" height="110" rx="6" fill="#C9A382" stroke="#5E432E" stroke-width="3"/>
+    <rect x="750" y="100" width="120" height="40" fill="#E6CEB8"/>
+    <rect x="750" y="150" width="120" height="40" fill="#E6CEB8"/>
+    <!-- Books on shelf -->
+    <rect x="760" y="110" width="12" height="30" fill="#FF8DA1"/>
+    <rect x="774" y="106" width="14" height="34" fill="#69C261"/>
+    <rect x="790" y="112" width="10" height="28" fill="#4D96FF"/>
+    <rect x="802" y="108" width="16" height="32" fill="#FFD166"/>
+    <!-- Cute plant on lower shelf -->
+    <ellipse cx="780" cy="180" rx="8" ry="4" fill="#E57373"/>
+    <circle cx="780" cy="170" r="7" fill="#81C784"/>
+  </g>
+
+  <!-- Floor -->
+  <path d="M 0,260 L 500,380 L 1000,260 L 500,700 Z" fill="url(#floorF2)"/>
+  <path d="M 0,260 L 500,380 L 1000,260 L 500,700 Z" fill="url(#parquet)"/>
+
+  <!-- Heart Shapped Fluffy Rug on Floor -->
+  <path d="M 450,490 C 450,440 370,410 320,460 C 270,410 190,440 190,490 C 190,560 320,620 320,620 C 320,620 450,560 450,490 Z" fill="#FFE5EC" stroke="#F48FB1" stroke-width="4" transform="rotate(-15, 320, 520)"/>
+  <path d="M 435,490 C 435,445 365,420 320,465 C 275,420 205,445 205,490 C 205,550 320,605 320,605 C 320,605 435,550 435,490 Z" fill="#FFF0F5" transform="rotate(-15, 320, 520)"/>
+
+  <!-- Center Corner Line -->
+  <line x1="500" y1="0" x2="500" y2="380" stroke="#B38F70" stroke-width="4"/>
+</svg>

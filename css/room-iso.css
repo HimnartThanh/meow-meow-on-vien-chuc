@@ -1,0 +1,228 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ISOMETRIC 2.5D ROOM STYLING & MULTI-FLOOR EXPANSION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Room Stage with 2.5D Isometric Background */
+.room-stage.iso-stage {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  max-height: 70vh;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(255, 133, 161, 0.25);
+  border: 3.5px solid var(--pink-pastel);
+  background-color: #EAF5EE;
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  transition: background-image 0.4s ease-in-out;
+  touch-action: none; /* Prevent page scroll during drag */
+  user-select: none;
+}
+
+/* Floor Switcher Navigation Bar (Elevator Style) */
+.floor-switcher-bar {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 95;
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  border: 1.5px solid var(--pink-light);
+  backdrop-filter: blur(6px);
+}
+
+.floor-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border: none;
+  background: transparent;
+  color: var(--text-mid);
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 0.88rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.floor-btn:hover {
+  background: var(--pink-light);
+  color: var(--pink-deep);
+}
+
+.floor-btn.active {
+  background: linear-gradient(135deg, var(--pink-main), var(--pink-deep));
+  color: #FFFFFF;
+  box-shadow: 0 3px 10px rgba(255, 107, 139, 0.35);
+}
+
+/* Isometric Item Entity */
+.iso-placed-item {
+  position: absolute;
+  transform: translate(-50%, -85%);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.iso-placed-item:active,
+.iso-placed-item.is-dragging {
+  cursor: grabbing;
+  filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.25));
+  transform: translate(-50%, -92%) scale(1.04);
+}
+
+.iso-placed-item.is-selected {
+  filter: drop-shadow(0 0 10px rgba(255, 133, 161, 0.8));
+}
+
+.iso-item-img {
+  width: auto;
+  max-width: 160px;
+  max-height: 140px;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+}
+
+/* Floating Item Control Bubble (Xoay, Cất kho, Ngồi) */
+.item-control-bubble {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: rgba(255, 255, 255, 0.96);
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  display: flex;
+  gap: 0.4rem;
+  z-index: 999;
+  border: 2px solid var(--pink-pastel);
+  white-space: nowrap;
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.item-control-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #FFFFFF transparent transparent transparent;
+}
+
+.item-btn-action {
+  background: var(--pink-light);
+  border: 1px solid var(--pink-pastel);
+  color: var(--pink-deep);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.item-btn-action:hover {
+  background: var(--pink-deep);
+  color: #FFFFFF;
+  transform: scale(1.12);
+}
+
+/* Full-Body Vector Pet in 2.5D Room */
+.iso-pet-container {
+  position: absolute;
+  transform: translate(-50%, -85%);
+  cursor: pointer;
+  z-index: 50;
+  transition: left 0.35s ease-out, top 0.35s ease-out;
+}
+
+.iso-pet-graphic {
+  width: 90px;
+  height: 90px;
+  display: block;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+  animation: petGentleBob 3s ease-in-out infinite;
+}
+
+@keyframes petGentleBob {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.02);
+  }
+}
+
+/* Pet Poses Animation states */
+.iso-pet-container.pet-pose-sit .iso-pet-graphic {
+  animation: petStudyFocus 4s ease-in-out infinite;
+}
+
+@keyframes petStudyFocus {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.iso-pet-container.pet-pose-sleep .iso-pet-graphic {
+  animation: petSleepBreathing 2.5s ease-in-out infinite;
+}
+
+@keyframes petSleepBreathing {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.03, 0.97); }
+}
+
+/* Toast/Speech Bubble for Pet */
+.iso-speech-bubble {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: #FFFFFF;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--pink-main);
+  box-shadow: 0 4px 15px rgba(255, 107, 139, 0.25);
+  color: var(--text-dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.iso-speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--pink-main) transparent transparent transparent;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(0) scale(0.7); }
+  to { opacity: 1; transform: translateX(-50%) translateY(-8px) scale(1); }
+}

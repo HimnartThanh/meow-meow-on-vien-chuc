@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" width="100%" height="100%">
+  <!-- Shadow -->
+  <ellipse cx="50" cy="135" rx="30" ry="10" fill="#5C4533" opacity="0.18"/>
+
+  <!-- Tower Body (Cylindrical Tower Air Purifier from video frame 20) -->
+  <path d="M 30,35 L 70,35 L 70,125 Q 50,140 30,125 Z" fill="#F0F4F8" stroke="#5E432E" stroke-width="2.5"/>
+  <!-- Curved Top Cap -->
+  <ellipse cx="50" cy="35" rx="20" ry="8" fill="#FFFFFF" stroke="#5E432E" stroke-width="2.5"/>
+  <ellipse cx="50" cy="34" rx="14" ry="5" fill="#E2E8F0"/>
+  
+  <!-- Digital LED Display showing "18°" -->
+  <rect x="42" y="48" width="16" height="10" rx="2" fill="#2D3748"/>
+  <text x="50" y="55" font-size="6" font-family="monospace" fill="#68D391" text-anchor="middle" font-weight="bold">18°</text>
+
+  <!-- Intake Grill Lines -->
+  <g stroke="#CBD5E0" stroke-width="1.5">
+    <line x1="36" y1="75" x2="64" y2="75"/>
+    <line x1="36" y1="83" x2="64" y2="83"/>
+    <line x1="36" y1="91" x2="64" y2="91"/>
+    <line x1="36" y1="99" x2="64" y2="99"/>
+    <line x1="36" y1="107" x2="64" y2="107"/>
+    <line x1="36" y1="115" x2="64" y2="115"/>
+  </g>
+</svg>

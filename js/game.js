@@ -152,6 +152,7 @@ const GameEngine = (function() {
         type: 'cat',
         name: 'Miu',
         state: 'idle',
+        pose: 'idle',
         stateChangedAt: null
       },
       streak: {
@@ -162,7 +163,23 @@ const GameEngine = (function() {
       room: {
         wallpaper: 'default',
         floor: 'default',
-        placedItems: []
+        placedItems: [],
+        currentFloor: 'floor_1',
+        unlockedFloors: ['floor_1', 'floor_2'],
+        floors: {
+          floor_1: {
+            id: 'floor_1',
+            name: 'Tầng 1: Phòng Khách & Vườn',
+            bg: 'assets/isometric/rooms/room_floor_1.svg',
+            placedItems: []
+          },
+          floor_2: {
+            id: 'floor_2',
+            name: 'Tầng 2: Phòng Ngủ & Góc Học',
+            bg: 'assets/isometric/rooms/room_floor_2.svg',
+            placedItems: []
+          }
+        }
       },
       ownedItems: [],
       ownedPets: ['cat'],
@@ -714,13 +731,23 @@ const GameEngine = (function() {
   // ═════════════════════════════════════════════════════════════════════════
   function getRoom() {
     if (!_state) init();
+    if (!_state.room.currentFloor) _state.room.currentFloor = 'floor_1';
+    if (!_state.room.floors) {
+      _state.room.floors = {
+        floor_1: { id: 'floor_1', name: 'Tầng 1: Phòng Khách & Vườn', bg: 'assets/isometric/rooms/room_floor_1.svg', placedItems: [..._state.room.placedItems] },
+        floor_2: { id: 'floor_2', name: 'Tầng 2: Phòng Ngủ & Góc Học', bg: 'assets/isometric/rooms/room_floor_2.svg', placedItems: [] }
+      };
+    }
+    const currentF = _state.room.currentFloor;
+    const floorItems = _state.room.floors[currentF] ? _state.room.floors[currentF].placedItems : _state.room.placedItems;
     return {
       ..._state.room,
-      placedItems: _state.room.placedItems.map(p => ({ ...p }))
+      currentFloor: currentF,
+      placedItems: floorItems.map(p => ({ ...p }))
     };
   }
 
-  function placeItem(itemId, x, y) {
+  function placeItem(itemId, x, y, rotation) {
     if (!_state) init();
 
     const numX = Number(x);
@@ -731,29 +758,125 @@ const GameEngine = (function() {
     const clampedX = Math.max(0, Math.min(100, safeX));
     const clampedY = Math.max(0, Math.min(100, safeY));
 
+    if (!_state.room.currentFloor) _state.room.currentFloor = 'floor_1';
+    if (!_state.room.floors) {
+      _state.room.floors = {
+        floor_1: { id: 'floor_1', name: 'Tầng 1: Phòng Khách & Vườn', bg: 'assets/isometric/rooms/room_floor_1.svg', placedItems: [] },
+        floor_2: { id: 'floor_2', name: 'Tầng 2: Phòng Ngủ & Góc Học', bg: 'assets/isometric/rooms/room_floor_2.svg', placedItems: [] }
+      };
+    }
+    const currentF = _state.room.currentFloor;
+    if (!_state.room.floors[currentF]) {
+      _state.room.floors[currentF] = { id: currentF, name: currentF, placedItems: [] };
+    }
+
+    const rot = typeof rotation === 'number' ? (rotation % 360) : 0;
+
+    // Update global list
     const existing = _state.room.placedItems.find(p => p.itemId === itemId);
     if (existing) {
       existing.x = clampedX;
       existing.y = clampedY;
+      if (rotation !== undefined) existing.rotation = rot;
+      existing.floor = currentF;
     } else {
-      _state.room.placedItems.push({ itemId, x: clampedX, y: clampedY });
+      _state.room.placedItems.push({ itemId, x: clampedX, y: clampedY, rotation: rot, floor: currentF });
+    }
+
+    // Update current floor list
+    const floorPlaced = _state.room.floors[currentF].placedItems;
+    const floorExisting = floorPlaced.find(p => p.itemId === itemId);
+    if (floorExisting) {
+      floorExisting.x = clampedX;
+      floorExisting.y = clampedY;
+      if (rotation !== undefined) floorExisting.rotation = rot;
+    } else {
+      floorPlaced.push({ itemId, x: clampedX, y: clampedY, rotation: rot });
     }
 
     saveState();
     emit('room:changed', { room: getRoom() });
-    return [..._state.room.placedItems];
+    return [...floorPlaced];
   }
 
-  function moveItem(itemId, x, y) {
-    return placeItem(itemId, x, y);
+  function moveItem(itemId, x, y, rotation) {
+    return placeItem(itemId, x, y, rotation);
+  }
+
+  function rotateItem(itemId) {
+    if (!_state) init();
+    const currentF = _state.room.currentFloor || 'floor_1';
+    let target = null;
+    if (_state.room.floors && _state.room.floors[currentF]) {
+      target = _state.room.floors[currentF].placedItems.find(p => p.itemId === itemId);
+    }
+    if (!target) {
+      target = _state.room.placedItems.find(p => p.itemId === itemId);
+    }
+    if (!target) return null;
+
+    const nextRot = ((target.rotation || 0) + 90) % 360;
+    target.rotation = nextRot;
+
+    // Synchronize both lists
+    const globalItem = _state.room.placedItems.find(p => p.itemId === itemId);
+    if (globalItem) globalItem.rotation = nextRot;
+
+    saveState();
+    emit('room:changed', { room: getRoom() });
+    return nextRot;
+  }
+
+  function switchFloor(floorId) {
+    if (!_state) init();
+    if (!_state.room.unlockedFloors) _state.room.unlockedFloors = ['floor_1', 'floor_2'];
+    if (!_state.room.unlockedFloors.includes(floorId)) {
+      return { success: false, message: 'Tầng này chưa mở khóa!' };
+    }
+    _state.room.currentFloor = floorId;
+    saveState();
+    emit('room:changed', { room: getRoom(), floor: floorId });
+    return { success: true, currentFloor: floorId, room: getRoom() };
+  }
+
+  function getFloors() {
+    if (!_state) init();
+    if (!_state.room.floors) {
+      _state.room.floors = {
+        floor_1: { id: 'floor_1', name: 'Tầng 1: Phòng Khách & Vườn', bg: 'assets/isometric/rooms/room_floor_1.svg', placedItems: [..._state.room.placedItems] },
+        floor_2: { id: 'floor_2', name: 'Tầng 2: Phòng Ngủ & Góc Học', bg: 'assets/isometric/rooms/room_floor_2.svg', placedItems: [] }
+      };
+    }
+    return { ..._state.room.floors };
+  }
+
+  function setPetPose(pose) {
+    if (!_state) init();
+    const VALID_POSES = ['idle', 'sit', 'sleep', 'walk'];
+    _state.pet.pose = VALID_POSES.includes(pose) ? pose : 'idle';
+    saveState();
+    emit('pet:changed', { pet: getPet(), pose: _state.pet.pose });
+    return _state.pet.pose;
+  }
+
+  function getPetPose() {
+    if (!_state) init();
+    return _state.pet.pose || 'idle';
   }
 
   function removeItem(itemId) {
     if (!_state) init();
     _state.room.placedItems = _state.room.placedItems.filter(p => p.itemId !== itemId);
+    if (_state.room.floors) {
+      Object.values(_state.room.floors).forEach(f => {
+        if (f.placedItems) {
+          f.placedItems = f.placedItems.filter(p => p.itemId !== itemId);
+        }
+      });
+    }
     saveState();
     emit('room:changed', { room: getRoom() });
-    return _state.room.placedItems;
+    return getRoom().placedItems;
   }
 
   function changeWallpaper(wallpaperId) {
@@ -1164,10 +1287,15 @@ const GameEngine = (function() {
     checkStreak,
     getStreak,
 
-    // 17-22: Room
+    // 17-22: Room & Isometric Engine
     getRoom,
     placeItem,
     moveItem,
+    rotateItem,
+    switchFloor,
+    getFloors,
+    setPetPose,
+    getPetPose,
     removeItem,
     changeWallpaper,
     setWallpaper,

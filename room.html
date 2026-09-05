@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/pets.css">
   <link rel="stylesheet" href="css/items.css">
+  <link rel="stylesheet" href="css/room-iso.css">
 </head>
 <body>
   <div class="app-container">
@@ -21,7 +22,7 @@
       </div>
 
       <div class="hud-center">
-        <h1 class="hud-title">🏠 Phòng Của Em</h1>
+        <h1 class="hud-title">🏰 Nhà &amp; Vườn Của Bé</h1>
       </div>
 
       <div class="hud-right">
@@ -39,25 +40,34 @@
 
     <!-- Main Content -->
     <main class="page-content">
-      <!-- Room Canvas Area -->
+      <!-- Room Canvas Area (Isometric 2.5D) -->
       <section class="room-canvas-wrapper" id="room-wrapper">
-        <div class="room-stage" id="room-stage">
-          <!-- Wallpaper Area -->
-          <div class="room-wall wp-pink" id="room-wall"></div>
+        <div class="room-stage iso-stage" id="room-stage">
+          <!-- Floor Switcher Bar -->
+          <div class="floor-switcher-bar" id="floor-switcher-bar">
+            <button type="button" class="floor-btn active" data-floor="floor_1">🏡 Tầng 1: Khách &amp; Vườn</button>
+            <button type="button" class="floor-btn" data-floor="floor_2">📚 Tầng 2: Phòng Ngủ &amp; Học</button>
+          </div>
+
+          <!-- Wallpaper Area (Optional fallback) -->
+          <div class="room-wall wp-pink" id="room-wall" style="display: none;"></div>
           <!-- Divider -->
-          <div class="room-baseboard"></div>
-          <!-- Floor Area -->
-          <div class="room-floor floor-wood" id="room-floor"></div>
+          <div class="room-baseboard" style="display: none;"></div>
+          <!-- Floor Area (Optional fallback) -->
+          <div class="room-floor floor-wood" id="room-floor" style="display: none;"></div>
 
           <!-- Placed Items Layer -->
           <div class="room-items-layer" id="room-items-layer"></div>
 
           <!-- Pet Interactive Character -->
-          <div class="room-pet-anchor" id="room-pet-anchor" style="left: 50%; top: 72%;">
-            <div class="room-pet-bubble" id="room-pet-bubble" style="display: none;">
+          <div class="room-pet-anchor iso-pet-container" id="room-pet-anchor" style="left: 45%; top: 72%;">
+            <div class="room-pet-bubble iso-speech-bubble" id="room-pet-bubble" style="display: none;">
               <span id="pet-bubble-text">Meow! Chúc bạn ôn thi tốt nhé! 💕</span>
             </div>
-            <div class="pet pet-cat idle pet-lg" id="room-pet">
+            <!-- Full-Body Vector SVG Pet (Isometric) -->
+            <img id="iso-pet-graphic" class="iso-pet-graphic" src="assets/isometric/pets/cat_idle.svg" alt="Pet">
+            <!-- Fallback Pure CSS Pet (Preserved for compatibility) -->
+            <div class="pet pet-cat idle pet-lg" id="room-pet" style="display: none;">
               <div class="pet-character">
                 <div class="pet-fx">❤️</div>
                 <div class="pet-ear left"></div>

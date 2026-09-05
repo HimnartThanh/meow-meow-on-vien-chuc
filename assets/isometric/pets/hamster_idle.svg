@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <!-- Shadow -->
+  <ellipse cx="60" cy="106" rx="36" ry="11" fill="#5C4533" opacity="0.2"/>
+
+  <!-- Chubby Hamster Body -->
+  <ellipse cx="60" cy="74" rx="34" ry="32" fill="#FEEAA8" stroke="#5E432E" stroke-width="2.5"/>
+  <!-- Belly White Patch -->
+  <ellipse cx="60" cy="82" rx="20" ry="20" fill="#FFFFFF"/>
+
+  <!-- Tiny Feet -->
+  <ellipse cx="44" cy="104" rx="7" ry="5" fill="#FFAAA6" stroke="#5E432E" stroke-width="1.8"/>
+  <ellipse cx="76" cy="104" rx="7" ry="5" fill="#FFAAA6" stroke="#5E432E" stroke-width="1.8"/>
+
+  <!-- Little Paws in front holding a Cheese Slice -->
+  <g id="holding-cheese">
+    <!-- Cheese Wedge -->
+    <polygon points="52,78 68,78 60,65" fill="#FFD166" stroke="#E67E22" stroke-width="1.5"/>
+    <circle cx="58" cy="74" r="1.5" fill="#E67E22" opacity="0.6"/>
+    <circle cx="62" cy="72" r="1.2" fill="#E67E22" opacity="0.6"/>
+    <!-- Hands -->
+    <circle cx="50" cy="75" r="4.5" fill="#FFAAA6" stroke="#5E432E" stroke-width="1.5"/>
+    <circle cx="70" cy="75" r="4.5" fill="#FFAAA6" stroke="#5E432E" stroke-width="1.5"/>
+  </g>
+
+  <!-- Hamster Ears -->
+  <circle cx="34" cy="42" r="9" fill="#B3845C" stroke="#5E432E" stroke-width="2"/>
+  <circle cx="34" cy="42" r="5" fill="#FF8A80"/>
+  <circle cx="86" cy="42" r="9" fill="#B3845C" stroke="#5E432E" stroke-width="2"/>
+  <circle cx="86" cy="42" r="5" fill="#FF8A80"/>
+
+  <!-- Cute Straw Hat with Red Ribbon (from video!) -->
+  <g id="straw-hat" transform="translate(42, 22)">
+    <ellipse cx="18" cy="16" rx="22" ry="7" fill="#F4D06F" stroke="#5E432E" stroke-width="2"/>
+    <path d="M 6,14 C 6,4 30,4 30,14 Z" fill="#FFEAA7" stroke="#5E432E" stroke-width="2"/>
+    <path d="M 6,13 C 6,10 30,10 30,13" fill="none" stroke="#E63946" stroke-width="3"/>
+  </g>
+
+  <!-- Big Sparkly Eyes -->
+  <circle cx="46" cy="62" r="5" fill="#2C1810"/>
+  <circle cx="44.5" cy="60" r="1.8" fill="#FFFFFF"/>
+  <circle cx="74" cy="62" r="5" fill="#2C1810"/>
+  <circle cx="72.5" cy="60" r="1.8" fill="#FFFFFF"/>
+
+  <!-- Super Chubby Rosy Cheeks -->
+  <ellipse cx="36" cy="68" rx="7" ry="5" fill="#FF80AB" opacity="0.6"/>
+  <ellipse cx="84" cy="68" rx="7" ry="5" fill="#FF80AB" opacity="0.6"/>
+
+  <!-- Nose & Mouth -->
+  <circle cx="60" cy="65" r="2" fill="#E64980"/>
+  <path d="M 57,67 Q 60,70 60,68 Q 60,70 63,67" fill="none" stroke="#5E432E" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

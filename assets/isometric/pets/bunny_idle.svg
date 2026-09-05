@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 130" width="100%" height="100%">
+  <!-- Shadow -->
+  <ellipse cx="60" cy="116" rx="34" ry="10" fill="#5C4533" opacity="0.2"/>
+
+  <!-- Fluffy White Tail -->
+  <circle cx="85" cy="95" r="9" fill="#FFFFFF" stroke="#5E432E" stroke-width="2"/>
+
+  <!-- Feet -->
+  <ellipse cx="45" cy="112" rx="9" ry="6" fill="#FFFFFF" stroke="#5E432E" stroke-width="2"/>
+  <ellipse cx="75" cy="112" rx="9" ry="6" fill="#FFFFFF" stroke="#5E432E" stroke-width="2"/>
+
+  <!-- Chubby Bunny Body wearing Pastel Pink Dungarees/Overalls -->
+  <path d="M 36,75 Q 30,110 60,112 Q 90,110 84,75 Z" fill="#FFFFFF" stroke="#5E432E" stroke-width="2.5"/>
+  <!-- Pink Dungarees (Quần yếm hồng pastel) -->
+  <path d="M 40,86 L 80,86 L 80,110 Q 60,112 40,110 Z" fill="#F8BBD0" stroke="#5E432E" stroke-width="2"/>
+  <line x1="48" y1="78" x2="48" y2="88" stroke="#F06292" stroke-width="3"/>
+  <line x1="72" y1="78" x2="72" y2="88" stroke="#F06292" stroke-width="3"/>
+  <circle cx="48" cy="88" r="2" fill="#E91E63"/>
+  <circle cx="72" cy="88" r="2" fill="#E91E63"/>
+  <!-- Little Carrot Patch on bib -->
+  <polygon points="58,95 62,95 60,102" fill="#FF9800"/>
+  <line x1="60" y1="95" x2="60" y2="92" stroke="#4CAF50" stroke-width="1.5"/>
+
+  <!-- Head -->
+  <ellipse cx="60" cy="56" rx="32" ry="26" fill="#FFFFFF" stroke="#5E432E" stroke-width="2.5"/>
+
+  <!-- Long Bunny Ears (One Floppy) -->
+  <!-- Left Upright Ear -->
+  <g id="left-ear">
+    <path d="M 44,36 C 36,2 52,2 50,36 Z" fill="#FFFFFF" stroke="#5E432E" stroke-width="2.5"/>
+    <path d="M 44,32 C 40,8 48,8 48,32 Z" fill="#F8BBD0"/>
+  </g>
+  <!-- Right Floppy Folded Ear -->
+  <g id="right-ear">
+    <path d="M 72,36 C 80,8 96,20 88,38 Z" fill="#FFFFFF" stroke="#5E432E" stroke-width="2.5"/>
+    <path d="M 74,34 C 80,14 90,24 84,36 Z" fill="#F8BBD0"/>
+  </g>
+
+  <!-- Big Sparkly Eyes -->
+  <circle cx="48" cy="56" r="5" fill="#2C1810"/>
+  <circle cx="46.5" cy="54" r="1.8" fill="#FFFFFF"/>
+  <circle cx="72" cy="56" r="5" fill="#2C1810"/>
+  <circle cx="70.5" cy="54" r="1.8" fill="#FFFFFF"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="38" cy="62" rx="6" ry="4" fill="#FF80AB" opacity="0.5"/>
+  <ellipse cx="82" cy="62" rx="6" ry="4" fill="#FF80AB" opacity="0.5"/>
+
+  <!-- Tiny Pink Bunny Nose & Mouth -->
+  <polygon points="58,60 62,60 60,63" fill="#E91E63"/>
+  <path d="M 57,63 Q 60,66 60,64 Q 60,66 63,63" fill="none" stroke="#5E432E" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
