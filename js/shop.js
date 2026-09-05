@@ -178,8 +178,8 @@
       let previewHtml = '';
       if (item.isPet && item.image) {
         previewHtml = `
-          <div style="height: 75px; display: flex; align-items: center; justify-content: center;">
-            <img src="${item.image}" alt="${item.name}" style="max-height: 70px; max-width: 75px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));">
+          <div style="width: 100%; height: 75px; display: flex; align-items: center; justify-content: center;">
+            <img src="${item.image}" alt="${item.name}" style="width: 75px; height: 75px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));" onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'font-size: 2.2rem;\\'>${item.emoji || '🐱'}</span>';">
           </div>
         `;
       } else if (item.isPet) {
@@ -209,8 +209,8 @@
         `;
       } else if (item.image) {
         previewHtml = `
-          <div style="height: 75px; display: flex; align-items: center; justify-content: center;">
-            <img src="${item.image}" alt="${item.name}" style="max-height: 70px; max-width: 90px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));">
+          <div style="width: 100%; height: 75px; display: flex; align-items: center; justify-content: center;">
+            <img src="${item.image}" alt="${item.name}" style="width: 85px; height: 70px; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));" onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'font-size: 2.2rem;\\'>${item.emoji || item.icon || '🎁'}</span>';">
           </div>
         `;
       } else {

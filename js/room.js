@@ -198,6 +198,18 @@
           img.src = itemData.image;
           img.className = 'iso-item-img';
           img.alt = itemData.name;
+          const w = itemData.width || 120;
+          const h = itemData.height || 100;
+          img.style.width = `${w}px`;
+          img.style.height = `${h}px`;
+          img.style.objectFit = 'contain';
+          img.onerror = () => {
+            img.style.display = 'none';
+            const fallback = document.createElement('div');
+            fallback.className = `item-visual ${itemData.cssClass || ''}`;
+            fallback.innerHTML = `<span style="font-size: 2.2rem;">${itemData.emoji || '🎁'}</span>`;
+            itemEl.appendChild(fallback);
+          };
           if (rot !== 0) {
             img.style.transform = `rotate(${rot}deg)`;
           }
@@ -461,8 +473,11 @@
     furnitureItems.forEach(item => {
       const card = document.createElement('div');
       card.className = 'inventory-card';
+      const iconHtml = item.image
+        ? `<img src="${item.image}" alt="${item.name}" style="width: 38px; height: 38px; object-fit: contain;">`
+        : `<span style="font-size: 1.6rem;">${item.emoji || item.icon || '🛋️'}</span>`;
       card.innerHTML = `
-        <div class="inventory-card-icon">${item.emoji || item.icon || '🛋️'}</div>
+        <div class="inventory-card-icon" style="display: flex; align-items: center; justify-content: center; height: 42px;">${iconHtml}</div>
         <div class="inventory-card-name">${item.name}</div>
         <button type="button" class="btn btn-primary btn-sm" style="margin-top: 0.35rem; width: 100%; padding: 0.3rem 0.6rem;">Đặt ra</button>
       `;
