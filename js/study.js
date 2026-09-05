@@ -127,15 +127,23 @@
             <span class="legend-item"><span class="legend-dot" style="background: var(--blue-main);"></span> Mới (${stats.new})</span>
           </div>
         </div>
-        <button type="button" class="btn-study-topic">Chọn Chế Độ Học 🐾</button>
+        <div class="topic-quick-modes">
+          <a href="quiz.html?topic=${encodeURIComponent(topic.id)}" class="btn-quick-mode btn-featured" onclick="event.stopPropagation();">❓ Trắc Nghiệm</a>
+          <a href="flashcard.html?topic=${encodeURIComponent(topic.id)}" class="btn-quick-mode" onclick="event.stopPropagation();">🃏 Thẻ Nhớ</a>
+          <a href="matching.html?topic=${encodeURIComponent(topic.id)}" class="btn-quick-mode" onclick="event.stopPropagation();">🔗 Ghép Đôi</a>
+          <a href="sorting.html?topic=${encodeURIComponent(topic.id)}" class="btn-quick-mode" onclick="event.stopPropagation();">🔀 Sắp Xếp</a>
+        </div>
+        <button type="button" class="btn-study-topic">Chọn Chế Độ Khác 🐾</button>
       `;
 
-      card.addEventListener('click', () => {
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-quick-mode')) return;
         if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
         openModeModal(topic);
       });
 
       card.addEventListener('keydown', (e) => {
+        if (e.target.closest('.btn-quick-mode')) return;
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
@@ -214,24 +222,34 @@
       });
     }
 
+    modal.classList.add('active');
     modal.style.display = 'flex';
+    modal.style.opacity = '1';
+    modal.style.visibility = 'visible';
   }
 
   function bindModalEvents() {
     const modal = document.getElementById('mode-modal');
     const closeBtn = document.getElementById('btn-close-modal');
 
+    function closeModal() {
+      if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
+      if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+        modal.style.opacity = '0';
+        modal.style.visibility = 'hidden';
+      }
+    }
+
     if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
-        if (modal) modal.style.display = 'none';
-      });
+      closeBtn.addEventListener('click', closeModal);
     }
 
     if (modal) {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
-          modal.style.display = 'none';
+          closeModal();
         }
       });
     }

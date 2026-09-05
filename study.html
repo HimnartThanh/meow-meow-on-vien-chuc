@@ -329,8 +329,54 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 100;
+      z-index: 1000;
       padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .modal-overlay.active,
+    .modal-overlay[style*="display: flex"] {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: flex !important;
+    }
+
+    .topic-quick-modes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+      margin-bottom: 8px;
+    }
+
+    .btn-quick-mode {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 6px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border: 1.5px solid var(--pink-pastel);
+      background: #FFF5F8;
+      color: var(--pink-deep);
+    }
+
+    .btn-quick-mode:hover {
+      background: var(--pink-main);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 133, 161, 0.3);
+    }
+
+    .btn-quick-mode.btn-featured {
+      background: var(--pink-light);
+      border-color: var(--pink-main);
     }
 
     .modal-card {

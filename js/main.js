@@ -423,10 +423,11 @@
     const challengeNav = document.getElementById('nav-challenge');
     if (challengeNav) {
       challengeNav.addEventListener('click', (e) => {
-        if (typeof GameEngine !== 'undefined' && !GameEngine.isChallengeUnlocked()) {
-          e.preventDefault();
-          GameEngine.playSound('wrong');
-          showToast('🔒 Chế độ Thử Thách chưa mở khóa! Hãy hoàn thành ít nhất 1 bài Ôn Bài nhé!', 'error', 3600);
+        if (typeof GameEngine !== 'undefined') {
+          GameEngine.playSound('tap');
+          if (!GameEngine.isChallengeUnlocked()) {
+            showToast('ℹ️ Chế độ Thử Thách cần hoàn thành 1 bài Ôn Bài để mở khóa!', 'info', 2500);
+          }
         }
       });
     }

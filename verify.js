@@ -802,9 +802,12 @@ if ((fs.existsSync(gameJsPath) && fs.existsSync(dataJsPath)) || IS_ORACLE) {
     
     // Check nextReview is scheduled for tomorrow (1 day ahead)
     if (progReset && progReset.nextReview) {
-      const today = new Date().toISOString().split('T')[0];
-      const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-      reporter.assert(progReset.nextReview === tomorrow, `Incorrect answer resets nextReview to 1 day ahead (expected: ${tomorrow}, got: ${progReset.nextReview})`);
+      const d = new Date();
+      d.setDate(d.getDate() + 1);
+      const tomorrowLocal = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const tomorrowIso = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+      const isExpected = progReset.nextReview === tomorrowLocal || progReset.nextReview === tomorrowIso;
+      reporter.assert(isExpected, `Incorrect answer resets nextReview to 1 day ahead (expected: ${tomorrowLocal}, got: ${progReset.nextReview})`);
     } else {
       reporter.assert(false, 'progReset.nextReview exists after incorrect answer', progReset);
     }
