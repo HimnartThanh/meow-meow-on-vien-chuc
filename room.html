@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phòng Của Em — Meow Meow Ôn Viên Chức</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pets.css">
+  <link rel="stylesheet" href="css/items.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top HUD Bar -->
+    <header class="hud-bar">
+      <div class="hud-left">
+        <a href="index.html" class="btn btn-back" aria-label="Quay lại menu">←</a>
+        <div class="hud-pill pet-pill" id="hud-pet-pill" title="Bé cưng của bạn">
+          <span id="hud-pet-icon">🐱</span>
+          <span id="hud-pet-name">Miu</span>
+        </div>
+      </div>
+
+      <div class="hud-center">
+        <h1 class="hud-title">🏠 Phòng Của Em</h1>
+      </div>
+
+      <div class="hud-right">
+        <div class="hud-pill stars-pill" title="Số sao hiện có">
+          <span>⭐</span>
+          <span id="hud-stars">0</span>
+        </div>
+        <div class="hud-pill streak-pill" title="Chuỗi ngày học">
+          <span>🔥</span>
+          <span id="hud-streak">0</span>
+        </div>
+        <button type="button" class="btn btn-icon" id="btn-sound-toggle" title="Bật/Tắt âm thanh">🔊</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="page-content">
+      <!-- Room Canvas Area -->
+      <section class="room-canvas-wrapper" id="room-wrapper">
+        <div class="room-stage" id="room-stage">
+          <!-- Wallpaper Area -->
+          <div class="room-wall wp-pink" id="room-wall"></div>
+          <!-- Divider -->
+          <div class="room-baseboard"></div>
+          <!-- Floor Area -->
+          <div class="room-floor floor-wood" id="room-floor"></div>
+
+          <!-- Placed Items Layer -->
+          <div class="room-items-layer" id="room-items-layer"></div>
+
+          <!-- Pet Interactive Character -->
+          <div class="room-pet-anchor" id="room-pet-anchor" style="left: 50%; top: 72%;">
+            <div class="room-pet-bubble" id="room-pet-bubble" style="display: none;">
+              <span id="pet-bubble-text">Meow! Chúc bạn ôn thi tốt nhé! 💕</span>
+            </div>
+            <div class="pet pet-cat idle pet-lg" id="room-pet">
+              <div class="pet-character">
+                <div class="pet-fx">❤️</div>
+                <div class="pet-ear left"></div>
+                <div class="pet-ear right"></div>
+                <div class="pet-head">
+                  <div class="pet-eyes">
+                    <div class="pet-eye"></div>
+                    <div class="pet-eye"></div>
+                  </div>
+                  <div class="pet-cheeks">
+                    <div class="pet-cheek"></div>
+                    <div class="pet-cheek"></div>
+                  </div>
+                  <div class="pet-snout">
+                    <div class="pet-nose"></div>
+                    <div class="pet-mouth"></div>
+                  </div>
+                </div>
+                <div class="pet-tail"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Room Action Toolbar -->
+      <div class="card card-pink" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; padding: 1rem 1.25rem;">
+        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" id="btn-open-inventory">
+            <span>🛋️</span>
+            <span>Kho Đồ &amp; Trang Trí</span>
+          </button>
+          <button type="button" class="btn btn-secondary" id="btn-open-theme-modal">
+            <span>🎨</span>
+            <span>Tường &amp; Sàn</span>
+          </button>
+          <button type="button" class="btn btn-secondary" id="btn-open-pet-modal">
+            <span>🐾</span>
+            <span>Đổi Pet / Tên</span>
+          </button>
+        </div>
+
+        <div style="display: flex; gap: 0.6rem;">
+          <a href="shop.html" class="btn btn-warning">
+            <span>🛍️</span>
+            <span>Ghé Cửa Hàng</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Room Hints Card -->
+      <div class="card" style="padding: 1rem 1.25rem;">
+        <h4 style="color: var(--pink-deep); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
+          <span>💡</span>
+          <span>Mẹo Trang Trí Phòng:</span>
+        </h4>
+        <p style="font-size: 0.9rem; line-height: 1.4;">
+          • <strong>Kéo &amp; Thả</strong> đồ tự do trên màn hình (hỗ trợ cả chuột và cảm ứng trên điện thoại).<br>
+          • Nhấn nút <strong>✖ đỏ</strong> trên mỗi món đồ để cất lại vào kho.<br>
+          • Chạm vào <strong>bé Pet</strong> để trò chuyện và nhận lời chúc học tập mỗi ngày!
+        </p>
+      </div>
+    </main>
+
+    <!-- Inventory Drawer Panel -->
+    <aside class="inventory-drawer" id="inventory-drawer" aria-label="Kho đồ trang trí">
+      <div class="inventory-header">
+        <h3 class="inventory-title">
+          <span>🛋️</span>
+          <span>Kho Đồ Trang Trí</span>
+        </h3>
+        <button type="button" class="modal-close" id="btn-close-inventory" aria-label="Đóng kho đồ">✕</button>
+      </div>
+
+      <div class="inventory-grid" id="inventory-grid">
+        <!-- Injected via js/room.js -->
+      </div>
+    </aside>
+
+    <!-- Theme Picker Modal (Wallpapers & Floors) -->
+    <div class="modal-overlay" id="theme-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">
+            <span>🎨</span>
+            <span>Đổi Giấy Dán &amp; Sàn Nhà</span>
+          </h3>
+          <button type="button" class="modal-close" id="btn-close-theme-modal">✕</button>
+        </div>
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <div>
+            <h4 style="margin-bottom: 0.6rem; color: var(--text-dark);">Hình Nền Tường</h4>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem;" id="wallpaper-options">
+              <!-- Wallpapers injected via js -->
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin-bottom: 0.6rem; color: var(--text-dark);">Sàn Nhà</h4>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem;" id="floor-options">
+              <!-- Floors injected via js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pet Customization Modal (Switch Pet & Rename) -->
+    <div class="modal-overlay" id="pet-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">
+            <span>🐾</span>
+            <span>Thông Tin Bé Pet</span>
+          </h3>
+          <button type="button" class="modal-close" id="btn-close-pet-modal">✕</button>
+        </div>
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <div class="form-group">
+            <label class="form-label" for="pet-rename-input">Đổi tên bé Pet:</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="pet-rename-input" class="form-input" maxlength="20" placeholder="Nhập tên mới...">
+              <button type="button" class="btn btn-primary" id="btn-save-pet-name">Lưu</button>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin-bottom: 0.6rem; color: var(--text-dark);">Bé Pet đã nhận nuôi:</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.6rem;" id="owned-pets-grid">
+              <!-- Injected via js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/room.js"></script>
+</body>
+</html>

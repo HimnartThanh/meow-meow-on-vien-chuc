@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đấu Trường Thử Thách — Meow Meow Ôn Viên Chức</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --pink-light: #FFE4EE;
+      --pink-main: #FF85A1;
+      --pink-deep: #E85D8A;
+      --pink-pastel: #FFB6C1;
+      --purple-soft: #C9A8E0;
+      --purple-light: #EFE6F8;
+      --green-main: #6BCB77;
+      --green-light: #E8F8EE;
+      --red-main: #FF6B6B;
+      --red-light: #FFEAEA;
+      --yellow-main: #FFD93D;
+      --text-dark: #3D2B3D;
+      --text-mid: #7A5C7A;
+      --text-light: #B89EB8;
+      --white: #FFFFFF;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --shadow: 0 6px 24px rgba(255, 133, 161, 0.2);
+      --font: 'Nunito', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font), system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EE 50%, #F5E6FA 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(255, 133, 161, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--pink-light);
+      color: var(--pink-deep);
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .nav-back:hover {
+      background: var(--pink-main);
+      color: var(--white);
+    }
+
+    .nav-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--pink-deep);
+      text-align: center;
+    }
+
+    .hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      background: var(--white);
+      border: 2px solid var(--pink-light);
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .challenge-container {
+      flex: 1;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Lock Screen View */
+    .lock-view {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 3px solid var(--pink-pastel);
+      padding: 40px 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      margin: auto 0;
+    }
+
+    .lock-icon {
+      font-size: 4rem;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .lock-title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .lock-desc {
+      font-size: 1rem;
+      color: var(--text-mid);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    .lock-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-lock-action {
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-lock-study {
+      background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-deep) 100%);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(232, 93, 138, 0.3);
+    }
+
+    .btn-lock-study:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-lock-home {
+      background: var(--pink-light);
+      color: var(--pink-deep);
+    }
+
+    /* Hub View (Unlocked) */
+    .hub-view {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .high-scores-bar {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 2px solid var(--pink-light);
+      padding: 16px 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .hs-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hs-icon {
+      font-size: 1.8rem;
+    }
+
+    .hs-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hs-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-mid);
+    }
+
+    .hs-value {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 18px;
+    }
+
+    .challenge-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 3px solid var(--pink-light);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .challenge-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--pink-main);
+      box-shadow: 0 10px 28px rgba(255, 133, 161, 0.3);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .card-icon-box {
+      font-size: 2.4rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: var(--pink-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-title-group {
+      flex: 1;
+    }
+
+    .card-mode-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .card-mode-desc {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.45;
+    }
+
+    .card-reward-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #FFF5F8;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--pink-deep);
+    }
+
+    .btn-play-mode {
+      background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-deep) 100%);
+      color: var(--white);
+      border: none;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-play-mode:hover {
+      box-shadow: 0 4px 14px rgba(232, 93, 138, 0.3);
+    }
+
+    /* Gameplay Active Screen */
+    .gameplay-view {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 3px solid var(--pink-light);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .gameplay-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--pink-light);
+    }
+
+    .mode-badge-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .gameplay-stats {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+    }
+
+    /* Timer Bar (Speed Mode) */
+    .timer-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .timer-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: #EFEFEF;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .timer-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-main) 0%, var(--yellow-main) 70%, var(--red-main) 100%);
+      width: 100%;
+      transition: width 1s linear;
+    }
+
+    /* Lives Bar (Survival Mode) */
+    .lives-display {
+      font-size: 1.5rem;
+      letter-spacing: 4px;
+    }
+
+    /* Combo Meter (Combo Mode) */
+    .combo-meter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFF3E0;
+      border: 2px solid #FF9800;
+      color: #E65100;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    /* Boss Status (Boss Mode) */
+    .boss-hud {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #FFF0F2;
+      border: 2px solid #FF85A1;
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+    }
+
+    .boss-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .boss-avatar {
+      font-size: 2.8rem;
+    }
+
+    .boss-info {
+      flex: 1;
+    }
+
+    .boss-name {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #C2185B;
+    }
+
+    .boss-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-mid);
+    }
+
+    .boss-hp-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .boss-hp-bar-bg {
+      flex: 1;
+      height: 16px;
+      background: #E0E0E0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .boss-hp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FF1744 0%, #D50000 100%);
+      width: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .boss-hp-text {
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: #C2185B;
+      min-width: 60px;
+      text-align: right;
+    }
+
+    /* Challenge Question & Options */
+    .challenge-question-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.5;
+      color: var(--text-dark);
+      padding: 8px 0;
+    }
+
+    .challenge-options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .c-option-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 16px;
+      background: #FFFDFE;
+      border: 2px solid #F0D5DF;
+      border-radius: var(--radius-sm);
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .c-option-btn:hover:not(:disabled) {
+      background: #FFF0F5;
+      border-color: var(--pink-main);
+      transform: translateX(3px);
+    }
+
+    .c-option-letter {
+      width: 32px;
+      height: 32px;
+      background: var(--pink-light);
+      color: var(--pink-deep);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .c-option-btn.opt-correct {
+      background: var(--green-light) !important;
+      border-color: var(--green-main) !important;
+      color: #1B5E20 !important;
+      font-weight: 700;
+    }
+
+    .c-option-btn.opt-wrong {
+      background: var(--red-light) !important;
+      border-color: var(--red-main) !important;
+      color: #B71C1C !important;
+    }
+
+    /* Result Modal */
+    .result-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .result-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 4px solid var(--pink-light);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+      max-width: 480px;
+      width: 100%;
+      padding: 30px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .result-icon {
+      font-size: 3.5rem;
+    }
+
+    .result-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .new-hs-tag {
+      background: #FFF9C4;
+      border: 2px solid #FBC02D;
+      color: #E65100;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin: 0 auto;
+    }
+
+    .result-stats-box {
+      background: #FFF5F8;
+      border: 2px dashed var(--pink-pastel);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .result-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .result-stat-val {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .result-stat-lbl {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-mid);
+    }
+
+    .result-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-result {
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-result-primary {
+      background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-deep) 100%);
+      color: var(--white);
+    }
+
+    .btn-result-secondary {
+      background: var(--pink-light);
+      color: var(--pink-deep);
+    }
+
+    @media (max-width: 500px) {
+      .modes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-back">← Trang Chủ</a>
+    <h1 class="nav-title">🎮 Đấu Trường Thử Thách</h1>
+    <div class="hud-badge">⭐ <span id="hud-stars">0</span></div>
+  </header>
+
+  <main class="challenge-container">
+    <!-- VIEW 1: Lock Overlay (If not unlocked) -->
+    <div class="lock-view" id="lock-screen" style="display: none;">
+      <div class="lock-icon">🔒</div>
+      <h2 class="lock-title">Thử Thách Đang Bị Khóa!</h2>
+      <p class="lock-desc">
+        Đấu trường thử thách dành riêng cho những bạn đã hoàn thành ít nhất 1 bài học ở phần <strong>Ôn Bài</strong>. Hãy làm một bộ Flashcard hoặc Quiz để mở khóa nhé!
+      </p>
+      <div class="lock-actions">
+        <a href="study.html" class="btn-lock-action btn-lock-study">📚 Đi Ôn Bài Ngay</a>
+        <a href="index.html" class="btn-lock-action btn-lock-home">🏠 Về Trang Chủ</a>
+      </div>
+    </div>
+
+    <!-- VIEW 2: Hub Screen (Mode Selection) -->
+    <div class="hub-view" id="hub-screen" style="display: none;">
+      <!-- High Scores Summary -->
+      <section class="high-scores-bar">
+        <div class="hs-item">
+          <div class="hs-icon">⏱️</div>
+          <div class="hs-info">
+            <span class="hs-label">Thi Tốc Độ</span>
+            <span class="hs-value" id="hs-speed">0 câu</span>
+          </div>
+        </div>
+        <div class="hs-item">
+          <div class="hs-icon">❤️</div>
+          <div class="hs-info">
+            <span class="hs-label">Sống Sót</span>
+            <span class="hs-value" id="hs-survival">0 câu</span>
+          </div>
+        </div>
+        <div class="hs-item">
+          <div class="hs-icon">🔥</div>
+          <div class="hs-info">
+            <span class="hs-label">Chuỗi Combo</span>
+            <span class="hs-value" id="hs-combo">x0</span>
+          </div>
+        </div>
+        <div class="hs-item">
+          <div class="hs-icon">👹</div>
+          <div class="hs-info">
+            <span class="hs-label">Hạ Gục Boss</span>
+            <span class="hs-value" id="hs-boss">0 lần</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 Modes Grid -->
+      <section class="modes-grid">
+        <!-- Mode 1: Thi Tốc Độ -->
+        <div class="challenge-card" id="card-mode-speed">
+          <div class="card-top">
+            <div class="card-icon-box">⏱️</div>
+            <div class="card-title-group">
+              <h3 class="card-mode-title">Thi Tốc Độ (60 Giây)</h3>
+              <p class="card-mode-desc">Trả lời nhiều câu nhất trong 60 giây. Càng nhanh sao càng nhiều!</p>
+            </div>
+          </div>
+          <div class="card-reward-row">
+            <span>🎁 Thưởng: <strong>2x Sao</strong> / câu đúng</span>
+            <span id="card-hs-speed">Kỷ lục: 0 câu</span>
+          </div>
+          <button type="button" class="btn-play-mode">Bắt Đầu Thử Thách ⚡</button>
+        </div>
+
+        <!-- Mode 2: Sống Sót -->
+        <div class="challenge-card" id="card-mode-survival">
+          <div class="card-top">
+            <div class="card-icon-box">❤️</div>
+            <div class="card-title-group">
+              <h3 class="card-mode-title">Chế Độ Sống Sót</h3>
+              <p class="card-mode-desc">Bắt đầu với 5 tim. Sai 1 câu mất 1 tim. Hết tim là Game Over!</p>
+            </div>
+          </div>
+          <div class="card-reward-row">
+            <span>🎁 Thưởng: <strong>3x Sao</strong> / câu đúng</span>
+            <span id="card-hs-survival">Kỷ lục: 0 câu</span>
+          </div>
+          <button type="button" class="btn-play-mode">Chiến Ngay ❤️</button>
+        </div>
+
+        <!-- Mode 3: Combo -->
+        <div class="challenge-card" id="card-mode-combo">
+          <div class="card-top">
+            <div class="card-icon-box">🔥</div>
+            <div class="card-title-group">
+              <h3 class="card-mode-title">Chuỗi Combo Bất Tận</h3>
+              <p class="card-mode-desc">Duy trì chuỗi đúng liên tiếp! Hệ số nhân tăng dần x1 ➔ x5!</p>
+            </div>
+          </div>
+          <div class="card-reward-row">
+            <span>🎁 Thưởng: <strong>2x Combo</strong> sao</span>
+            <span id="card-hs-combo">Kỷ lục: x0</span>
+          </div>
+          <button type="button" class="btn-play-mode">Tạo Chuỗi Ngay 🔥</button>
+        </div>
+
+        <!-- Mode 4: Đánh Boss -->
+        <div class="challenge-card" id="card-mode-boss">
+          <div class="card-top">
+            <div class="card-icon-box">👹</div>
+            <div class="card-title-group">
+              <h3 class="card-mode-title">Đại Chiến Boss</h3>
+              <p class="card-mode-desc">Boss có 3 HP. Phải đúng 3 câu khó liên tiếp! Sai 1 câu Boss hồi máu!</p>
+            </div>
+          </div>
+          <div class="card-reward-row">
+            <span>🎁 Thưởng Thắng: <strong>+50 ⭐</strong></span>
+            <span id="card-hs-boss">Đã hạ: 0 lần</span>
+          </div>
+          <button type="button" class="btn-play-mode">Thách Đấu Boss 👹</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- VIEW 3: Active Gameplay View -->
+    <div class="gameplay-view" id="gameplay-screen" style="display: none;">
+      <div class="gameplay-hud">
+        <div class="mode-badge-indicator" id="gp-mode-badge">
+          <span id="gp-mode-icon">⏱️</span>
+          <span id="gp-mode-name">Thi Tốc Độ</span>
+        </div>
+        <div class="gameplay-stats" id="gp-stats-area">
+          <!-- Dynamically filled: timer, lives, combo meter, or boss HP -->
+        </div>
+      </div>
+
+      <!-- Specific HUD components -->
+      <!-- Timer bar for speed mode -->
+      <div class="timer-container" id="speed-timer-container" style="display: none;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 800;">
+          <span>Thời gian còn lại:</span>
+          <span id="speed-timer-num">60s</span>
+        </div>
+        <div class="timer-bar-bg">
+          <div class="timer-bar-fill" id="speed-timer-fill"></div>
+        </div>
+      </div>
+
+      <!-- Boss Banner for boss mode -->
+      <div class="boss-hud" id="boss-hud-container" style="display: none;">
+        <div class="boss-profile">
+          <div class="boss-avatar" id="boss-avatar-emoji">👹</div>
+          <div class="boss-info">
+            <div class="boss-name" id="boss-display-name">Đại Ma Vương Giáo Trình</div>
+            <div class="boss-title" id="boss-display-title">Boss Hàng Ngày — Khó Đỡ</div>
+          </div>
+        </div>
+        <div class="boss-hp-container">
+          <div class="boss-hp-bar-bg">
+            <div class="boss-hp-bar-fill" id="boss-hp-fill"></div>
+          </div>
+          <div class="boss-hp-text" id="boss-hp-num">3/3 HP</div>
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <div class="challenge-question-text" id="c-question-text">
+        Đang chuẩn bị câu hỏi...
+      </div>
+
+      <!-- 4 Options -->
+      <div class="challenge-options-grid" id="c-options-grid">
+        <!-- 4 buttons -->
+      </div>
+
+      <!-- Stop button for Combo mode -->
+      <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+        <button type="button" class="btn-action" id="btn-stop-combo" style="display: none; background: #FFF0F0; border: 2px solid var(--red-main); color: var(--red-main); border-radius: var(--radius-sm); font-weight: 800; padding: 8px 16px; cursor: pointer;">
+          Dừng Lại &amp; Nhận Thưởng 🛑
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Result Modal -->
+  <div class="result-overlay" id="result-modal" style="display: none;">
+    <div class="result-card">
+      <div class="result-icon" id="res-emoji">🎉</div>
+      <h2 class="result-title" id="res-title">Kết Quả</h2>
+      <div class="new-hs-tag" id="res-new-hs" style="display: none;">🏆 KỶ LỤC MỚI!</div>
+      <p style="font-size: 0.95rem; color: var(--text-mid);" id="res-desc">
+        Chúc mừng bạn đã hoàn thành lượt thử thách!
+      </p>
+
+      <div class="result-stats-box">
+        <div class="result-stat-item">
+          <span class="result-stat-val" id="res-score-val">0</span>
+          <span class="result-stat-lbl" id="res-score-lbl">Điểm số</span>
+        </div>
+        <div class="result-stat-item">
+          <span class="result-stat-val" id="res-stars-val">+0 ⭐</span>
+          <span class="result-stat-lbl">Sao nhận được</span>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button type="button" class="btn-result btn-result-primary" id="btn-res-replay">🔄 Chơi Lại Chế Độ Này</button>
+        <button type="button" class="btn-result btn-result-secondary" id="btn-res-hub">🎮 Đổi Chế Độ Khác</button>
+        <a href="study.html" class="btn-result btn-result-secondary">📚 Về Màn Hình Ôn Bài</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/challenge.js"></script>
+</body>
+</html>

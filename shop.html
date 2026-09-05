@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cửa Hàng — Meow Meow Ôn Viên Chức</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pets.css">
+  <link rel="stylesheet" href="css/items.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top HUD Bar -->
+    <header class="hud-bar">
+      <div class="hud-left">
+        <a href="index.html" class="btn btn-back" aria-label="Quay lại menu">←</a>
+        <div class="hud-pill pet-pill" id="hud-pet-pill" title="Bé cưng của bạn">
+          <span id="hud-pet-icon">🐱</span>
+          <span id="hud-pet-name">Miu</span>
+        </div>
+      </div>
+
+      <div class="hud-center">
+        <h1 class="hud-title">🛍️ Cửa Hàng</h1>
+      </div>
+
+      <div class="hud-right">
+        <div class="hud-pill stars-pill" title="Số sao hiện có">
+          <span>⭐</span>
+          <span id="hud-stars">0</span>
+        </div>
+        <div class="hud-pill streak-pill" title="Chuỗi ngày học">
+          <span>🔥</span>
+          <span id="hud-streak">0</span>
+        </div>
+        <button type="button" class="btn btn-icon" id="btn-sound-toggle" title="Bật/Tắt âm thanh">🔊</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="page-content">
+      <!-- Shop Header Banner -->
+      <section class="card card-pink" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; padding: 1.25rem 1.5rem;">
+        <div>
+          <h2 style="color: var(--pink-deep); font-size: 1.35rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span>Tiệm Tạp Hóa Miu Miu</span>
+            <span>🌸</span>
+          </h2>
+          <p style="font-size: 0.92rem; margin-top: 0.25rem;">
+            Dùng số sao ⭐ kiếm được khi ôn bài để sắm đồ trang trí và nhận nuôi thêm bé Pet mới!
+          </p>
+        </div>
+        <div>
+          <a href="room.html" class="btn btn-primary">
+            <span>🏠</span>
+            <span>Vào Phòng Trang Trí</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Category Filter Tabs -->
+      <nav class="shop-tabs" id="shop-tabs" aria-label="Danh mục cửa hàng">
+        <button type="button" class="shop-tab active" data-category="all">✨ Tất Cả</button>
+        <button type="button" class="shop-tab" data-category="furniture">🪑 Bàn Ghế</button>
+        <button type="button" class="shop-tab" data-category="lighting">💡 Đèn</button>
+        <button type="button" class="shop-tab" data-category="plant">🌿 Cây Cảnh</button>
+        <button type="button" class="shop-tab" data-category="wall">🖼️ Tường</button>
+        <button type="button" class="shop-tab" data-category="wallpaper">🎨 Hình Nền</button>
+        <button type="button" class="shop-tab" data-category="floor">🏠 Sàn Nhà</button>
+        <button type="button" class="shop-tab" data-category="pets">🐾 Pet Mới</button>
+      </nav>
+
+      <!-- Shop Catalog Grid -->
+      <section class="shop-grid" id="shop-grid" aria-label="Danh sách vật phẩm">
+        <!-- Injected via js/shop.js -->
+      </section>
+    </main>
+
+    <!-- Purchase Success Modal -->
+    <div class="modal-overlay" id="purchase-modal">
+      <div class="modal-card" style="text-align: center; align-items: center;">
+        <div style="font-size: 3.5rem; margin-bottom: 0.25rem;" id="modal-item-icon">🎉</div>
+        <h3 class="modal-title" style="justify-content: center;" id="modal-item-title">Mua Thành Công!</h3>
+        <p id="modal-item-desc" style="font-size: 0.95rem; color: var(--text-mid); line-height: 1.4;">
+          Vật phẩm đã được chuyển vào kho đồ của bạn.
+        </p>
+
+        <div style="display: flex; gap: 0.75rem; width: 100%; margin-top: 0.5rem;">
+          <button type="button" class="btn btn-secondary btn-block" id="btn-modal-continue">Ở lại mua tiếp</button>
+          <a href="room.html" class="btn btn-primary btn-block">Vào phòng ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti-container"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>

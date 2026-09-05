@@ -1,0 +1,20 @@
+{
+  "name": "meow-meow-on-vien-chuc",
+  "version": "1.0.0",
+  "description": "Gamified study web app for Vietnamese civil servant exam prep",
+  "scripts": {
+    "test": "node tests/e2e_runner.js",
+    "verify": "node verify.js",
+    "verify:oracle": "node verify.js --oracle",
+    "verify:verbose": "node verify.js --verbose",
+    "verify:json": "node verify.js --json"
+  },
+  "keywords": [
+    "study",
+    "gamification",
+    "vietnamese-exam-prep",
+    "spaced-repetition"
+  ],
+  "author": "Antigravity Team",
+  "license": "MIT"
+}

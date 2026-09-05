@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trắc Nghiệm A/B/C/D — Meow Meow Ôn Viên Chức</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --pink-light: #FFE4EE;
+      --pink-main: #FF85A1;
+      --pink-deep: #E85D8A;
+      --pink-pastel: #FFB6C1;
+      --purple-soft: #C9A8E0;
+      --purple-light: #EFE6F8;
+      --green-main: #6BCB77;
+      --green-light: #E8F8EE;
+      --red-main: #FF6B6B;
+      --red-light: #FFEAEA;
+      --yellow-main: #FFD93D;
+      --text-dark: #3D2B3D;
+      --text-mid: #7A5C7A;
+      --text-light: #B89EB8;
+      --white: #FFFFFF;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --shadow: 0 6px 24px rgba(255, 133, 161, 0.2);
+      --font: 'Nunito', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font), system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EE 50%, #F5E6FA 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(255, 133, 161, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--pink-light);
+      color: var(--pink-deep);
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .nav-back:hover {
+      background: var(--pink-main);
+      color: var(--white);
+    }
+
+    .nav-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--pink-deep);
+      text-align: center;
+    }
+
+    .hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      background: var(--white);
+      border: 2px solid var(--pink-light);
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .quiz-main {
+      flex: 1;
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .tracker-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--white);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .tracker-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-mid);
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: #EFEFEF;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink-main) 0%, var(--green-main) 100%);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Question Container */
+    .question-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 3px solid var(--pink-light);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .question-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .q-badge {
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--pink-light);
+      color: var(--pink-deep);
+    }
+
+    .question-prompt {
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 1.5;
+      color: var(--text-dark);
+    }
+
+    /* 4 Options Grid */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 16px;
+      background: #FFFDFE;
+      border: 2px solid #F0D5DF;
+      border-radius: var(--radius-sm);
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #FFF0F5;
+      border-color: var(--pink-main);
+      transform: translateX(3px);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-letter {
+      width: 32px;
+      height: 32px;
+      background: var(--pink-light);
+      color: var(--pink-deep);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .option-text {
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    /* Feedback states */
+    .option-btn.option-correct {
+      background: var(--green-light) !important;
+      border-color: var(--green-main) !important;
+      color: #1B5E20 !important;
+      font-weight: 700;
+    }
+
+    .option-btn.option-correct .option-letter {
+      background: var(--green-main);
+      color: var(--white);
+    }
+
+    .option-btn.option-wrong {
+      background: var(--red-light) !important;
+      border-color: var(--red-main) !important;
+      color: #B71C1C !important;
+      animation: shake 0.4s ease;
+    }
+
+    .option-btn.option-wrong .option-letter {
+      background: var(--red-main);
+      color: var(--white);
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* Explanation Box */
+    .explanation-card {
+      background: #F4FBF7;
+      border: 2px solid #C8E6C9;
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .exp-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #2E7D32;
+    }
+
+    .exp-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #2D3748;
+    }
+
+    /* Next Action */
+    .next-action-card {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-next-question {
+      background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-deep) 100%);
+      color: var(--white);
+      border: none;
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(232, 93, 138, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-next-question:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(232, 93, 138, 0.4);
+    }
+
+    /* Completion Modal */
+    .completion-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .completion-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 4px solid var(--pink-light);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+      max-width: 480px;
+      width: 100%;
+      padding: 30px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .comp-icon {
+      font-size: 3.5rem;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
+    .comp-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .comp-perfect-banner {
+      background: #FFF9C4;
+      border: 2px solid #FBC02D;
+      color: #E65100;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .comp-stats-box {
+      background: #FFF5F8;
+      border: 2px dashed var(--pink-pastel);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      justify-content: space-around;
+      margin: 8px 0;
+    }
+
+    .comp-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .comp-stat-num {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .comp-stat-lbl {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-mid);
+    }
+
+    .comp-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-comp {
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-comp-primary {
+      background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-deep) 100%);
+      color: var(--white);
+    }
+
+    .btn-comp-primary:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
+    }
+
+    .btn-comp-secondary {
+      background: var(--pink-light);
+      color: var(--pink-deep);
+    }
+
+    .btn-comp-secondary:hover {
+      background: var(--pink-pastel);
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <a href="study.html" class="nav-back">← Ôn Bài</a>
+    <h1 class="nav-title" id="page-topic-name">❓ Trắc Nghiệm</h1>
+    <div class="hud-badge">⭐ <span id="hud-stars">0</span></div>
+  </header>
+
+  <main class="quiz-main">
+    <!-- Progress Tracker -->
+    <div class="tracker-card">
+      <div class="tracker-labels">
+        <span>Tiến độ bộ câu hỏi</span>
+        <span id="tracker-counter">Câu 0/0</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="question-card" id="question-card">
+      <div class="question-meta">
+        <span class="q-badge" id="q-topic-tag">📜 Chủ đề</span>
+        <span class="q-badge" id="q-score-badge">+2 ⭐ nếu đúng</span>
+      </div>
+      <div class="question-prompt" id="question-prompt">Đang tải câu hỏi...</div>
+
+      <!-- 4 Options -->
+      <div class="options-grid" id="options-grid">
+        <!-- 4 buttons dynamically populated -->
+      </div>
+
+      <!-- Explanation Banner (initially hidden) -->
+      <div class="explanation-card" id="explanation-card" style="display: none;">
+        <div class="exp-title">
+          <span>💡 Căn cứ pháp lý &amp; Giải thích:</span>
+        </div>
+        <p class="exp-text" id="explanation-text"></p>
+      </div>
+
+      <!-- Next Button (initially hidden) -->
+      <div class="next-action-card" id="next-action-box" style="display: none;">
+        <button type="button" class="btn-next-question" id="btn-next-q">
+          <span>Câu Tiếp Theo</span>
+          <span>➔</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Completion Modal -->
+  <div class="completion-overlay" id="completion-modal" style="display: none;">
+    <div class="completion-card">
+      <div class="comp-icon" id="comp-emoji">🎉</div>
+      <h2 class="comp-title" id="comp-heading">Hoàn Thành Bài Quiz!</h2>
+      <div class="comp-perfect-banner" id="perfect-bonus-banner" style="display: none;">
+        🎊 ĐIỂM TUYỆT ĐỐI 100%! THƯỞNG NÓNG +10 ⭐ 🎊
+      </div>
+      <p style="font-size: 0.95rem; color: var(--text-mid);" id="comp-summary-msg">
+        Bạn đã trả lời xong bộ câu hỏi trắc nghiệm này. Tiến độ học tập đã được lưu!
+      </p>
+
+      <div class="comp-stats-box">
+        <div class="comp-stat-item">
+          <span class="comp-stat-num" id="comp-correct-count">0/0</span>
+          <span class="comp-stat-lbl">Câu đúng</span>
+        </div>
+        <div class="comp-stat-item">
+          <span class="comp-stat-num" id="comp-earned-stars">+0 ⭐</span>
+          <span class="comp-stat-lbl">Sao kiếm được</span>
+        </div>
+        <div class="comp-stat-item">
+          <span class="comp-stat-num" id="comp-pct">0%</span>
+          <span class="comp-stat-lbl">Độ chính xác</span>
+        </div>
+      </div>
+
+      <div class="comp-actions">
+        <button type="button" class="btn-comp btn-comp-primary" id="btn-comp-restart">🔄 Làm Lại Bộ Này</button>
+        <a href="matching.html" class="btn-comp btn-comp-secondary" id="btn-comp-matching">🔗 Thử Chế Độ Ghép Đôi</a>
+        <a href="study.html" class="btn-comp btn-comp-secondary">📚 Chọn Chủ Đề Khác</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      let questionList = [];
+      let currentIndex = 0;
+      let correctCount = 0;
+      let starsEarnedThisSession = 0;
+      let answeredThisQuestion = false;
+      let currentTopic = null;
+
+      function getUrlParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      function initQuiz() {
+        if (typeof GameEngine !== 'undefined') {
+          GameEngine.init();
+        }
+
+        updateHUD();
+
+        // 1. Identify topic
+        const topicId = getUrlParam('topic');
+        if (typeof DATA !== 'undefined' && Array.isArray(DATA.topics)) {
+          currentTopic = DATA.topics.find(t => t.id === topicId) || DATA.topics[0];
+        }
+
+        const titleEl = document.getElementById('page-topic-name');
+        if (titleEl && currentTopic) {
+          titleEl.textContent = `❓ ${currentTopic.name}`;
+        }
+
+        const matchingBtn = document.getElementById('btn-comp-matching');
+        if (matchingBtn && currentTopic) {
+          matchingBtn.href = `matching.html?topic=${encodeURIComponent(currentTopic.id)}`;
+        }
+
+        // 2. Build questions pool
+        buildQuestions();
+
+        // 3. Bind controls
+        bindQuizEvents();
+
+        // 4. Render first question
+        renderQuestion();
+      }
+
+      function updateHUD() {
+        if (typeof GameEngine === 'undefined') return;
+        const hudStars = document.getElementById('hud-stars');
+        if (hudStars) hudStars.textContent = GameEngine.getStars();
+      }
+
+      function buildQuestions() {
+        if (typeof DATA === 'undefined' || !Array.isArray(DATA.questions) || !currentTopic) {
+          questionList = [];
+          return;
+        }
+
+        const topicQuestions = DATA.questions.filter(q => q.topicId === currentTopic.id);
+
+        // Prioritize due questions from getTodayReview
+        if (typeof GameEngine !== 'undefined') {
+          const prioritized = GameEngine.getTodayReview(currentTopic.id);
+          const seenIds = new Set();
+          const list = [];
+          for (const q of prioritized) {
+            if (q.topicId === currentTopic.id && !seenIds.has(q.id)) {
+              seenIds.add(q.id);
+              list.push(q);
+            }
+          }
+          for (const q of topicQuestions) {
+            if (!seenIds.has(q.id)) {
+              seenIds.add(q.id);
+              list.push(q);
+            }
+          }
+          questionList = list;
+        } else {
+          questionList = [...topicQuestions];
+        }
+
+        currentIndex = 0;
+        correctCount = 0;
+        starsEarnedThisSession = 0;
+      }
+
+      function getOptionsForQuestion(q) {
+        if (Array.isArray(q.quizOptions) && q.quizOptions.length === 4 && typeof q.quizAnswer === 'number') {
+          return {
+            options: q.quizOptions,
+            answerIndex: q.quizAnswer
+          };
+        }
+
+        // Dynamic fallback: build 4 options from other question definitions
+        const correctDef = q.definition;
+        const otherQuestions = (DATA.questions || []).filter(other => other.id !== q.id && other.definition);
+        const shuffledOthers = [...otherQuestions].sort(() => 0.5 - Math.random());
+        const distractors = shuffledOthers.slice(0, 3).map(o => o.definition);
+
+        const options = [correctDef, ...distractors].sort(() => 0.5 - Math.random());
+        const answerIndex = options.indexOf(correctDef);
+
+        return { options, answerIndex };
+      }
+
+      function renderQuestion() {
+        answeredThisQuestion = false;
+
+        updateTracker();
+
+        if (currentIndex >= questionList.length) {
+          showCompletion();
+          return;
+        }
+
+        const q = questionList[currentIndex];
+        const promptEl = document.getElementById('question-prompt');
+        const topicTag = document.getElementById('q-topic-tag');
+        const optionsGrid = document.getElementById('options-grid');
+        const expCard = document.getElementById('explanation-card');
+        const nextBox = document.getElementById('next-action-box');
+
+        if (promptEl) promptEl.textContent = q.concept;
+        if (topicTag && currentTopic) topicTag.textContent = `${currentTopic.icon || '📜'} ${currentTopic.name}`;
+
+        if (expCard) expCard.style.display = 'none';
+        if (nextBox) nextBox.style.display = 'none';
+
+        const { options, answerIndex } = getOptionsForQuestion(q);
+
+        if (optionsGrid) {
+          optionsGrid.innerHTML = '';
+          const letters = ['A', 'B', 'C', 'D'];
+
+          options.forEach((optText, idx) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'option-btn';
+            btn.innerHTML = `
+              <span class="option-letter">${letters[idx]}</span>
+              <span class="option-text">${escapeHtml(optText)}</span>
+            `;
+
+            btn.addEventListener('click', () => {
+              if (answeredThisQuestion) return;
+              handleOptionClick(idx, answerIndex, q, btn, optionsGrid);
+            });
+
+            optionsGrid.appendChild(btn);
+          });
+        }
+      }
+
+      function handleOptionClick(selectedIdx, correctIdx, q, clickedBtn, optionsGrid) {
+        answeredThisQuestion = true;
+
+        const allButtons = optionsGrid.querySelectorAll('.option-btn');
+        allButtons.forEach(b => b.disabled = true);
+
+        const isCorrect = (selectedIdx === correctIdx);
+
+        if (isCorrect) {
+          clickedBtn.classList.add('option-correct');
+          correctCount++;
+          starsEarnedThisSession += 2;
+
+          if (typeof GameEngine !== 'undefined') {
+            GameEngine.markAnswered(q.id, true);
+            GameEngine.earnStars(2, 'quiz');
+            GameEngine.playSound('correct');
+          }
+        } else {
+          clickedBtn.classList.add('option-wrong');
+          // Highlight correct option
+          if (allButtons[correctIdx]) {
+            allButtons[correctIdx].classList.add('option-correct');
+          }
+
+          if (typeof GameEngine !== 'undefined') {
+            GameEngine.markAnswered(q.id, false);
+            GameEngine.playSound('wrong');
+          }
+        }
+
+        updateHUD();
+
+        // Show explanation
+        const expCard = document.getElementById('explanation-card');
+        const expText = document.getElementById('explanation-text');
+        if (expCard && expText) {
+          expText.textContent = q.explanation || q.definition || 'Căn cứ theo quy định của pháp luật hiện hành.';
+          expCard.style.display = 'flex';
+        }
+
+        // Show Next button
+        const nextBox = document.getElementById('next-action-box');
+        const nextBtn = document.getElementById('btn-next-q');
+        if (nextBox && nextBtn) {
+          nextBox.style.display = 'flex';
+          const isLast = (currentIndex === questionList.length - 1);
+          nextBtn.querySelector('span:first-child').textContent = isLast ? 'Xem Kết Quả' : 'Câu Tiếp Theo';
+        }
+      }
+
+      function updateTracker() {
+        const counterEl = document.getElementById('tracker-counter');
+        const fillEl = document.getElementById('progress-fill');
+        const total = questionList.length;
+
+        if (counterEl) {
+          counterEl.textContent = `Câu ${Math.min(currentIndex + 1, total)}/${total} (Đúng ${correctCount})`;
+        }
+        if (fillEl && total > 0) {
+          const pct = Math.min(100, Math.round((currentIndex / total) * 100));
+          fillEl.style.width = `${pct}%`;
+        }
+      }
+
+      function showCompletion() {
+        const total = questionList.length;
+        const isPerfect = (total > 0 && correctCount === total);
+
+        // Completion rewards
+        if (typeof GameEngine !== 'undefined') {
+          GameEngine.earnStars(5, 'completion_bonus');
+          starsEarnedThisSession += 5;
+
+          if (isPerfect) {
+            GameEngine.earnStars(10, 'perfect_bonus');
+            starsEarnedThisSession += 10;
+          }
+
+          GameEngine.unlockChallenge();
+          GameEngine.checkBadges();
+          GameEngine.checkIn();
+          GameEngine.playSound('fanfare');
+        }
+
+        updateHUD();
+
+        const modal = document.getElementById('completion-modal');
+        const headingEl = document.getElementById('comp-heading');
+        const emojiEl = document.getElementById('comp-emoji');
+        const perfectBanner = document.getElementById('perfect-bonus-banner');
+        const correctCountEl = document.getElementById('comp-correct-count');
+        const earnedStarsEl = document.getElementById('comp-earned-stars');
+        const pctEl = document.getElementById('comp-pct');
+
+        if (perfectBanner) {
+          perfectBanner.style.display = isPerfect ? 'block' : 'none';
+        }
+
+        if (emojiEl) emojiEl.textContent = isPerfect ? '👑' : (correctCount >= total / 2 ? '🎉' : '💪');
+        if (headingEl) headingEl.textContent = isPerfect ? 'Xuất Sắc! Điểm Tuyệt Đối!' : 'Hoàn Thành Bài Quiz!';
+
+        if (correctCountEl) correctCountEl.textContent = `${correctCount}/${total}`;
+        if (earnedStarsEl) earnedStarsEl.textContent = `+${starsEarnedThisSession} ⭐`;
+        if (pctEl) {
+          const accuracy = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+          pctEl.textContent = `${accuracy}%`;
+        }
+
+        if (modal) modal.style.display = 'flex';
+      }
+
+      function bindQuizEvents() {
+        const nextBtn = document.getElementById('btn-next-q');
+        const restartBtn = document.getElementById('btn-comp-restart');
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
+            currentIndex++;
+            renderQuestion();
+          });
+        }
+
+        if (restartBtn) {
+          restartBtn.addEventListener('click', () => {
+            const modal = document.getElementById('completion-modal');
+            if (modal) modal.style.display = 'none';
+            buildQuestions();
+            renderQuestion();
+          });
+        }
+
+        // Global hotkey: Enter moves to next question if answered
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && answeredThisQuestion) {
+            const nextBox = document.getElementById('next-action-box');
+            if (nextBox && nextBox.style.display !== 'none') {
+              currentIndex++;
+              renderQuestion();
+            }
+          }
+        });
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initQuiz);
+      } else {
+        initQuiz();
+      }
+    })();
+  </script>
+</body>
+</html>

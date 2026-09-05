@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meow Meow Ôn Viên Chức 🐱⭐ — Menu Chính</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/pets.css">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════════
+       SPECIFIC MAIN MENU & ONBOARDING ENHANCEMENTS
+       ═══════════════════════════════════════════════════════════════════════ */
+    .app-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .app-brand-logo {
+      font-size: 1.4rem;
+      filter: drop-shadow(0 2px 4px rgba(255, 133, 161, 0.3));
+    }
+
+    /* Interactive Pet Showcase Card */
+    .pet-showcase-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1.75rem 1.25rem 1.5rem;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFF5F8 60%, #FFEBF2 100%);
+      border: 2.5px solid var(--pink-pastel);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: visible;
+      gap: 0.75rem;
+    }
+
+    /* Cute Speech Bubble */
+    .speech-bubble {
+      position: relative;
+      background: var(--white);
+      border: 2px solid var(--pink-light);
+      border-radius: var(--radius);
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      box-shadow: var(--shadow-sm);
+      max-width: 90%;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 10px 9px 0;
+      border-style: solid;
+      border-color: var(--white) transparent transparent;
+      display: block;
+      width: 0;
+    }
+
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 12px 11px 0;
+      border-style: solid;
+      border-color: var(--pink-light) transparent transparent;
+      display: block;
+      width: 0;
+    }
+
+    /* Pet Interactive Display Area */
+    .pet-interactive-area {
+      position: relative;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .pet-interactive-area:hover {
+      transform: scale(1.06);
+    }
+
+    .pet-interactive-area:active {
+      transform: scale(0.96);
+    }
+
+    .pet-tap-hint {
+      font-size: 0.8rem;
+      color: var(--pink-deep);
+      font-weight: 700;
+      margin-top: -0.25rem;
+      opacity: 0.85;
+    }
+
+    /* Floating Hearts Container */
+    .floating-hearts-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 50;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 1.6rem;
+      animation: floatUpAndFade 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUpAndFade {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(0.6) rotate(0deg);
+      }
+      50% {
+        opacity: 0.9;
+        transform: translate(calc(-50% + var(--drift-x, 0px)), -40px) scale(1.2) rotate(var(--rot, 15deg));
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--drift-x, 0px)), -80px) scale(1) rotate(var(--rot, -15deg));
+      }
+    }
+
+    /* Pet Identity Header */
+    .pet-identity {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .pet-name-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .pet-mood-tag {
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 0.2rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background: var(--white);
+      color: #D97706;
+      border: 1.5px solid #FDE68A;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Navigation 5 Cards Grid */
+    .nav-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .nav-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .nav-card-room {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .menu-card {
+      position: relative;
+      text-decoration: none;
+    }
+
+    .card-lock-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: #FEE2E2;
+      color: #DC2626;
+      border: 1.5px solid #FECACA;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    /* Onboarding Modal Styles */
+    .onboarding-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .step-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .step-heading {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--pink-deep);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .pet-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 0.6rem;
+      width: 100%;
+    }
+
+    .pet-select-item {
+      background: var(--white);
+      border: 2px solid var(--pink-light);
+      border-radius: var(--radius);
+      padding: 0.75rem 0.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      gap: 0.35rem;
+    }
+
+    .pet-select-item:hover {
+      border-color: var(--pink-main);
+      transform: translateY(-2px);
+      background: #FFF9FA;
+    }
+
+    .pet-select-item.selected {
+      border-color: var(--pink-deep);
+      background: #FFE4EE;
+      box-shadow: 0 0 0 3px rgba(232, 93, 138, 0.3);
+      transform: scale(1.04);
+    }
+
+    .pet-select-emoji {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .pet-select-name {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .pet-preview-box {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      background: #FFF9FA;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--pink-light);
+    }
+
+    .pet-preview-desc {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.35;
+    }
+
+    .char-count {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      align-self: flex-end;
+      font-weight: 600;
+    }
+
+    .input-error-msg {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--red-main);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top HUD Navigation -->
+    <header class="hud-bar" role="region" aria-label="Thanh trạng thái">
+      <div class="hud-left">
+        <div class="app-header-brand">
+          <span class="app-brand-logo">🐱</span>
+          <span class="hud-title">Meow Meow</span>
+        </div>
+      </div>
+      <div class="hud-right">
+        <div class="hud-pill stars-pill" title="Số sao hiện tại của bạn">
+          <span>⭐</span>
+          <span id="hud-stars-count">0</span>
+        </div>
+        <div class="hud-pill streak-pill" title="Chuỗi ngày học liên tiếp">
+          <span>🔥</span>
+          <span id="hud-streak-count">0</span>
+        </div>
+        <button id="btn-sound-toggle" class="btn btn-icon hud-sound" aria-label="Bật/Tắt âm thanh" title="Âm thanh">
+          <span id="sound-icon">🔊</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Page Content -->
+    <main class="page-content">
+      <!-- Interactive Pet Card -->
+      <section class="card pet-showcase-card" aria-label="Thú cưng tương tác">
+        <div class="speech-bubble" id="pet-speech-bubble">
+          Chào bạn! Cùng ôn bài để đỗ viên chức nhé! 💕
+        </div>
+
+        <div class="pet-interactive-area" id="pet-interactive-area" role="button" tabindex="0" aria-label="Chạm để nựng thú cưng" title="Bấm vào tớ để nựng nè! 💕">
+          <div class="floating-hearts-container" id="floating-hearts-container"></div>
+          <div class="pet pet-cat idle" id="main-pet-character"></div>
+        </div>
+
+        <div class="pet-tap-hint">👆 Chạm vào tớ để nựng nha!</div>
+
+        <div class="pet-identity">
+          <h2 class="pet-name-title" id="pet-display-name">Bé Miu</h2>
+          <span class="pet-mood-tag" id="pet-mood-tag">Đang rất vui 🌟</span>
+        </div>
+      </section>
+
+      <!-- 5 Main Navigation Cards -->
+      <section class="nav-cards-grid" aria-label="Chức năng chính">
+        <!-- Card 1: Phòng Của Bé -->
+        <a href="room.html" class="menu-card nav-card-room" id="nav-room">
+          <div class="menu-card-icon">🏠</div>
+          <h3 class="menu-card-title">Phòng Của Bé</h3>
+          <p class="menu-card-desc">Trang trí phòng xinh xắn và chăm sóc thú cưng</p>
+        </a>
+
+        <!-- Card 2: Ôn Bài -->
+        <a href="study.html" class="menu-card" id="nav-study">
+          <div class="menu-card-icon">📚</div>
+          <h3 class="menu-card-title">Ôn Bài</h3>
+          <p class="menu-card-desc">Flashcard, trắc nghiệm, ghép đôi và sắp xếp</p>
+        </a>
+
+        <!-- Card 3: Thử Thách -->
+        <a href="challenge.html" class="menu-card" id="nav-challenge">
+          <div class="menu-card-icon">🎮</div>
+          <h3 class="menu-card-title">Thử Thách</h3>
+          <p class="menu-card-desc">Tốc độ, sống sót, combo và đại chiến Boss</p>
+          <div class="card-lock-badge" id="challenge-lock-badge" style="display: none;">
+            <span>🔒</span>
+            <span>Chưa mở</span>
+          </div>
+        </a>
+
+        <!-- Card 4: Cửa Hàng -->
+        <a href="shop.html" class="menu-card" id="nav-shop">
+          <div class="menu-card-icon">🛍️</div>
+          <h3 class="menu-card-title">Cửa Hàng</h3>
+          <p class="menu-card-desc">Sắm nội thất, trang trí và nhận nuôi pet mới</p>
+        </a>
+
+        <!-- Card 5: Thành Tích -->
+        <a href="stats.html" class="menu-card" id="nav-stats">
+          <div class="menu-card-icon">📊</div>
+          <h3 class="menu-card-title">Thành Tích</h3>
+          <p class="menu-card-desc">Xem chuỗi streak, 10 huy hiệu và biểu đồ 7 ngày</p>
+        </a>
+      </section>
+    </main>
+
+    <!-- Onboarding Modal Overlay -->
+    <div id="onboarding-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
+      <div class="modal-card">
+        <header class="modal-header">
+          <h2 class="modal-title" id="onboarding-title">
+            <span>🎉</span>
+            <span>Chào Mừng Bé Mới!</span>
+          </h2>
+        </header>
+
+        <div class="onboarding-steps">
+          <!-- Step 1: Chọn Pet -->
+          <div class="step-section">
+            <h3 class="step-heading">
+              <span>🐾</span>
+              <span>Bước 1: Chọn người bạn đồng hành</span>
+            </h3>
+            <div class="pet-selector-grid" id="onboarding-pet-grid"></div>
+            <div class="pet-preview-box">
+              <span id="selected-pet-emoji" style="font-size: 2.2rem; line-height: 1;">🐱</span>
+              <p class="pet-preview-desc" id="selected-pet-desc">Bé mèo tam thể tinh nghịch, luôn quanh quẩn bên bạn mỗi khi học bài.</p>
+            </div>
+          </div>
+
+          <!-- Step 2: Đặt Tên Pet -->
+          <div class="step-section">
+            <h3 class="step-heading">
+              <span>✏️</span>
+              <span>Bước 2: Đặt tên cho bé cưng</span>
+            </h3>
+            <div class="form-group">
+              <input type="text" id="onboarding-pet-name" class="form-input" maxlength="20" placeholder="Nhập tên pet (1-20 ký tự)..." value="Miu">
+              <div class="char-count" id="pet-name-count">3/20</div>
+              <div class="input-error-msg" id="name-error-msg">Tên thú cưng phải từ 1 đến 20 ký tự nhé!</div>
+            </div>
+          </div>
+
+          <!-- Step 3: Hoàn Tất -->
+          <div class="step-section">
+            <button type="button" id="btn-complete-onboarding" class="btn btn-primary btn-lg btn-block">
+              <span>Bắt Đầu Cuộc Sống Mới!</span>
+              <span>✨</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

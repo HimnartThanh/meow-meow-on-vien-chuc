@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sắp Xếp Quy Trình — Meow Meow Ôn Viên Chức</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --pink-light: #FFE4EE;
+      --pink-main: #FF85A1;
+      --pink-deep: #E85D8A;
+      --pink-pastel: #FFB6C1;
+      --purple-soft: #C9A8E0;
+      --purple-light: #EFE6F8;
+      --green-main: #6BCB77;
+      --green-light: #E8F8EE;
+      --red-main: #FF6B6B;
+      --red-light: #FFEAEA;
+      --yellow-main: #FFD93D;
+      --text-dark: #3D2B3D;
+      --text-mid: #7A5C7A;
+      --text-light: #B89EB8;
+      --white: #FFFFFF;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --shadow: 0 6px 24px rgba(255, 133, 161, 0.2);
+      --font: 'Nunito', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font), system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #FFF0F5 0%, #FFE4EE 50%, #F5E6FA 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(255, 133, 161, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--pink-light);
+      color: var(--pink-deep);
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .nav-back:hover {
+      background: var(--pink-main);
+      color: var(--white);
+    }
+
+    .nav-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--pink-deep);
+      text-align: center;
+    }
+
+    .hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      background: var(--white);
+      border: 2px solid var(--pink-light);
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .sorting-main {
+      flex: 1;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .tracker-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--white);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .tracker-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-mid);
+    }
+
+    /* Question Header */
+    .prompt-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 3px solid var(--pink-light);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .prompt-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .prompt-badge {
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--pink-light);
+      color: var(--pink-deep);
+    }
+
+    .prompt-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.5;
+      color: var(--text-dark);
+    }
+
+    /* Pool Section */
+    .pool-section {
+      background: #FFF5F8;
+      border: 2px dashed var(--pink-main);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pool-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--pink-deep);
+    }
+
+    .pool-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 60px;
+      padding: 4px;
+    }
+
+    /* Step Chip */
+    .step-chip {
+      background: var(--white);
+      border: 2px solid var(--pink-main);
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      cursor: grab;
+      user-select: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 8px rgba(232, 93, 138, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-chip:active {
+      cursor: grabbing;
+    }
+
+    .step-chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(232, 93, 138, 0.25);
+      background: #FFF0F5;
+    }
+
+    .step-chip.in-slot {
+      cursor: pointer;
+      width: 100%;
+      border: none;
+      box-shadow: none;
+      background: transparent;
+      padding: 0;
+    }
+
+    /* Target Slots Section */
+    .slots-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .slots-header {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slots-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .target-slot {
+      background: var(--white);
+      border: 2px dashed #D5C2CF;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .target-slot.drag-over {
+      border-color: var(--pink-main);
+      background: #FFF5F8;
+      box-shadow: 0 0 0 2px var(--pink-pastel);
+    }
+
+    .slot-index {
+      width: 34px;
+      height: 34px;
+      background: var(--pink-light);
+      color: var(--pink-deep);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .slot-content {
+      flex: 1;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .slot-empty-placeholder {
+      color: var(--text-light);
+      font-style: italic;
+      font-size: 0.88rem;
+    }
+
+    .target-slot.slot-correct {
+      background: var(--green-light) !important;
+      border: 2px solid var(--green-main) !important;
+    }
+
+    .target-slot.slot-correct .slot-index {
+      background: var(--green-main) !important;
+      color: var(--white) !important;
+    }
+
+    .target-slot.slot-correct::after {
+      content: '✔ Đúng';
+      font-weight: 800;
+      font-size: 0.8rem;
+      color: var(--green-main);
+    }
+
+    .target-slot.slot-wrong {
+      background: var(--red-light) !important;
+      border: 2px solid var(--red-main) !important;
+      animation: shake 0.4s ease;
+    }
+
+    .target-slot.slot-wrong .slot-index {
+      background: var(--red-main) !important;
+      color: var(--white) !important;
+    }
+
+    .target-slot.slot-wrong::after {
+      content: '✖ Sai vị trí';
+      font-weight: 800;
+      font-size: 0.8rem;
+      color: var(--red-main);
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* Actions Panel */
+    .actions-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-action {
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-reset-slots {
+      background: var(--white);
+      border: 2px solid var(--pink-pastel);
+      color: var(--pink-deep);
+    }
+
+    .btn-reset-slots:hover {
+      background: var(--pink-light);
+    }
+
+    .btn-check-order {
+      background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-deep) 100%);
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(232, 93, 138, 0.3);
+    }
+
+    .btn-check-order:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(232, 93, 138, 0.4);
+    }
+
+    .btn-check-order:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-next-sort {
+      background: linear-gradient(135deg, var(--green-main) 0%, #388E3C 100%);
+      color: var(--white);
+    }
+
+    /* Feedback Banner */
+    .feedback-box {
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-box.fb-success {
+      background: var(--green-light);
+      border: 2px solid var(--green-main);
+      color: #1B5E20;
+    }
+
+    .feedback-box.fb-retry {
+      background: #FFF9C4;
+      border: 2px solid #FBC02D;
+      color: #795548;
+    }
+
+    /* Completion Modal */
+    .completion-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .completion-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 4px solid var(--pink-light);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+      max-width: 480px;
+      width: 100%;
+      padding: 30px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .comp-icon {
+      font-size: 3.5rem;
+    }
+
+    .comp-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .comp-stats-box {
+      background: #FFF5F8;
+      border: 2px dashed var(--pink-pastel);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      justify-content: space-around;
+      margin: 8px 0;
+    }
+
+    .comp-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .comp-stat-num {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--pink-deep);
+    }
+
+    .comp-stat-lbl {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-mid);
+    }
+
+    .comp-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-comp {
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-comp-primary {
+      background: linear-gradient(135deg, var(--pink-main) 0%, var(--pink-deep) 100%);
+      color: var(--white);
+    }
+
+    .btn-comp-primary:hover {
+      opacity: 0.95;
+      transform: translateY(-2px);
+    }
+
+    .btn-comp-secondary {
+      background: var(--pink-light);
+      color: var(--pink-deep);
+    }
+
+    .btn-comp-secondary:hover {
+      background: var(--pink-pastel);
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <a href="study.html" class="nav-back">← Ôn Bài</a>
+    <h1 class="nav-title" id="page-topic-name">🔀 Sắp Xếp</h1>
+    <div class="hud-badge">⭐ <span id="hud-stars">0</span></div>
+  </header>
+
+  <main class="sorting-main">
+    <!-- Tracker -->
+    <div class="tracker-card">
+      <div class="tracker-labels">
+        <span id="tracker-counter">Câu sắp xếp 1/2</span>
+        <span>+1 ⭐ mỗi bước đúng</span>
+      </div>
+    </div>
+
+    <!-- Question Concept -->
+    <div class="prompt-card">
+      <div class="prompt-badge-row">
+        <span class="prompt-badge" id="prompt-topic-tag">📜 Chủ đề</span>
+        <span class="prompt-badge" style="background: #EFE6F8; color: #7B1FA2;">Thứ tự quy trình</span>
+      </div>
+      <div class="prompt-title" id="prompt-concept">
+        Đang tải câu hỏi sắp xếp...
+      </div>
+    </div>
+
+    <!-- Pool of Unordered Chips -->
+    <section class="pool-section">
+      <div class="pool-header">
+        <span>📦 Các mảnh ghép (Chạm để đặt vào vị trí tiếp theo):</span>
+      </div>
+      <div class="pool-container" id="chip-pool">
+        <!-- Chips populated here -->
+      </div>
+    </section>
+
+    <!-- Target Slots (Numbered 1, 2, 3...) -->
+    <section class="slots-section">
+      <div class="slots-header">
+        <span>🎯 Thứ Tự Thực Hiện (1 ➔ N):</span>
+      </div>
+      <div class="slots-list" id="slots-list">
+        <!-- Slots populated here -->
+      </div>
+    </section>
+
+    <!-- Feedback Message Box (Initially hidden) -->
+    <div class="feedback-box" id="feedback-box" style="display: none;">
+      <span id="feedback-text"></span>
+      <span id="feedback-sub"></span>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-panel">
+      <button type="button" class="btn-action btn-reset-slots" id="btn-reset-order">
+        <span>↺ Xếp Lại Từ Đầu</span>
+      </button>
+
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn-action btn-check-order" id="btn-check-order" disabled>
+          <span>Kiểm Tra Đáp Án ✅</span>
+        </button>
+        <button type="button" class="btn-action btn-next-sort" id="btn-next-sort" style="display: none;">
+          <span>Câu Tiếp Theo ➔</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Completion Modal -->
+  <div class="completion-overlay" id="completion-modal" style="display: none;">
+    <div class="completion-card">
+      <div class="comp-icon">🎉</div>
+      <h2 class="comp-title">Hoàn Thành Sắp Xếp!</h2>
+      <p style="font-size: 0.95rem; color: var(--text-mid);">
+        Chúc mừng bạn đã nắm vững toàn bộ quy trình và thứ tự pháp lý trong chủ đề này!
+      </p>
+
+      <div class="comp-stats-box">
+        <div class="comp-stat-item">
+          <span class="comp-stat-num" id="comp-solved-count">2/2</span>
+          <span class="comp-stat-lbl">Quy trình hoàn thành</span>
+        </div>
+        <div class="comp-stat-item">
+          <span class="comp-stat-num" id="comp-earned-stars">+10 ⭐</span>
+          <span class="comp-stat-lbl">Sao nhận được</span>
+        </div>
+        <div class="comp-stat-item">
+          <span class="comp-stat-num" style="color: var(--green-main);">100%</span>
+          <span class="comp-stat-lbl">Chính xác</span>
+        </div>
+      </div>
+
+      <div class="comp-actions">
+        <button type="button" class="btn-comp btn-comp-primary" id="btn-comp-restart">🔄 Ôn Lại Bài Sắp Xếp</button>
+        <a href="challenge.html" class="btn-comp btn-comp-secondary" id="btn-comp-challenge">🎮 Thử Thách Ngay</a>
+        <a href="study.html" class="btn-comp btn-comp-secondary">📚 Quay Lại Ôn Bài</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      let sortingQuestions = [];
+      let currentQuestionIndex = 0;
+      let currentQuestion = null;
+      let canonicalItems = [];
+      let poolItems = []; // Array of string items currently in pool
+      let placedItems = []; // Array of items placed in slots [slot0, slot1, ...]
+      let starsEarnedThisSession = 0;
+      let isVerified = false;
+      let currentTopic = null;
+
+      function getUrlParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      function initSorting() {
+        if (typeof GameEngine !== 'undefined') {
+          GameEngine.init();
+        }
+
+        updateHUD();
+
+        // 1. Identify topic
+        const topicId = getUrlParam('topic');
+        if (typeof DATA !== 'undefined' && Array.isArray(DATA.topics)) {
+          currentTopic = DATA.topics.find(t => t.id === topicId) || DATA.topics[0];
+        }
+
+        const titleEl = document.getElementById('page-topic-name');
+        if (titleEl && currentTopic) {
+          titleEl.textContent = `🔀 ${currentTopic.name}`;
+        }
+
+        // 2. Load questions with sortItems
+        loadSortingQuestions();
+
+        // 3. Bind controls
+        bindSortingEvents();
+
+        // 4. Render question
+        renderQuestion();
+      }
+
+      function updateHUD() {
+        if (typeof GameEngine === 'undefined') return;
+        const hudStars = document.getElementById('hud-stars');
+        if (hudStars) hudStars.textContent = GameEngine.getStars();
+      }
+
+      function loadSortingQuestions() {
+        if (typeof DATA === 'undefined' || !Array.isArray(DATA.questions)) {
+          sortingQuestions = [];
+          return;
+        }
+
+        // Filter questions with sortItems for this topic
+        let list = DATA.questions.filter(q => q.topicId === currentTopic.id && Array.isArray(q.sortItems) && q.sortItems.length >= 2);
+
+        // Fallback to any questions with sortItems if topic has none
+        if (list.length === 0) {
+          list = DATA.questions.filter(q => Array.isArray(q.sortItems) && q.sortItems.length >= 2);
+        }
+
+        sortingQuestions = list;
+        currentQuestionIndex = 0;
+        starsEarnedThisSession = 0;
+      }
+
+      function renderQuestion() {
+        isVerified = false;
+
+        const fbBox = document.getElementById('feedback-box');
+        const nextBtn = document.getElementById('btn-next-sort');
+        const checkBtn = document.getElementById('btn-check-order');
+
+        if (fbBox) fbBox.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'none';
+        if (checkBtn) {
+          checkBtn.style.display = 'inline-flex';
+          checkBtn.disabled = true;
+        }
+
+        if (currentQuestionIndex >= sortingQuestions.length) {
+          showCompletion();
+          return;
+        }
+
+        currentQuestion = sortingQuestions[currentQuestionIndex];
+        canonicalItems = [...currentQuestion.sortItems];
+
+        // Scramble items for pool (ensure scrambled is different from canonical if length > 1)
+        let scrambled = [...canonicalItems];
+        let attempts = 0;
+        do {
+          scrambled.sort(() => 0.5 - Math.random());
+          attempts++;
+        } while (attempts < 10 && JSON.stringify(scrambled) === JSON.stringify(canonicalItems) && canonicalItems.length > 1);
+
+        poolItems = [...scrambled];
+        placedItems = new Array(canonicalItems.length).fill(null);
+
+        // Update UI headers
+        const counterEl = document.getElementById('tracker-counter');
+        const promptConcept = document.getElementById('prompt-concept');
+        const promptTag = document.getElementById('prompt-topic-tag');
+
+        if (counterEl) {
+          counterEl.textContent = `Câu sắp xếp ${currentQuestionIndex + 1}/${sortingQuestions.length}`;
+        }
+        if (promptConcept) {
+          promptConcept.textContent = currentQuestion.concept;
+        }
+        if (promptTag && currentTopic) {
+          promptTag.textContent = `${currentTopic.icon || '📜'} ${currentTopic.name}`;
+        }
+
+        renderPool();
+        renderSlots();
+      }
+
+      function renderPool() {
+        const poolContainer = document.getElementById('chip-pool');
+        if (!poolContainer) return;
+
+        poolContainer.innerHTML = '';
+
+        if (poolItems.length === 0) {
+          poolContainer.innerHTML = '<span style="font-size: 0.85rem; color: var(--text-light); font-style: italic;">(Đã xếp hết các mảnh ghép vào các ô bên dưới)</span>';
+          return;
+        }
+
+        poolItems.forEach((itemText, index) => {
+          const chip = document.createElement('div');
+          chip.className = 'step-chip';
+          chip.draggable = true;
+          chip.textContent = itemText;
+
+          // Click: place into first empty slot
+          chip.addEventListener('click', () => {
+            if (isVerified) return;
+            placeItemInFirstAvailableSlot(index);
+          });
+
+          // Drag
+          chip.addEventListener('dragstart', (e) => {
+            if (isVerified) return;
+            e.dataTransfer.setData('text/plain', JSON.stringify({ source: 'pool', index }));
+          });
+
+          poolContainer.appendChild(chip);
+        });
+      }
+
+      function renderSlots() {
+        const slotsList = document.getElementById('slots-list');
+        if (!slotsList) return;
+
+        slotsList.innerHTML = '';
+
+        for (let i = 0; i < canonicalItems.length; i++) {
+          const slot = document.createElement('div');
+          slot.className = 'target-slot';
+          slot.dataset.slotIndex = i;
+
+          const slotIdx = document.createElement('div');
+          slotIdx.className = 'slot-index';
+          slotIdx.textContent = (i + 1);
+
+          const slotContent = document.createElement('div');
+          slotContent.className = 'slot-content';
+
+          const placedText = placedItems[i];
+          if (placedText !== null && placedText !== undefined) {
+            const chip = document.createElement('div');
+            chip.className = 'step-chip in-slot';
+            chip.textContent = placedText;
+            chip.title = 'Chạm để đưa về kho mảnh ghép';
+
+            chip.addEventListener('click', () => {
+              if (isVerified) return;
+              returnItemToPool(i);
+            });
+
+            slotContent.appendChild(chip);
+          } else {
+            slotContent.innerHTML = '<span class="slot-empty-placeholder">Kéo hoặc chạm mảnh ghép để đặt vào bước này</span>';
+          }
+
+          slot.appendChild(slotIdx);
+          slot.appendChild(slotContent);
+
+          // Drag-and-drop support
+          slot.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            if (!isVerified) slot.classList.add('drag-over');
+          });
+
+          slot.addEventListener('dragleave', () => {
+            slot.classList.remove('drag-over');
+          });
+
+          slot.addEventListener('drop', (e) => {
+            e.preventDefault();
+            slot.classList.remove('drag-over');
+            if (isVerified) return;
+
+            try {
+              const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+              if (data.source === 'pool') {
+                placeItemInSlot(data.index, i);
+              } else if (data.source === 'slot') {
+                swapSlotItems(data.slotIndex, i);
+              }
+            } catch (err) {}
+          });
+
+          slotsList.appendChild(slot);
+        }
+
+        // Update Check button status
+        const allFilled = placedItems.every(p => p !== null && p !== undefined);
+        const checkBtn = document.getElementById('btn-check-order');
+        if (checkBtn) {
+          checkBtn.disabled = !allFilled;
+        }
+      }
+
+      function placeItemInFirstAvailableSlot(poolIndex) {
+        const firstEmptySlot = placedItems.findIndex(p => p === null || p === undefined);
+        if (firstEmptySlot === -1) return;
+
+        placeItemInSlot(poolIndex, firstEmptySlot);
+      }
+
+      function placeItemInSlot(poolIndex, targetSlotIndex) {
+        if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
+
+        const item = poolItems.splice(poolIndex, 1)[0];
+
+        // If target slot already had an item, return that item to pool
+        if (placedItems[targetSlotIndex] !== null && placedItems[targetSlotIndex] !== undefined) {
+          poolItems.push(placedItems[targetSlotIndex]);
+        }
+
+        placedItems[targetSlotIndex] = item;
+
+        renderPool();
+        renderSlots();
+      }
+
+      function returnItemToPool(slotIndex) {
+        if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
+
+        const item = placedItems[slotIndex];
+        if (item === null || item === undefined) return;
+
+        placedItems[slotIndex] = null;
+        poolItems.push(item);
+
+        renderPool();
+        renderSlots();
+      }
+
+      function swapSlotItems(fromSlot, toSlot) {
+        if (fromSlot === toSlot) return;
+        const temp = placedItems[fromSlot];
+        placedItems[fromSlot] = placedItems[toSlot];
+        placedItems[toSlot] = temp;
+        renderSlots();
+      }
+
+      function checkOrder() {
+        isVerified = true;
+
+        let correctSteps = 0;
+        const total = canonicalItems.length;
+
+        const slots = document.querySelectorAll('.target-slot');
+        slots.forEach((slot, i) => {
+          if (placedItems[i] === canonicalItems[i]) {
+            slot.classList.add('slot-correct');
+            slot.classList.remove('slot-wrong');
+            correctSteps++;
+          } else {
+            slot.classList.add('slot-wrong');
+            slot.classList.remove('slot-correct');
+          }
+        });
+
+        // Award stars: 1 per correct step
+        if (typeof GameEngine !== 'undefined') {
+          if (correctSteps > 0) {
+            GameEngine.earnStars(correctSteps, 'sorting');
+          }
+        }
+        starsEarnedThisSession += correctSteps;
+        updateHUD();
+
+        const fbBox = document.getElementById('feedback-box');
+        const fbText = document.getElementById('feedback-text');
+        const fbSub = document.getElementById('feedback-sub');
+        const checkBtn = document.getElementById('btn-check-order');
+        const nextBtn = document.getElementById('btn-next-sort');
+
+        if (correctSteps === total) {
+          // 100% CORRECT
+          if (typeof GameEngine !== 'undefined') {
+            GameEngine.markAnswered(currentQuestion.id, true);
+            GameEngine.playSound('correct');
+          }
+
+          if (fbBox) {
+            fbBox.className = 'feedback-box fb-success';
+            if (fbText) fbText.textContent = `🎉 Tuyệt vời! Chính xác 100% (${correctSteps}/${total} bước).`;
+            if (fbSub) fbSub.textContent = `+${correctSteps} ⭐`;
+            fbBox.style.display = 'flex';
+          }
+
+          if (checkBtn) checkBtn.style.display = 'none';
+          if (nextBtn) {
+            nextBtn.style.display = 'inline-flex';
+            const isLast = (currentQuestionIndex === sortingQuestions.length - 1);
+            nextBtn.querySelector('span').textContent = isLast ? 'Hoàn Thành' : 'Câu Tiếp Theo ➔';
+          }
+        } else {
+          // NOT ALL CORRECT
+          if (typeof GameEngine !== 'undefined') {
+            GameEngine.markAnswered(currentQuestion.id, false);
+            GameEngine.playSound('wrong');
+          }
+
+          if (fbBox) {
+            fbBox.className = 'feedback-box fb-retry';
+            if (fbText) fbText.textContent = `Đúng ${correctSteps}/${total} bước. Hãy bấm "Xếp Lại" để thử sắp xếp lại nhé!`;
+            if (fbSub) fbSub.textContent = `+${correctSteps} ⭐`;
+            fbBox.style.display = 'flex';
+          }
+
+          // Allow retrying
+          if (checkBtn) {
+            checkBtn.disabled = true;
+          }
+        }
+      }
+
+      function showCompletion() {
+        if (typeof GameEngine !== 'undefined') {
+          GameEngine.earnStars(5, 'completion_bonus');
+          starsEarnedThisSession += 5;
+          GameEngine.unlockChallenge();
+          GameEngine.checkBadges();
+          GameEngine.checkIn();
+          GameEngine.playSound('fanfare');
+        }
+
+        updateHUD();
+
+        const modal = document.getElementById('completion-modal');
+        const solvedCountEl = document.getElementById('comp-solved-count');
+        const earnedStarsEl = document.getElementById('comp-earned-stars');
+
+        if (solvedCountEl) solvedCountEl.textContent = `${sortingQuestions.length}/${sortingQuestions.length}`;
+        if (earnedStarsEl) earnedStarsEl.textContent = `+${starsEarnedThisSession} ⭐`;
+
+        if (modal) modal.style.display = 'flex';
+      }
+
+      function bindSortingEvents() {
+        const checkBtn = document.getElementById('btn-check-order');
+        const resetBtn = document.getElementById('btn-reset-order');
+        const nextBtn = document.getElementById('btn-next-sort');
+        const restartCompBtn = document.getElementById('btn-comp-restart');
+
+        if (checkBtn) {
+          checkBtn.addEventListener('click', checkOrder);
+        }
+
+        if (resetBtn) {
+          resetBtn.addEventListener('click', () => {
+            if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
+            poolItems = [...canonicalItems].sort(() => 0.5 - Math.random());
+            placedItems = new Array(canonicalItems.length).fill(null);
+            isVerified = false;
+
+            const fbBox = document.getElementById('feedback-box');
+            if (fbBox) fbBox.style.display = 'none';
+
+            const check = document.getElementById('btn-check-order');
+            if (check) {
+              check.style.display = 'inline-flex';
+              check.disabled = true;
+            }
+
+            renderPool();
+            renderSlots();
+          });
+        }
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            if (typeof GameEngine !== 'undefined') GameEngine.playSound('tap');
+            currentQuestionIndex++;
+            renderQuestion();
+          });
+        }
+
+        if (restartCompBtn) {
+          restartCompBtn.addEventListener('click', () => {
+            const modal = document.getElementById('completion-modal');
+            if (modal) modal.style.display = 'none';
+            currentQuestionIndex = 0;
+            starsEarnedThisSession = 0;
+            renderQuestion();
+          });
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSorting);
+      } else {
+        initSorting();
+      }
+    })();
+  </script>
+</body>
+</html>
