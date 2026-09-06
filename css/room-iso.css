@@ -2,39 +2,70 @@
    ISOMETRIC 2.5D ROOM STYLING & MULTI-FLOOR EXPANSION
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Room Stage with 2.5D Isometric Background */
-.room-stage.iso-stage {
+/* Room Canvas Wrapper (Camera Viewport) */
+.room-canvas-wrapper {
   position: relative;
   width: 100%;
+  max-width: 960px;
   height: 520px;
   max-height: 70vh;
+  margin: 0 auto 1.5rem;
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: 0 12px 36px rgba(255, 133, 161, 0.25);
   border: 3.5px solid var(--pink-pastel);
   background-color: #EAF5EE;
-  background-size: cover;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  transition: background-image 0.4s ease-in-out;
-  touch-action: none; /* Prevent page scroll during drag */
+  touch-action: none;
   user-select: none;
 }
 
-/* Floor Switcher Navigation Bar (Elevator Style) */
-.floor-switcher-bar {
+/* Room Stage with 2.5D Isometric Background (2000px Wide Panoramic Canvas) */
+.room-stage.iso-stage {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 95;
+  top: 0;
+  left: 0;
+  width: 2000px;
+  height: 100%;
+  background-size: 2000px 100%;
+  background-position: left top;
+  background-repeat: no-repeat;
+  transition: background-image 0.4s ease-in-out;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  will-change: transform;
+}
+
+.room-stage.iso-stage.is-panning {
+  cursor: grabbing;
+}
+
+/* Viewport Fixed HUD Container */
+.room-viewport-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Floor Switcher Navigation Bar */
+.floor-switcher-bar {
+  pointer-events: auto;
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 105;
   display: flex;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.92);
-  padding: 0.4rem 0.6rem;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 0.35rem 0.5rem;
   border-radius: var(--radius-pill);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   border: 1.5px solid var(--pink-light);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
 }
 
 .floor-btn {
@@ -47,10 +78,11 @@
   color: var(--text-mid);
   font-family: var(--font-family);
   font-weight: 800;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: all 0.2s ease;
+  user-select: none;
 }
 
 .floor-btn:hover {
@@ -62,6 +94,103 @@
   background: linear-gradient(135deg, var(--pink-main), var(--pink-deep));
   color: #FFFFFF;
   box-shadow: 0 3px 10px rgba(255, 107, 139, 0.35);
+}
+
+/* Camera Quick Navigation Pills (Top-Right) */
+.camera-quick-nav {
+  pointer-events: auto;
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 105;
+  display: flex;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1.5px solid var(--pink-light);
+  backdrop-filter: blur(8px);
+}
+
+.cam-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background: transparent;
+  color: var(--text-mid);
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 0.84rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.cam-nav-btn:hover {
+  background: var(--pink-light);
+  color: var(--pink-deep);
+}
+
+.cam-nav-btn.active {
+  background: linear-gradient(135deg, var(--pink-main), var(--pink-deep));
+  color: #FFFFFF;
+  box-shadow: 0 3px 10px rgba(255, 107, 139, 0.35);
+}
+
+/* Camera Mini-map Position Indicator (Bottom-Center) */
+.camera-minimap {
+  pointer-events: auto;
+  position: absolute;
+  bottom: 0.85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 105;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  border: 1.5px solid var(--pink-pastel);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  user-select: none;
+}
+
+.minimap-zone-tag {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-mid);
+  white-space: nowrap;
+}
+
+.camera-minimap-track {
+  position: relative;
+  width: 120px;
+  height: 10px;
+  background: rgba(255, 222, 233, 0.85);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--pink-light);
+}
+
+.camera-minimap-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--pink-main), var(--pink-deep));
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(255, 107, 139, 0.4);
+  pointer-events: none;
+  will-change: transform;
+  transform: translateX(0);
 }
 
 /* Isometric Item Entity */
@@ -228,3 +357,51 @@
   from { opacity: 0; transform: translateX(-50%) translateY(0) scale(0.7); }
   to { opacity: 1; transform: translateX(-50%) translateY(-8px) scale(1); }
 }
+
+/* Mobile Responsiveness for Panoramic Camera & HUD */
+@media (max-width: 640px) {
+  .room-canvas-wrapper {
+    height: 460px;
+    max-height: 65vh;
+  }
+
+  .floor-switcher-bar {
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.25rem 0.35rem;
+    gap: 0.25rem;
+  }
+
+  .floor-btn {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.76rem;
+  }
+
+  .camera-quick-nav {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.35rem;
+    gap: 0.25rem;
+  }
+
+  .cam-nav-btn {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.76rem;
+  }
+
+  .camera-minimap {
+    bottom: 0.5rem;
+    padding: 0.25rem 0.6rem;
+    gap: 0.4rem;
+  }
+
+  .camera-minimap-track {
+    width: 90px;
+    height: 8px;
+  }
+
+  .minimap-zone-tag {
+    font-size: 0.7rem;
+  }
+}
+

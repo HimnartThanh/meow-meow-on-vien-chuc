@@ -1,175 +1,412 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 700" width="2000" height="700">
   <defs>
     <!-- Wall & Floor Gradients -->
     <linearGradient id="wallWarm" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFF8EE"/>
-      <stop offset="100%" stop-color="#F7EADB"/>
-    </linearGradient>
-    <linearGradient id="floorWood" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F2DEC4"/>
-      <stop offset="50%" stop-color="#EAD1B2"/>
-      <stop offset="100%" stop-color="#DFBF9E"/>
-    </linearGradient>
-    <linearGradient id="gardenGrass" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#D4EDB8"/>
-      <stop offset="60%" stop-color="#C2E5A1"/>
-      <stop offset="100%" stop-color="#B0DA8C"/>
+      <stop offset="0%" stop-color="#FFFDF7"/>
+      <stop offset="60%" stop-color="#FFF5E8"/>
+      <stop offset="100%" stop-color="#F7E6D0"/>
     </linearGradient>
     <linearGradient id="wallStripe" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FBE6D6"/>
-      <stop offset="100%" stop-color="#F5D7C2"/>
+      <stop offset="0%" stop-color="#FDE8D7"/>
+      <stop offset="100%" stop-color="#F8D3B8"/>
     </linearGradient>
-    <linearGradient id="skyWindow" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#D7EFFE"/>
-      <stop offset="100%" stop-color="#B8E3FF"/>
+    <linearGradient id="floorWood" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5E4CE"/>
+      <stop offset="50%" stop-color="#E9CEA9"/>
+      <stop offset="100%" stop-color="#DCBD96"/>
     </linearGradient>
-    <linearGradient id="woodGate" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#C29A78"/>
-      <stop offset="50%" stop-color="#D8B595"/>
-      <stop offset="100%" stop-color="#B68B66"/>
+    <linearGradient id="gardenGrass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2F7C8"/>
+      <stop offset="40%" stop-color="#CEF0A8"/>
+      <stop offset="80%" stop-color="#B8E68E"/>
+      <stop offset="100%" stop-color="#A2DA75"/>
     </linearGradient>
-    
-    <!-- Floor Pattern -->
-    <pattern id="woodPlanks" width="60" height="30" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
-      <line x1="0" y1="0" x2="60" y2="0" stroke="#D3B491" stroke-width="1.5" opacity="0.6"/>
-      <line x1="20" y1="0" x2="20" y2="30" stroke="#D3B491" stroke-width="1" opacity="0.4"/>
-      <line x1="50" y1="0" x2="50" y2="30" stroke="#D3B491" stroke-width="1" opacity="0.4"/>
+    <linearGradient id="skyOutdoor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E3F4FE"/>
+      <stop offset="50%" stop-color="#EFF8FD"/>
+      <stop offset="100%" stop-color="#F5FAF2"/>
+    </linearGradient>
+    <linearGradient id="windowSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#CCE9FD"/>
+      <stop offset="100%" stop-color="#EBF5FE"/>
+    </linearGradient>
+    <linearGradient id="woodTrim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#936B4A"/>
+      <stop offset="50%" stop-color="#B08560"/>
+      <stop offset="100%" stop-color="#825C3C"/>
+    </linearGradient>
+    <linearGradient id="roseTrellis" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B47A5A"/>
+      <stop offset="50%" stop-color="#CFA081"/>
+      <stop offset="100%" stop-color="#9E6544"/>
+    </linearGradient>
+
+    <!-- Parquet Wood Pattern -->
+    <pattern id="woodPlanks" width="80" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(25)">
+      <line x1="0" y1="0" x2="80" y2="0" stroke="#D3B08A" stroke-width="1.5" opacity="0.55"/>
+      <line x1="30" y1="0" x2="30" y2="40" stroke="#D3B08A" stroke-width="1.2" opacity="0.35"/>
+      <line x1="70" y1="0" x2="70" y2="40" stroke="#D3B08A" stroke-width="1.2" opacity="0.35"/>
     </pattern>
+
+    <!-- Soft Drop Shadow Filter -->
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#553322" flood-opacity="0.12"/>
+    </filter>
   </defs>
 
-  <!-- BACKGROUND SKY / HORIZON -->
-  <rect width="1000" height="700" fill="#EAF5EE"/>
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       SECTION 1: OUTDOOR SKY & HORIZON (RIGHT & TOP)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <rect x="0" y="0" width="2000" height="700" fill="url(#skyOutdoor)"/>
 
-  <!-- INDOOR WALL (LEFT) -->
-  <path d="M 0,0 L 500,0 L 500,380 L 0,260 Z" fill="url(#wallWarm)"/>
-  
-  <!-- Wall Stripes (Beige & Peach stripes) -->
-  <g opacity="0.45">
-    <rect x="50" y="0" width="30" height="270" fill="url(#wallStripe)"/>
-    <rect x="130" y="0" width="30" height="290" fill="url(#wallStripe)"/>
-    <rect x="210" y="0" width="30" height="310" fill="url(#wallStripe)"/>
-    <rect x="290" y="0" width="30" height="330" fill="url(#wallStripe)"/>
-    <rect x="370" y="0" width="30" height="350" fill="url(#wallStripe)"/>
-    <rect x="450" y="0" width="30" height="370" fill="url(#wallStripe)"/>
+  <!-- Distant Fluffy Clouds -->
+  <g fill="#FFFFFF" opacity="0.75">
+    <ellipse cx="1180" cy="90" rx="90" ry="32"/>
+    <circle cx="1140" cy="80" r="40"/>
+    <circle cx="1210" cy="75" r="46"/>
+    <circle cx="1260" cy="88" r="34"/>
+
+    <ellipse cx="1780" cy="75" rx="110" ry="36"/>
+    <circle cx="1730" cy="65" r="44"/>
+    <circle cx="1810" cy="58" r="50"/>
+    <circle cx="1870" cy="70" r="40"/>
   </g>
 
-  <!-- ARCHED INDOOR WINDOW (Left Wall) -->
-  <g id="arched-window">
-    <!-- Outer Arch Frame -->
-    <path d="M 80,180 L 80,100 A 70,70 0 0,1 220,100 L 220,180 Z" fill="#75563D" stroke="#5E432E" stroke-width="4"/>
-    <path d="M 88,175 L 88,103 A 62,62 0 0,1 212,103 L 212,175 Z" fill="url(#skyWindow)"/>
-    <!-- Window Landscape Hills -->
-    <circle cx="120" cy="180" r="45" fill="#88D480" opacity="0.8"/>
-    <circle cx="180" cy="190" r="55" fill="#69C261" opacity="0.9"/>
-    <!-- Window Crossbars -->
-    <line x1="150" y1="45" x2="150" y2="175" stroke="#5E432E" stroke-width="4"/>
-    <line x1="88" y1="120" x2="212" y2="120" stroke="#5E432E" stroke-width="3"/>
-    <!-- Sun Beam Reflection -->
-    <path d="M 100,55 L 140,55 L 110,130 L 95,130 Z" fill="#FFFFFF" opacity="0.35"/>
-    <!-- Window Sill -->
-    <rect x="70" y="180" width="160" height="12" rx="4" fill="#936F52" stroke="#5E432E" stroke-width="2.5"/>
-    <rect x="90" y="172" width="24" height="8" rx="2" fill="#FFE5A3"/>
-    <!-- Little Flower Pot on Sill -->
-    <ellipse cx="180" cy="178" rx="10" ry="4" fill="#E88A8A"/>
-    <path d="M 174,178 L 176,168 L 184,168 L 186,178 Z" fill="#FFA5A5" stroke="#5E432E" stroke-width="1.5"/>
-    <circle cx="180" cy="164" r="5" fill="#FF708F"/>
-    <circle cx="176" cy="165" r="4" fill="#FFA0B8"/>
-    <circle cx="184" cy="165" r="4" fill="#FFA0B8"/>
-    <circle cx="180" cy="164" r="2.5" fill="#FFF275"/>
-  </g>
-
-  <!-- HANGING WALL FRAME -->
-  <g id="wall-art">
-    <rect x="300" y="80" width="70" height="85" rx="5" fill="#FFF2DE" stroke="#875E3B" stroke-width="4"/>
-    <rect x="310" y="90" width="50" height="65" fill="#FFE8ED"/>
-    <!-- Little cute art inside -->
-    <ellipse cx="335" cy="130" rx="18" ry="14" fill="#F7C59F"/>
-    <circle cx="330" cy="125" r="2.5" fill="#5E432E"/>
-    <circle cx="340" cy="125" r="2.5" fill="#5E432E"/>
-    <ellipse cx="326" cy="129" rx="3.5" ry="2" fill="#FF9EAA"/>
-    <ellipse cx="344" cy="129" rx="3.5" ry="2" fill="#FF9EAA"/>
-    <path d="M 333,128 Q 335,131 337,128" stroke="#5E432E" stroke-width="1.5" fill="none"/>
-    <circle cx="345" cy="102" r="5" fill="#FFD166"/>
-  </g>
-
-  <!-- OUTDOOR WALL & WOODEN ARCH GATE (RIGHT) -->
-  <path d="M 500,0 L 1000,0 L 1000,260 L 500,380 Z" fill="#DDEFE4"/>
-  
-  <!-- Big Garden Arched Gate -->
-  <g id="garden-gate">
-    <!-- Green foliage behind gate -->
-    <path d="M 560,0 Q 600,60 640,0 Q 720,70 800,0 Q 880,80 940,0 L 960,180 L 550,180 Z" fill="#9CD896" opacity="0.8"/>
-    <path d="M 550,180 L 550,70 A 200,160 0 0,1 950,70 L 950,180 Z" fill="#80B97B" opacity="0.6"/>
-    <!-- Arch Frame Wooden Beam -->
-    <path d="M 540,195 L 540,65 A 210,175 0 0,1 960,65 L 960,195 Z" fill="none" stroke="#684D35" stroke-width="16" stroke-linecap="round"/>
-    <path d="M 540,195 L 540,65 A 210,175 0 0,1 960,65 L 960,195 Z" fill="none" stroke="url(#woodGate)" stroke-width="12" stroke-linecap="round"/>
-    <!-- Sun Ray Spoke details on Arch -->
-    <line x1="750" y1="65" x2="750" y2="195" stroke="#684D35" stroke-width="5"/>
-    <line x1="680" y1="80" x2="750" y2="195" stroke="#684D35" stroke-width="4"/>
-    <line x1="820" y1="80" x2="750" y2="195" stroke="#684D35" stroke-width="4"/>
-    <line x1="610" y1="120" x2="750" y2="195" stroke="#684D35" stroke-width="4"/>
-    <line x1="890" y1="120" x2="750" y2="195" stroke="#684D35" stroke-width="4"/>
-    <!-- Gate Solid Wood Lower Half -->
-    <path d="M 550,140 L 950,140 L 950,230 L 550,230 Z" fill="url(#woodGate)" stroke="#684D35" stroke-width="4"/>
-    <circle cx="735" cy="185" r="5" fill="#F4D35E" stroke="#5E432E" stroke-width="2"/>
-    <circle cx="765" cy="185" r="5" fill="#F4D35E" stroke="#5E432E" stroke-width="2"/>
-  </g>
-
-  <!-- FLOOR DIVISION: INDOOR WOODEN PARQUET FLOOR (LEFT) -->
-  <g id="indoor-floor">
-    <path d="M 0,260 L 500,380 L 150,700 L 0,700 Z" fill="url(#floorWood)"/>
-    <path d="M 0,260 L 500,380 L 150,700 L 0,700 Z" fill="url(#woodPlanks)"/>
-    <!-- Cozy Pink Oval Carpet in Room -->
-    <ellipse cx="230" cy="480" rx="140" ry="75" fill="#FFDEE8" stroke="#F4A5BE" stroke-width="4" transform="rotate(-15, 230, 480)"/>
-    <ellipse cx="230" cy="480" rx="125" ry="65" fill="#FFEBF1" transform="rotate(-15, 230, 480)"/>
-    <!-- Scalloped Carpet Lace Fringe -->
-    <ellipse cx="230" cy="480" rx="135" ry="72" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,6" transform="rotate(-15, 230, 480)"/>
-  </g>
-
-  <!-- FLOOR DIVISION: OUTDOOR GARDEN LAWN (RIGHT) -->
-  <g id="outdoor-garden">
-    <path d="M 500,380 L 1000,260 L 1000,700 L 150,700 Z" fill="url(#gardenGrass)"/>
+  <!-- Distant Soft Green Trees / Hills in Garden Background -->
+  <g id="distant-greenery" opacity="0.85">
+    <path d="M 980,290 Q 1100,210 1240,280 Q 1380,200 1520,270 Q 1660,190 1800,260 Q 1920,210 2000,250 L 2000,380 L 980,380 Z" fill="#C5E8A8"/>
+    <path d="M 1040,295 Q 1180,240 1310,290 Q 1460,230 1610,285 Q 1760,225 1910,280 L 2000,310 L 2000,400 L 1040,400 Z" fill="#AEDC8B" opacity="0.9"/>
     
-    <!-- Stone Stepping Pathway in Garden -->
-    <g id="stepping-stones" opacity="0.85">
-      <ellipse cx="640" cy="420" rx="28" ry="14" fill="#D6E0E2" stroke="#9AB1B7" stroke-width="2.5"/>
-      <ellipse cx="710" cy="460" rx="34" ry="16" fill="#E4ECEE" stroke="#9AB1B7" stroke-width="2.5"/>
-      <ellipse cx="790" cy="510" rx="36" ry="17" fill="#D6E0E2" stroke="#9AB1B7" stroke-width="2.5"/>
-      <ellipse cx="870" cy="570" rx="40" ry="18" fill="#E4ECEE" stroke="#9AB1B7" stroke-width="2.5"/>
-      <ellipse cx="730" cy="580" rx="32" ry="15" fill="#D6E0E2" stroke="#9AB1B7" stroke-width="2.5"/>
-      <ellipse cx="620" cy="610" rx="30" ry="15" fill="#E4ECEE" stroke="#9AB1B7" stroke-width="2.5"/>
-    </g>
-
-    <!-- Little Flower Tufts in Lawn -->
-    <g id="garden-flowers">
-      <circle cx="580" cy="460" r="5" fill="#FFFFFF"/><circle cx="580" cy="460" r="2.5" fill="#FFD166"/>
-      <circle cx="592" cy="470" r="5" fill="#FF9AA2"/><circle cx="592" cy="470" r="2.5" fill="#FFF"/>
-      <circle cx="880" cy="430" r="6" fill="#B5EAD7"/><circle cx="880" cy="430" r="2.5" fill="#FFF"/>
-      <circle cx="920" cy="620" r="6" fill="#FFDAC1"/><circle cx="920" cy="620" r="2.5" fill="#E27D60"/>
+    <!-- Cozy Garden Blossom Tree (Far Right) -->
+    <g transform="translate(1820, 110)">
+      <path d="M 70,170 Q 60,100 80,40 Q 90,100 85,170 Z" fill="#845D3B"/>
+      <!-- Pink Sakura Foliage Clump -->
+      <circle cx="50" cy="40" r="55" fill="#FFC8D6" opacity="0.9"/>
+      <circle cx="105" cy="30" r="60" fill="#FFAEC4" opacity="0.95"/>
+      <circle cx="75" cy="-5" r="50" fill="#FFD9E3" opacity="0.9"/>
+      <circle cx="40" cy="70" r="35" fill="#FFB9CD" opacity="0.9"/>
+      <circle cx="115" cy="75" r="40" fill="#FF9EBA" opacity="0.9"/>
     </g>
   </g>
 
-  <!-- ROOM-GARDEN DIVIDER: WHITE PICKET FENCE & FLOWER BOXES -->
-  <g id="divider-fence">
-    <!-- Threshold Wood Trim Base -->
-    <path d="M 495,378 L 148,698 L 158,705 L 505,385 Z" fill="#8D6343" stroke="#5E432E" stroke-width="2"/>
-    <!-- Picket Fence Posts -->
-    <!-- Post 1 -->
-    <path d="M 450,400 L 450,335 L 456,325 L 462,335 L 462,400 Z" fill="#FFFFFF" stroke="#684D35" stroke-width="2.5"/>
-    <!-- Post 2 -->
-    <path d="M 400,445 L 400,380 L 406,370 L 412,380 L 412,445 Z" fill="#FFFFFF" stroke="#684D35" stroke-width="2.5"/>
-    <!-- Post 3 -->
-    <path d="M 350,490 L 350,425 L 356,415 L 362,425 L 362,490 Z" fill="#FFFFFF" stroke="#684D35" stroke-width="2.5"/>
-    <!-- Post 4 -->
-    <path d="M 300,535 L 300,470 L 306,460 L 312,470 L 312,535 Z" fill="#FFFFFF" stroke="#684D35" stroke-width="2.5"/>
-    <!-- Post 5 -->
-    <path d="M 250,580 L 250,515 L 256,505 L 262,515 L 262,580 Z" fill="#FFFFFF" stroke="#684D35" stroke-width="2.5"/>
-    <!-- Fence Horizontal Rails -->
-    <line x1="462" y1="360" x2="250" y2="550" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
-    <line x1="462" y1="360" x2="250" y2="550" stroke="#684D35" stroke-width="1.5" stroke-dasharray="2 12"/>
-    <line x1="462" y1="385" x2="250" y2="575" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       SECTION 2: INDOOR LIVING ROOM WALLS & DECOR (LEFT: X = 0 to 980)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <!-- Indoor Main Wall -->
+  <path d="M 0,0 L 980,0 L 980,370 L 0,320 Z" fill="url(#wallWarm)"/>
+
+  <!-- Wallpaper Vertical Stripes -->
+  <g opacity="0.38">
+    <rect x="40" y="0" width="35" height="322" fill="url(#wallStripe)"/>
+    <rect x="130" y="0" width="35" height="326" fill="url(#wallStripe)"/>
+    <rect x="220" y="0" width="35" height="331" fill="url(#wallStripe)"/>
+    <rect x="310" y="0" width="35" height="336" fill="url(#wallStripe)"/>
+    <rect x="400" y="0" width="35" height="341" fill="url(#wallStripe)"/>
+    <rect x="490" y="0" width="35" height="346" fill="url(#wallStripe)"/>
+    <rect x="580" y="0" width="35" height="350" fill="url(#wallStripe)"/>
+    <rect x="670" y="0" width="35" height="355" fill="url(#wallStripe)"/>
+    <rect x="760" y="0" width="35" height="360" fill="url(#wallStripe)"/>
+    <rect x="850" y="0" width="35" height="365" fill="url(#wallStripe)"/>
+    <rect x="940" y="0" width="35" height="368" fill="url(#wallStripe)"/>
   </g>
 
-  <!-- CORNER PILLAR / ROOM BORDER -->
-  <line x1="500" y1="0" x2="500" y2="380" stroke="#C5A487" stroke-width="5"/>
+  <!-- Crown Molding Trim (Top Ceiling Border) -->
+  <rect x="0" y="0" width="980" height="14" fill="#EAD9C6" stroke="#D3BD9F" stroke-width="1.5"/>
+
+  <!-- ARCHED WINDOW 1 (Left Room: X: 110 - 270) -->
+  <g id="window-left" filter="url(#softShadow)">
+    <path d="M 110,195 L 110,105 A 80,80 0 0,1 270,105 L 270,195 Z" fill="#785338" stroke="#5C3B24" stroke-width="5"/>
+    <path d="M 120,190 L 120,108 A 70,70 0 0,1 260,108 L 260,190 Z" fill="url(#windowSky)"/>
+    <!-- Window Countryside Landscape -->
+    <circle cx="160" cy="195" r="50" fill="#97DC8D" opacity="0.85"/>
+    <circle cx="225" cy="205" r="58" fill="#7BC872" opacity="0.9"/>
+    <circle cx="145" cy="130" r="16" fill="#FFF3A8" opacity="0.6"/>
+    <!-- Window Crossbars -->
+    <line x1="190" y1="40" x2="190" y2="190" stroke="#5C3B24" stroke-width="4.5"/>
+    <line x1="120" y1="128" x2="260" y2="128" stroke="#5C3B24" stroke-width="3.5"/>
+    <!-- Sunny Reflection Angle -->
+    <path d="M 130,55 L 175,55 L 145,145 L 125,145 Z" fill="#FFFFFF" opacity="0.32"/>
+    <!-- Window Sill & Flower Pot -->
+    <rect x="100" y="195" width="180" height="15" rx="5" fill="#9C7352" stroke="#5C3B24" stroke-width="3"/>
+    <rect x="120" y="185" width="30" height="10" rx="3" fill="#FFE5A3"/>
+    <!-- Cute Strawberry Flower Pot -->
+    <path d="M 215,193 L 218,178 L 232,178 L 235,193 Z" fill="#FF8DA1" stroke="#5C3B24" stroke-width="2"/>
+    <circle cx="225" cy="173" r="7" fill="#FF5E7E"/>
+    <circle cx="220" cy="174" r="5" fill="#FFAEC4"/>
+    <circle cx="230" cy="174" r="5" fill="#FFAEC4"/>
+    <circle cx="225" cy="173" r="3" fill="#FFF275"/>
+  </g>
+
+  <!-- WALL ART FRAME (Center-Left: X: 340 - 450) -->
+  <g id="wall-art" filter="url(#softShadow)">
+    <rect x="340" y="70" width="105" height="125" rx="7" fill="#FFF5E5" stroke="#936B4A" stroke-width="5"/>
+    <rect x="352" y="82" width="81" height="101" fill="#FFE8EE" rx="3"/>
+    <!-- Artwork: Cute Studying Cat & Star -->
+    <ellipse cx="392" cy="142" rx="28" ry="22" fill="#F8CBA6"/>
+    <!-- Cat Ears -->
+    <polygon points="370,122 380,102 388,124" fill="#E89F67" stroke="#7A4E2A" stroke-width="2"/>
+    <polygon points="414,122 404,102 396,124" fill="#E89F67" stroke="#7A4E2A" stroke-width="2"/>
+    <polygon points="374,120 380,108 385,121" fill="#FFB5C5"/>
+    <polygon points="410,120 404,108 399,121" fill="#FFB5C5"/>
+    <!-- Eyes and Cheeks -->
+    <circle cx="383" cy="138" r="3.5" fill="#5C3B24"/>
+    <circle cx="401" cy="138" r="3.5" fill="#5C3B24"/>
+    <ellipse cx="377" cy="144" rx="4.5" ry="3" fill="#FF8DA1"/>
+    <ellipse cx="407" cy="144" rx="4.5" ry="3" fill="#FF8DA1"/>
+    <path d="M 388,142 Q 392,146 396,142" stroke="#5C3B24" stroke-width="2" fill="none"/>
+    <!-- Little Graduation Cap or Star -->
+    <polygon points="392,92 395,100 403,100 397,105 399,113 392,108 385,113 387,105 381,100 389,100" fill="#FFD166"/>
+    <!-- Frame Wire -->
+    <line x1="392.5" y1="70" x2="392.5" y2="52" stroke="#B08560" stroke-width="2"/>
+    <circle cx="392.5" cy="52" r="3.5" fill="#936B4A"/>
+  </g>
+
+  <!-- WALL BOOKSHELF (Center: X: 495 - 645) -->
+  <g id="wall-shelf" filter="url(#softShadow)">
+    <rect x="495" y="100" width="150" height="12" rx="4" fill="#A47953" stroke="#68472B" stroke-width="2.5"/>
+    <!-- Brackets -->
+    <polygon points="520,112 520,135 528,112" fill="#7A4E2A"/>
+    <polygon points="620,112 620,135 628,112" fill="#7A4E2A"/>
+    <!-- Books on Shelf -->
+    <rect x="510" y="58" width="16" height="42" fill="#FF708F" rx="2" stroke="#5C3B24" stroke-width="1.5"/>
+    <rect x="528" y="52" width="18" height="48" fill="#4D96FF" rx="2" stroke="#5C3B24" stroke-width="1.5"/>
+    <rect x="548" y="55" width="14" height="45" fill="#FFD166" rx="2" stroke="#5C3B24" stroke-width="1.5"/>
+    <rect x="564" y="62" width="15" height="38" fill="#6BCB77" rx="2" stroke="#5C3B24" stroke-width="1.5"/>
+    <!-- Small Plant on Shelf -->
+    <path d="M 600,99 L 603,84 L 619,84 L 622,99 Z" fill="#F4A261" stroke="#5C3B24" stroke-width="1.8"/>
+    <circle cx="611" cy="78" r="8" fill="#88D480"/>
+    <circle cx="607" cy="75" r="6" fill="#A2E59A"/>
+    <circle cx="615" cy="74" r="6" fill="#6BCB77"/>
+  </g>
+
+  <!-- ARCHED WINDOW 2 (Right Room / Sun Nook: X: 690 - 850) -->
+  <g id="window-right" filter="url(#softShadow)">
+    <path d="M 690,195 L 690,105 A 80,80 0 0,1 850,105 L 850,195 Z" fill="#785338" stroke="#5C3B24" stroke-width="5"/>
+    <path d="M 700,190 L 700,108 A 70,70 0 0,1 840,108 L 840,190 Z" fill="url(#windowSky)"/>
+    <!-- Garden view through window -->
+    <circle cx="740" cy="195" r="50" fill="#97DC8D" opacity="0.85"/>
+    <circle cx="805" cy="205" r="58" fill="#7BC872" opacity="0.9"/>
+    <!-- Sunbeams -->
+    <line x1="770" y1="40" x2="770" y2="190" stroke="#5C3B24" stroke-width="4.5"/>
+    <line x1="700" y1="128" x2="840" y2="128" stroke="#5C3B24" stroke-width="3.5"/>
+    <!-- Sheer Lace Curtain (Pastel Pink) -->
+    <path d="M 700,108 Q 720,150 710,190 L 700,190 Z" fill="#FFE5EC" opacity="0.7"/>
+    <path d="M 840,108 Q 820,150 830,190 L 840,190 Z" fill="#FFE5EC" opacity="0.7"/>
+    <!-- Window Sill -->
+    <rect x="680" y="195" width="180" height="15" rx="5" fill="#9C7352" stroke="#5C3B24" stroke-width="3"/>
+  </g>
+
+  <!-- Fairy Lights Draped along Indoor Wall -->
+  <path d="M 20,40 Q 180,80 340,45 Q 500,85 680,45 Q 830,85 970,45" fill="none" stroke="#7A5230" stroke-width="1.8" stroke-dasharray="2 3"/>
+  <g fill="#FFE66D" stroke="#E59866" stroke-width="1.2">
+    <circle cx="70" cy="52" r="5.5"/>
+    <circle cx="150" cy="67" r="5.5"/>
+    <circle cx="230" cy="65" r="5.5"/>
+    <circle cx="300" cy="52" r="5.5"/>
+    <circle cx="390" cy="62" r="5.5"/>
+    <circle cx="470" cy="72" r="5.5"/>
+    <circle cx="560" cy="70" r="5.5"/>
+    <circle cx="640" cy="55" r="5.5"/>
+    <circle cx="730" cy="64" r="5.5"/>
+    <circle cx="810" cy="72" r="5.5"/>
+    <circle cx="900" cy="62" r="5.5"/>
+  </g>
+
+  <!-- Baseboard Trim between indoor wall & floor -->
+  <path d="M 0,320 L 980,370 L 980,385 L 0,335 Z" fill="#C5A484" stroke="#875E3B" stroke-width="1.5"/>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       SECTION 3: INDOOR WOODEN PARQUET FLOOR (X: 0 to 980, Y: 335 to 700)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <g id="indoor-floor">
+    <path d="M 0,335 L 980,385 L 980,700 L 0,700 Z" fill="url(#floorWood)"/>
+    <path d="M 0,335 L 980,385 L 980,700 L 0,700 Z" fill="url(#woodPlanks)"/>
+
+    <!-- Large Cozy Pink Scalloped Area Rug (Centered in Living Room) -->
+    <g id="cozy-rug" filter="url(#softShadow)">
+      <ellipse cx="460" cy="530" rx="270" ry="120" fill="#FFDFE9" stroke="#F4A2BA" stroke-width="5" transform="rotate(-6, 460, 530)"/>
+      <ellipse cx="460" cy="530" rx="245" ry="105" fill="#FFEBF2" transform="rotate(-6, 460, 530)"/>
+      <!-- Scalloped Lace Stitching Border -->
+      <ellipse cx="460" cy="530" rx="255" ry="112" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="10,8" transform="rotate(-6, 460, 530)"/>
+      <!-- Gentle Polka Dots on Rug -->
+      <g fill="#FFAEC4" opacity="0.35">
+        <circle cx="340" cy="510" r="10"/>
+        <circle cx="420" cy="480" r="12"/>
+        <circle cx="500" cy="490" r="11"/>
+        <circle cx="580" cy="520" r="10"/>
+        <circle cx="380" cy="560" r="12"/>
+        <circle cx="470" cy="565" r="14"/>
+        <circle cx="550" cy="560" r="11"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       SECTION 4: TRANSITION PATIO & GLASS SLIDING DOORS (X: 950 to 1100)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <g id="patio-transition">
+    <!-- Big Patio Arch Doorway Frame -->
+    <path d="M 940,380 L 940,30 A 100,100 0 0,1 1060,30 L 1060,380 Z" fill="none" stroke="#7A5230" stroke-width="14" stroke-linecap="round"/>
+    <path d="M 940,380 L 940,30 A 100,100 0 0,1 1060,30 L 1060,380 Z" fill="none" stroke="url(#woodTrim)" stroke-width="10" stroke-linecap="round"/>
+
+    <!-- Glass Pane with Reflections -->
+    <path d="M 950,55 L 1050,55 L 1050,380 L 950,380 Z" fill="#D7EFFE" opacity="0.35"/>
+    <line x1="970" y1="80" x2="955" y2="350" stroke="#FFFFFF" stroke-width="5" opacity="0.5"/>
+    <line x1="1020" y1="100" x2="1005" y2="370" stroke="#FFFFFF" stroke-width="4" opacity="0.4"/>
+
+    <!-- Stone Threshold Steps Leading Down to Garden -->
+    <path d="M 960,375 L 1080,375 L 1090,415 L 970,415 Z" fill="#D8E2E5" stroke="#9BB2B8" stroke-width="2.5"/>
+    <path d="M 970,415 L 1090,415 L 1105,455 L 985,455 Z" fill="#CBD7DA" stroke="#9BB2B8" stroke-width="2.5"/>
+    <path d="M 985,455 L 1105,455 L 1120,490 L 1000,490 Z" fill="#BDCBCE" stroke="#8E9DA0" stroke-width="2.5"/>
+
+    <!-- Ivy / Vine Climbing up Patio Frame -->
+    <path d="M 935,350 Q 925,280 938,200 Q 930,120 942,60" fill="none" stroke="#4B7B3B" stroke-width="3"/>
+    <g fill="#76BA53">
+      <ellipse cx="930" cy="330" rx="8" ry="5" transform="rotate(-20, 930, 330)"/>
+      <ellipse cx="942" cy="290" rx="8" ry="5" transform="rotate(30, 942, 290)"/>
+      <ellipse cx="928" cy="240" rx="9" ry="6" transform="rotate(-35, 928, 240)"/>
+      <ellipse cx="945" cy="180" rx="8" ry="5" transform="rotate(25, 945, 180)"/>
+      <ellipse cx="932" cy="130" rx="8" ry="5" transform="rotate(-30, 932, 130)"/>
+      <ellipse cx="948" cy="80" rx="7" ry="5" transform="rotate(20, 948, 80)"/>
+    </g>
+    <!-- Little Pink Morning Glory Flowers on Vine -->
+    <circle cx="928" cy="328" r="4" fill="#FF708F"/>
+    <circle cx="946" cy="238" r="4.5" fill="#FFAEC4"/>
+    <circle cx="930" cy="128" r="4" fill="#FF708F"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       SECTION 5: OUTDOOR GARDEN LAWN & PATHWAY (RIGHT: X = 1000 to 2000)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <g id="outdoor-garden">
+    <!-- Expansive Lawn Surface -->
+    <path d="M 980,385 L 2000,320 L 2000,700 L 980,700 Z" fill="url(#gardenGrass)"/>
+
+    <!-- Stone Stepping Pebble Pathway through Garden -->
+    <g id="stepping-stone-trail" opacity="0.9">
+      <ellipse cx="1060" cy="510" rx="36" ry="18" fill="#E2EBE8" stroke="#9EB6BA" stroke-width="3"/>
+      <ellipse cx="1140" cy="540" rx="42" ry="20" fill="#D2DFDC" stroke="#9EB6BA" stroke-width="3"/>
+      <ellipse cx="1235" cy="565" rx="46" ry="22" fill="#E2EBE8" stroke="#9EB6BA" stroke-width="3"/>
+      <ellipse cx="1340" cy="580" rx="50" ry="24" fill="#D2DFDC" stroke="#9EB6BA" stroke-width="3"/>
+      <ellipse cx="1455" cy="575" rx="48" ry="23" fill="#E2EBE8" stroke="#9EB6BA" stroke-width="3"/>
+      <ellipse cx="1570" cy="550" rx="44" ry="21" fill="#D2DFDC" stroke="#9EB6BA" stroke-width="3"/>
+      <ellipse cx="1680" cy="525" rx="42" ry="20" fill="#E2EBE8" stroke="#9EB6BA" stroke-width="3"/>
+      <ellipse cx="1785" cy="510" rx="38" ry="19" fill="#D2DFDC" stroke="#9EB6BA" stroke-width="3"/>
+      <ellipse cx="1880" cy="525" rx="40" ry="20" fill="#E2EBE8" stroke="#9EB6BA" stroke-width="3"/>
+    </g>
+
+    <!-- White Picket Fence along Garden Perimeter -->
+    <g id="white-picket-fence">
+      <!-- Horizontal Rails -->
+      <line x1="1020" y1="380" x2="1980" y2="340" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+      <line x1="1020" y1="380" x2="1980" y2="340" stroke="#846549" stroke-width="1.8" stroke-dasharray="2 12"/>
+      <line x1="1020" y1="410" x2="1980" y2="370" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+
+      <!-- Vertical Fence Pickets -->
+      <!-- Iterated pickets spaced across garden border -->
+      <g fill="#FFFFFF" stroke="#846549" stroke-width="2">
+        <path d="M 1030,425 L 1030,360 L 1037,348 L 1044,360 L 1044,425 Z"/>
+        <path d="M 1080,422 L 1080,358 L 1087,346 L 1094,358 L 1094,422 Z"/>
+        <path d="M 1130,420 L 1130,355 L 1137,343 L 1144,355 L 1144,420 Z"/>
+        <path d="M 1180,418 L 1180,353 L 1187,341 L 1194,353 L 1194,418 Z"/>
+        <path d="M 1230,415 L 1230,350 L 1237,338 L 1244,350 L 1244,415 Z"/>
+        <path d="M 1280,412 L 1280,348 L 1287,336 L 1294,348 L 1294,412 Z"/>
+        <path d="M 1330,410 L 1330,345 L 1337,333 L 1344,345 L 1344,410 Z"/>
+        <path d="M 1380,408 L 1380,343 L 1387,331 L 1394,343 L 1394,408 Z"/>
+        <path d="M 1430,405 L 1430,340 L 1437,328 L 1444,340 L 1444,405 Z"/>
+        <path d="M 1480,402 L 1480,338 L 1487,326 L 1494,338 L 1494,402 Z"/>
+        <path d="M 1530,400 L 1530,335 L 1537,323 L 1544,335 L 1544,400 Z"/>
+        <path d="M 1580,398 L 1580,333 L 1587,321 L 1594,333 L 1594,398 Z"/>
+        <path d="M 1630,395 L 1630,330 L 1637,318 L 1644,330 L 1644,395 Z"/>
+        <path d="M 1680,392 L 1680,328 L 1687,316 L 1694,328 L 1694,392 Z"/>
+        <path d="M 1730,390 L 1730,325 L 1737,313 L 1744,325 L 1744,390 Z"/>
+        <path d="M 1780,388 L 1780,323 L 1787,311 L 1794,323 L 1794,388 Z"/>
+        <path d="M 1830,385 L 1830,320 L 1837,308 L 1844,320 L 1844,385 Z"/>
+        <path d="M 1880,382 L 1880,318 L 1887,306 L 1894,318 L 1894,382 Z"/>
+        <path d="M 1930,380 L 1930,315 L 1937,303 L 1944,315 L 1944,380 Z"/>
+      </g>
+    </g>
+
+    <!-- GRAND ROSE TRELLIS ARBOR / ARCH (X: 1720 - 1880) -->
+    <g id="rose-trellis" filter="url(#softShadow)">
+      <!-- Outer Wooden Arch -->
+      <path d="M 1730,370 L 1730,190 A 80,80 0 0,1 1890,190 L 1890,370" fill="none" stroke="#6E4426" stroke-width="12" stroke-linecap="round"/>
+      <path d="M 1730,370 L 1730,190 A 80,80 0 0,1 1890,190 L 1890,370" fill="none" stroke="url(#roseTrellis)" stroke-width="8" stroke-linecap="round"/>
+      <!-- Trellis Lattice Grid -->
+      <line x1="1745" y1="180" x2="1875" y2="280" stroke="#8E5E3B" stroke-width="3" opacity="0.75"/>
+      <line x1="1745" y1="230" x2="1875" y2="330" stroke="#8E5E3B" stroke-width="3" opacity="0.75"/>
+      <line x1="1875" y1="180" x2="1745" y2="280" stroke="#8E5E3B" stroke-width="3" opacity="0.75"/>
+      <line x1="1875" y1="230" x2="1745" y2="330" stroke="#8E5E3B" stroke-width="3" opacity="0.75"/>
+      
+      <!-- Lush Pink & Coral Rose Bushes climbing the Trellis -->
+      <g fill="#528F3D">
+        <circle cx="1730" cy="200" r="14"/>
+        <circle cx="1740" cy="170" r="16"/>
+        <circle cx="1770" cy="140" r="18"/>
+        <circle cx="1810" cy="120" r="20"/>
+        <circle cx="1850" cy="140" r="18"/>
+        <circle cx="1880" cy="170" r="16"/>
+        <circle cx="1890" cy="200" r="14"/>
+      </g>
+      <!-- Rose Blossoms -->
+      <circle cx="1735" cy="195" r="8" fill="#FF5E7E"/>
+      <circle cx="1745" cy="165" r="9" fill="#FF7A95"/>
+      <circle cx="1775" cy="135" r="11" fill="#FFA5B8"/>
+      <circle cx="1775" cy="135" r="6" fill="#FF5E7E"/>
+      <circle cx="1810" cy="115" r="12" fill="#FF5E7E"/>
+      <circle cx="1810" cy="115" r="7" fill="#FFA5B8"/>
+      <circle cx="1845" cy="135" r="10" fill="#FF7A95"/>
+      <circle cx="1875" cy="165" r="9" fill="#FFA5B8"/>
+      <circle cx="1885" cy="195" r="8" fill="#FF5E7E"/>
+    </g>
+
+    <!-- Flower Tufts & Daisies dotted on the Green Lawn -->
+    <g id="lawn-flowers">
+      <!-- Cluster 1 (Left Garden) -->
+      <circle cx="1060" cy="460" r="6" fill="#FFFFFF"/><circle cx="1060" cy="460" r="3" fill="#FFD166"/>
+      <circle cx="1075" cy="475" r="7" fill="#FF9AA2"/><circle cx="1075" cy="475" r="3.5" fill="#FFFFFF"/>
+      <circle cx="1050" cy="485" r="6" fill="#B5EAD7"/><circle cx="1050" cy="485" r="3" fill="#FFFFFF"/>
+
+      <!-- Cluster 2 (Center Lawn) -->
+      <circle cx="1320" cy="490" r="7" fill="#FFFFFF"/><circle cx="1320" cy="490" r="3.5" fill="#FFD166"/>
+      <circle cx="1340" cy="505" r="8" fill="#FFB7B2"/><circle cx="1340" cy="505" r="4" fill="#FFFFFF"/>
+      <circle cx="1310" cy="520" r="7" fill="#E2F0CB"/><circle cx="1310" cy="520" r="3.5" fill="#5E432E"/>
+      <circle cx="1355" cy="480" r="6" fill="#FFDAC1"/><circle cx="1355" cy="480" r="3" fill="#E27D60"/>
+
+      <!-- Cluster 3 (Near Trellis) -->
+      <circle cx="1660" cy="620" r="8" fill="#FFFFFF"/><circle cx="1660" cy="620" r="4" fill="#FFD166"/>
+      <circle cx="1685" cy="635" r="9" fill="#FF85A1"/><circle cx="1685" cy="635" r="4.5" fill="#FFFFFF"/>
+      <circle cx="1640" cy="645" r="7" fill="#C7CEEA"/><circle cx="1640" cy="645" r="3.5" fill="#FFFFFF"/>
+
+      <!-- Cluster 4 (Far Right Lawn) -->
+      <circle cx="1920" cy="580" r="8" fill="#FF9AA2"/><circle cx="1920" cy="580" r="4" fill="#FFFFFF"/>
+      <circle cx="1945" cy="600" r="7" fill="#FFFFFF"/><circle cx="1945" cy="600" r="3.5" fill="#FFD166"/>
+      <circle cx="1905" cy="610" r="8" fill="#B5EAD7"/><circle cx="1905" cy="610" r="4" fill="#FFFFFF"/>
+    </g>
+
+    <!-- Whimsical Fluttering Butterflies -->
+    <g id="butterflies">
+      <!-- Butterfly 1 (Yellow) -->
+      <g transform="translate(1220, 360) rotate(-15)">
+        <ellipse cx="-6" cy="-4" rx="7" ry="5" fill="#FFE066" transform="rotate(-30)"/>
+        <ellipse cx="6" cy="-4" rx="7" ry="5" fill="#FFE066" transform="rotate(30)"/>
+        <ellipse cx="-4" cy="4" rx="5" ry="3.5" fill="#FFD166" transform="rotate(-20)"/>
+        <ellipse cx="4" cy="4" rx="5" ry="3.5" fill="#FFD166" transform="rotate(20)"/>
+        <line x1="0" y1="-8" x2="0" y2="7" stroke="#684D35" stroke-width="1.8"/>
+      </g>
+      <!-- Butterfly 2 (Pastel Blue) -->
+      <g transform="translate(1620, 290) rotate(20)">
+        <ellipse cx="-6" cy="-4" rx="7" ry="5" fill="#A0C4FF" transform="rotate(-30)"/>
+        <ellipse cx="6" cy="-4" rx="7" ry="5" fill="#A0C4FF" transform="rotate(30)"/>
+        <ellipse cx="-4" cy="4" rx="5" ry="3.5" fill="#BDB2FF" transform="rotate(-20)"/>
+        <ellipse cx="4" cy="4" rx="5" ry="3.5" fill="#BDB2FF" transform="rotate(20)"/>
+        <line x1="0" y1="-8" x2="0" y2="7" stroke="#5E432E" stroke-width="1.8"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       SECTION 6: CENTRAL DIVIDING PILLAR (Seamless Aesthetic Seam)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <line x1="980" y1="0" x2="980" y2="370" stroke="#C5A484" stroke-width="6" opacity="0.6"/>
 </svg>

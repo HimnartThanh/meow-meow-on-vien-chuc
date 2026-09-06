@@ -102,4 +102,59 @@ describe('Tier 1: Feature 25 — Isometric 2.5D & Multi-Floor Upgrades', () => {
     env.engine.setPetPose('dancing_crazy');
     assert.strictEqual(env.engine.getPetPose(), 'idle');
   });
+
+  it('25.5: Panoramic 2000px Room SVG backgrounds have valid width, height and viewBox', () => {
+    const floor1Path = path.resolve(ROOT_DIR, 'assets/isometric/rooms/room_floor_1.svg');
+    const floor2Path = path.resolve(ROOT_DIR, 'assets/isometric/rooms/room_floor_2.svg');
+
+    assert.ok(fs.existsSync(floor1Path), 'room_floor_1.svg must exist');
+    assert.ok(fs.existsSync(floor2Path), 'room_floor_2.svg must exist');
+
+    const floor1Content = fs.readFileSync(floor1Path, 'utf8');
+    const floor2Content = fs.readFileSync(floor2Path, 'utf8');
+
+    assert.ok(floor1Content.includes('viewBox="0 0 2000 700"'), 'floor 1 SVG viewBox must be 0 0 2000 700');
+    assert.ok(floor1Content.includes('width="2000"'), 'floor 1 SVG width must be 2000');
+    assert.ok(floor1Content.includes('height="700"'), 'floor 1 SVG height must be 700');
+
+    assert.ok(floor2Content.includes('viewBox="0 0 2000 700"'), 'floor 2 SVG viewBox must be 0 0 2000 700');
+    assert.ok(floor2Content.includes('width="2000"'), 'floor 2 SVG width must be 2000');
+    assert.ok(floor2Content.includes('height="700"'), 'floor 2 SVG height must be 700');
+  });
+
+  it('25.6: room.html contains Panoramic Camera controls (pills, minimap, viewport wrapper)', () => {
+    const roomHtmlPath = path.resolve(ROOT_DIR, 'room.html');
+    assert.ok(fs.existsSync(roomHtmlPath), 'room.html must exist');
+    const html = fs.readFileSync(roomHtmlPath, 'utf8');
+
+    assert.ok(html.includes('id="camera-quick-nav"'), 'Must contain camera-quick-nav');
+    assert.ok(html.includes('id="btn-cam-indoor"'), 'Must contain btn-cam-indoor');
+    assert.ok(html.includes('id="btn-cam-outdoor"'), 'Must contain btn-cam-outdoor');
+    assert.ok(html.includes('id="camera-minimap"'), 'Must contain camera-minimap');
+    assert.ok(html.includes('id="cam-minimap-thumb"'), 'Must contain cam-minimap-thumb');
+  });
+
+  it('25.7: css/room-iso.css contains 2000px canvas stage and viewport styles', () => {
+    const cssPath = path.resolve(ROOT_DIR, 'css/room-iso.css');
+    assert.ok(fs.existsSync(cssPath), 'room-iso.css must exist');
+    const css = fs.readFileSync(cssPath, 'utf8');
+
+    assert.ok(css.includes('width: 2000px;'), 'Must style stage with 2000px width');
+    assert.ok(css.includes('.camera-quick-nav'), 'Must style camera-quick-nav');
+    assert.ok(css.includes('.camera-minimap'), 'Must style camera-minimap');
+    assert.ok(css.includes('will-change: transform;'), 'Must hardware-accelerate camera pan');
+  });
+
+  it('25.8: js/room.js implements CameraController (panCameraTo, setCameraX, getCameraX, getMaxScrollX)', () => {
+    const jsPath = path.resolve(ROOT_DIR, 'js/room.js');
+    assert.ok(fs.existsSync(jsPath), 'room.js must exist');
+    const js = fs.readFileSync(jsPath, 'utf8');
+
+    assert.ok(js.includes('panCameraTo'), 'Must implement panCameraTo');
+    assert.ok(js.includes('setCameraX'), 'Must implement setCameraX');
+    assert.ok(js.includes('setupCameraController'), 'Must implement setupCameraController');
+    assert.ok(js.includes('edgePanTick'), 'Must implement edgePanTick for dragging across rooms');
+    assert.ok(js.includes('window.CameraController'), 'Must expose window.CameraController');
+  });
 });
+

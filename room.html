@@ -40,15 +40,39 @@
 
     <!-- Main Content -->
     <main class="page-content">
-      <!-- Room Canvas Area (Isometric 2.5D) -->
+      <!-- Room Canvas Area (Isometric 2.5D with Panoramic Pan) -->
       <section class="room-canvas-wrapper" id="room-wrapper">
-        <div class="room-stage iso-stage" id="room-stage">
+        <!-- Pinned Viewport HUD Controls (Fixed over Viewport) -->
+        <div class="room-viewport-hud">
           <!-- Floor Switcher Bar -->
           <div class="floor-switcher-bar" id="floor-switcher-bar">
             <button type="button" class="floor-btn active" data-floor="floor_1">🏡 Tầng 1: Khách &amp; Vườn</button>
-            <button type="button" class="floor-btn" data-floor="floor_2">📚 Tầng 2: Phòng Ngủ &amp; Học</button>
+            <button type="button" class="floor-btn" data-floor="floor_2">📚 Tầng 2: Ngủ &amp; Ban Công</button>
           </div>
 
+          <!-- Camera Quick Navigation Pills -->
+          <div class="camera-quick-nav" id="camera-quick-nav">
+            <button type="button" class="cam-nav-btn active" id="btn-cam-indoor" title="Góc nhìn: Trong Nhà">
+              <span>🛋️</span>
+              <span class="cam-nav-text">Trong Nhà</span>
+            </button>
+            <button type="button" class="cam-nav-btn" id="btn-cam-outdoor" title="Góc nhìn: Sân Vườn">
+              <span>🌿</span>
+              <span class="cam-nav-text">Sân Vườn</span>
+            </button>
+          </div>
+
+          <!-- Mini-map Camera Position Indicator -->
+          <div class="camera-minimap" id="camera-minimap" title="Chạm hoặc kéo để chuyển góc nhìn">
+            <span class="minimap-zone-tag">🛋️ Trong Nhà</span>
+            <div class="camera-minimap-track" id="camera-minimap-track">
+              <div class="camera-minimap-thumb" id="cam-minimap-thumb"></div>
+            </div>
+            <span class="minimap-zone-tag">🌿 Sân Vườn</span>
+          </div>
+        </div>
+
+        <div class="room-stage iso-stage" id="room-stage">
           <!-- Wallpaper Area (Optional fallback) -->
           <div class="room-wall wp-pink" id="room-wall" style="display: none;"></div>
           <!-- Divider -->
@@ -60,7 +84,7 @@
           <div class="room-items-layer" id="room-items-layer"></div>
 
           <!-- Pet Interactive Character -->
-          <div class="room-pet-anchor iso-pet-container" id="room-pet-anchor" style="left: 45%; top: 72%;">
+          <div class="room-pet-anchor iso-pet-container" id="room-pet-anchor" style="left: 24%; top: 72%;">
             <div class="room-pet-bubble iso-speech-bubble" id="room-pet-bubble" style="display: none;">
               <span id="pet-bubble-text">Meow! Chúc bạn ôn thi tốt nhé! 💕</span>
             </div>
@@ -122,12 +146,13 @@
       <div class="card" style="padding: 1rem 1.25rem;">
         <h4 style="color: var(--pink-deep); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.4rem;">
           <span>💡</span>
-          <span>Mẹo Trang Trí Phòng:</span>
+          <span>Mẹo Khám Phá &amp; Trang Trí Phòng Toàn Cảnh:</span>
         </h4>
-        <p style="font-size: 0.9rem; line-height: 1.4;">
-          • <strong>Kéo &amp; Thả</strong> đồ tự do trên màn hình (hỗ trợ cả chuột và cảm ứng trên điện thoại).<br>
-          • Nhấn nút <strong>✖ đỏ</strong> trên mỗi món đồ để cất lại vào kho.<br>
-          • Chạm vào <strong>bé Pet</strong> để trò chuyện và nhận lời chúc học tập mỗi ngày!
+        <p style="font-size: 0.9rem; line-height: 1.45;">
+          • <strong>Kéo lướt toàn cảnh:</strong> Nhấn giữ chuột hoặc vuốt ngón tay trên nền trống để lướt mượt mà giữa Trong Nhà và Sân Vườn rộng thênh thang.<br>
+          • <strong>Nút góc nhìn nhanh:</strong> Chạm <code>[🛋️ Trong Nhà]</code> hoặc <code>[🌿 Sân Vườn]</code> để di chuyển camera tức thì.<br>
+          • <strong>Kéo đồ xuyên phòng:</strong> Kéo đồ vật sát mép màn hình, camera sẽ tự động cuộn theo để bạn mang đồ ra sân vườn!<br>
+          • Chạm vào <strong>bé Pet</strong> để trò chuyện, bấm vào đồ đạc để xoay hoặc mời bé đến ngồi/ngủ cùng nhé!
         </p>
       </div>
     </main>

@@ -10,6 +10,7 @@
   // ─────────────────────────────────────────────────────────────────────────
   // 1. STATE & REFERENCES
   // ─────────────────────────────────────────────────────────────────────────
+  let roomWrapperEl = null;
   let roomStageEl = null;
   let itemsLayerEl = null;
   let roomWallEl = null;
@@ -21,6 +22,12 @@
   let inventoryDrawerEl = null;
   let inventoryGridEl = null;
   let toastContainerEl = null;
+
+  let btnCamIndoor = null;
+  let btnCamOutdoor = null;
+  let minimapTrackEl = null;
+  let minimapThumbEl = null;
+  let minimapEl = null;
 
   // Encouraging Civil Servant Study Quotes for Pet
   const PET_QUOTES = [
@@ -46,6 +53,7 @@
     }
 
     // Cache DOM Elements
+    roomWrapperEl = document.getElementById('room-wrapper');
     roomStageEl = document.getElementById('room-stage');
     itemsLayerEl = document.getElementById('room-items-layer');
     roomWallEl = document.getElementById('room-wall');
@@ -58,9 +66,16 @@
     inventoryGridEl = document.getElementById('inventory-grid');
     toastContainerEl = document.getElementById('toast-container');
 
+    btnCamIndoor = document.getElementById('btn-cam-indoor');
+    btnCamOutdoor = document.getElementById('btn-cam-outdoor');
+    minimapTrackEl = document.getElementById('camera-minimap-track');
+    minimapThumbEl = document.getElementById('cam-minimap-thumb');
+    minimapEl = document.getElementById('camera-minimap');
+
     // Setup Event Listeners
     setupHUD();
     setupFloorSwitcher();
+    setupCameraController();
     setupRoomDrag();
     setupPetInteraction();
     setupInventoryDrawer();
@@ -313,6 +328,13 @@
     petAnchorEl.style.left = `${placed.x}%`;
     petAnchorEl.style.top = `${Math.max(15, placed.y - 4)}%`;
 
+    // Smoothly pan camera to center the item and pet
+    if (roomWrapperEl) {
+      const itemPx = (placed.x / 100) * STAGE_WIDTH;
+      const targetCamX = itemPx - (roomWrapperEl.clientWidth / 2);
+      panCameraTo(targetCamX, 450);
+    }
+
     if (itemData.anchor === 'bed') {
       window.GameEngine.setPetPose('sleep');
       showToast('Bé cưng đã cuộn tròn ngủ say trên giường rồi! 💤');
@@ -342,52 +364,332 @@
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // 5. FREE DRAG & DROP SYSTEM (POINTER EVENTS FOR MOUSE & TOUCH)
+  // 4B. CAMERA CONTROLLER (PANORAMIC CAMERA PAN 2000px)
+  // ─────────────────────────────────────────────────────────────────────────
+  const STAGE_WIDTH = 2000;
+  let cameraX = 0;
+  let maxScrollX = 0;
+  let isPanningCamera = false;
+  let panStartX = 0;
+  let panStartCameraX = 0;
+  let lastPointerX = 0;
+  let lastPointerTime = 0;
+  let velocityX = 0;
+  let momentumAnimId = null;
+
+  function updateMaxScroll() {
+    if (!roomWrapperEl) return;
+    const viewWidth = roomWrapperEl.clientWidth || 960;
+    maxScrollX = Math.max(0, STAGE_WIDTH - viewWidth);
+    updateMinimapThumbWidth(viewWidth);
+  }
+
+  function updateMinimapThumbWidth(viewWidth) {
+    if (!minimapThumbEl) return;
+    const widthPct = Math.max(22, Math.min(60, (viewWidth / STAGE_WIDTH) * 100));
+    minimapThumbEl.style.width = `${widthPct}%`;
+  }
+
+  function setCameraX(targetX, updateButtons = true) {
+    updateMaxScroll();
+    cameraX = Math.max(0, Math.min(maxScrollX, targetX));
+    if (roomStageEl) {
+      roomStageEl.style.transform = `translate3d(-${cameraX}px, 0, 0)`;
+    }
+    updateMinimap();
+    if (updateButtons) {
+      updateNavButtons();
+    }
+  }
+
+  function updateMinimap() {
+    if (!minimapThumbEl || !minimapTrackEl) return;
+    const trackWidth = minimapTrackEl.clientWidth;
+    const thumbWidth = minimapThumbEl.clientWidth;
+    const maxTranslate = Math.max(0, trackWidth - thumbWidth);
+    const ratio = maxScrollX > 0 ? (cameraX / maxScrollX) : 0;
+    minimapThumbEl.style.transform = `translate3d(${ratio * maxTranslate}px, 0, 0)`;
+  }
+
+  function updateNavButtons() {
+    if (!btnCamIndoor || !btnCamOutdoor) return;
+    if (maxScrollX <= 0) {
+      btnCamIndoor.classList.add('active');
+      btnCamOutdoor.classList.remove('active');
+      return;
+    }
+    const ratio = cameraX / maxScrollX;
+    if (ratio < 0.45) {
+      btnCamIndoor.classList.add('active');
+      btnCamOutdoor.classList.remove('active');
+    } else if (ratio > 0.55) {
+      btnCamOutdoor.classList.add('active');
+      btnCamIndoor.classList.remove('active');
+    }
+  }
+
+  function stopMomentum() {
+    if (momentumAnimId) {
+      cancelAnimationFrame(momentumAnimId);
+      momentumAnimId = null;
+    }
+  }
+
+  function panCameraTo(targetX, duration = 350) {
+    stopMomentum();
+    updateMaxScroll();
+    const clampedTarget = Math.max(0, Math.min(maxScrollX, targetX));
+    if (duration <= 0 || Math.abs(clampedTarget - cameraX) < 1) {
+      setCameraX(clampedTarget, true);
+      return;
+    }
+
+    const startX = cameraX;
+    const deltaX = clampedTarget - startX;
+    const startTime = performance.now();
+
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      const eased = easeOutCubic(progress);
+      setCameraX(startX + deltaX * eased, false);
+
+      if (progress < 1) {
+        momentumAnimId = requestAnimationFrame(step);
+      } else {
+        setCameraX(clampedTarget, true);
+        momentumAnimId = null;
+      }
+    }
+
+    momentumAnimId = requestAnimationFrame(step);
+  }
+
+  function isInteractiveElement(target) {
+    if (!target) return false;
+    return !!target.closest(
+      '.room-item, .iso-placed-item, .item-control-bubble, .item-stow-btn, ' +
+      '.floor-switcher-bar, .camera-quick-nav, .camera-minimap, ' +
+      '.room-pet-anchor, button, a, input'
+    );
+  }
+
+  function onCameraPointerDown(e) {
+    if (isInteractiveElement(e.target)) return;
+
+    stopMomentum();
+    isPanningCamera = true;
+    panStartX = e.clientX;
+    panStartCameraX = cameraX;
+    lastPointerX = e.clientX;
+    lastPointerTime = performance.now();
+    velocityX = 0;
+
+    if (roomStageEl) {
+      roomStageEl.classList.add('is-panning');
+    }
+  }
+
+  function onCameraPointerMove(e) {
+    if (!isPanningCamera) return;
+    const dx = e.clientX - panStartX;
+    setCameraX(panStartCameraX - dx, false);
+
+    const now = performance.now();
+    const dt = now - lastPointerTime;
+    if (dt > 10) {
+      velocityX = (lastPointerX - e.clientX) / dt;
+      lastPointerX = e.clientX;
+      lastPointerTime = now;
+    }
+  }
+
+  function onCameraPointerUp(e) {
+    if (!isPanningCamera) return;
+    isPanningCamera = false;
+
+    if (roomStageEl) {
+      roomStageEl.classList.remove('is-panning');
+    }
+    updateNavButtons();
+
+    // Inertia Glide if swiped with sufficient speed
+    if (Math.abs(velocityX) > 0.12) {
+      let currentVel = velocityX * 15;
+      function momentumGlide() {
+        currentVel *= 0.92;
+        if (Math.abs(currentVel) > 0.4) {
+          setCameraX(cameraX + currentVel, false);
+          if (cameraX <= 0 || cameraX >= maxScrollX) {
+            updateNavButtons();
+            momentumAnimId = null;
+            return;
+          }
+          momentumAnimId = requestAnimationFrame(momentumGlide);
+        } else {
+          updateNavButtons();
+          momentumAnimId = null;
+        }
+      }
+      momentumAnimId = requestAnimationFrame(momentumGlide);
+    }
+  }
+
+  function setupCameraController() {
+    updateMaxScroll();
+    setCameraX(0, true);
+
+    window.addEventListener('resize', () => {
+      updateMaxScroll();
+      setCameraX(cameraX, true);
+    });
+
+    if (btnCamIndoor) {
+      btnCamIndoor.addEventListener('click', (e) => {
+        e.stopPropagation();
+        panCameraTo(0, 400);
+        if (window.GameEngine && window.GameEngine.playSound) {
+          window.GameEngine.playSound('tap');
+        }
+      });
+    }
+
+    if (btnCamOutdoor) {
+      btnCamOutdoor.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateMaxScroll();
+        panCameraTo(maxScrollX, 400);
+        if (window.GameEngine && window.GameEngine.playSound) {
+          window.GameEngine.playSound('tap');
+        }
+      });
+    }
+
+    if (minimapEl) {
+      minimapEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!minimapTrackEl) return;
+        const rect = minimapTrackEl.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+        updateMaxScroll();
+        panCameraTo(ratio * maxScrollX, 300);
+      });
+    }
+
+    if (roomWrapperEl) {
+      roomWrapperEl.addEventListener('pointerdown', onCameraPointerDown);
+      window.addEventListener('pointermove', onCameraPointerMove);
+      window.addEventListener('pointerup', onCameraPointerUp);
+      window.addEventListener('pointercancel', onCameraPointerUp);
+    }
+
+    // Expose for testing and external access
+    window.CameraController = {
+      panCameraTo,
+      setCameraX,
+      getCameraX: () => cameraX,
+      getMaxScrollX: () => maxScrollX
+    };
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 5. FREE DRAG & DROP SYSTEM WITH EDGE-PANNING (MOUSE & TOUCH)
   // ─────────────────────────────────────────────────────────────────────────
   function setupRoomDrag() {
     if (!itemsLayerEl || !roomStageEl) return;
 
     let activeDragEl = null;
     let activePointerId = null;
+    let lastMoveEvent = null;
+    let edgePanRafId = null;
+
+    function updateItemPosition(e) {
+      if (!activeDragEl || !roomStageEl) return;
+      const rect = roomStageEl.getBoundingClientRect();
+      let xPct = ((e.clientX - rect.left) / rect.width) * 100;
+      let yPct = ((e.clientY - rect.top) / rect.height) * 100;
+
+      // Boundary Clamping [2%, 98%] for wide panoramic canvas
+      xPct = Math.max(2, Math.min(98, xPct));
+      yPct = Math.max(10, Math.min(95, yPct));
+
+      activeDragEl.style.left = `${xPct}%`;
+      activeDragEl.style.top = `${yPct}%`;
+      activeDragEl.style.zIndex = Math.floor(yPct * 10) + 10;
+    }
+
+    function edgePanTick() {
+      if (!activeDragEl || !lastMoveEvent || !roomWrapperEl) return;
+
+      const wrapRect = roomWrapperEl.getBoundingClientRect();
+      const clientX = lastMoveEvent.clientX;
+      const edgeThreshold = 75;
+      let panDelta = 0;
+
+      if (clientX < wrapRect.left + edgeThreshold) {
+        const intensity = (wrapRect.left + edgeThreshold - clientX) / edgeThreshold;
+        panDelta = -Math.min(18, Math.max(2, intensity * 18));
+      } else if (clientX > wrapRect.right - edgeThreshold) {
+        const intensity = (clientX - (wrapRect.right - edgeThreshold)) / edgeThreshold;
+        panDelta = Math.min(18, Math.max(2, intensity * 18));
+      }
+
+      if (panDelta !== 0) {
+        setCameraX(cameraX + panDelta, true);
+        updateItemPosition(lastMoveEvent);
+      }
+
+      if (activeDragEl) {
+        edgePanRafId = requestAnimationFrame(edgePanTick);
+      }
+    }
 
     itemsLayerEl.addEventListener('pointerdown', (e) => {
-      // Ignore if clicking the stow button
-      if (e.target.closest('.item-stow-btn')) return;
+      // Ignore if clicking the stow button or control bubble
+      if (e.target.closest('.item-stow-btn') || e.target.closest('.item-control-bubble')) return;
 
       const itemEl = e.target.closest('.room-item');
       if (!itemEl) return;
 
       e.preventDefault();
+      e.stopPropagation();
       activeDragEl = itemEl;
       activePointerId = e.pointerId;
+      lastMoveEvent = e;
       activeDragEl.setPointerCapture(e.pointerId);
       activeDragEl.classList.add('dragging');
+      activeDragEl.classList.add('is-dragging');
 
       if (window.GameEngine && window.GameEngine.playSound) {
         window.GameEngine.playSound('tap');
       }
+
+      if (edgePanRafId) cancelAnimationFrame(edgePanRafId);
+      edgePanRafId = requestAnimationFrame(edgePanTick);
     });
 
     itemsLayerEl.addEventListener('pointermove', (e) => {
       if (!activeDragEl || e.pointerId !== activePointerId) return;
       e.preventDefault();
-
-      const rect = roomStageEl.getBoundingClientRect();
-      let xPct = ((e.clientX - rect.left) / rect.width) * 100;
-      let yPct = ((e.clientY - rect.top) / rect.height) * 100;
-
-      // Boundary Clamping [0, 100]
-      xPct = Math.max(5, Math.min(95, xPct));
-      yPct = Math.max(10, Math.min(95, yPct));
-
-      activeDragEl.style.left = `${xPct}%`;
-      activeDragEl.style.top = `${yPct}%`;
+      lastMoveEvent = e;
+      updateItemPosition(e);
     });
 
     const endDrag = (e) => {
       if (!activeDragEl || e.pointerId !== activePointerId) return;
 
+      if (edgePanRafId) {
+        cancelAnimationFrame(edgePanRafId);
+        edgePanRafId = null;
+      }
+
       activeDragEl.classList.remove('dragging');
+      activeDragEl.classList.remove('is-dragging');
       const itemId = activeDragEl.dataset.itemId;
       const x = parseFloat(activeDragEl.style.left);
       const y = parseFloat(activeDragEl.style.top);
@@ -398,6 +700,7 @@
 
       activeDragEl = null;
       activePointerId = null;
+      lastMoveEvent = null;
 
       // Save to GameEngine
       if (window.GameEngine && itemId) {
@@ -492,9 +795,14 @@
 
   function placeItemFromInventory(itemId) {
     if (!window.GameEngine) return;
-    // Generate a pleasant initial placement near the center-bottom floor
-    const x = 30 + Math.floor(Math.random() * 40);
-    const y = 65 + Math.floor(Math.random() * 20);
+    // Calculate placement centered in the user's current camera view
+    updateMaxScroll();
+    const viewWidth = roomWrapperEl ? roomWrapperEl.clientWidth : 960;
+    const viewCenterX = cameraX + (viewWidth / 2);
+    const centerPct = (viewCenterX / STAGE_WIDTH) * 100;
+
+    const x = Math.max(5, Math.min(95, Math.round(centerPct + (Math.random() * 8 - 4))));
+    const y = 65 + Math.floor(Math.random() * 18);
 
     window.GameEngine.placeItem(itemId, x, y);
     if (window.GameEngine.playSound) {
