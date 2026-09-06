@@ -113,13 +113,15 @@ describe('Tier 1: Feature 25 — Isometric 2.5D & Multi-Floor Upgrades', () => {
     const floor1Content = fs.readFileSync(floor1Path, 'utf8');
     const floor2Content = fs.readFileSync(floor2Path, 'utf8');
 
-    assert.ok(floor1Content.includes('viewBox="0 0 2000 700"'), 'floor 1 SVG viewBox must be 0 0 2000 700');
+    assert.ok(floor1Content.includes('viewBox="0 0 2000 540"'), 'floor 1 SVG viewBox must be 0 0 2000 540');
     assert.ok(floor1Content.includes('width="2000"'), 'floor 1 SVG width must be 2000');
-    assert.ok(floor1Content.includes('height="700"'), 'floor 1 SVG height must be 700');
+    assert.ok(floor1Content.includes('height="540"'), 'floor 1 SVG height must be 540');
+    assert.ok(floor1Content.includes('preserveAspectRatio="none"'), 'floor 1 must have preserveAspectRatio none to eliminate letterboxing');
 
-    assert.ok(floor2Content.includes('viewBox="0 0 2000 700"'), 'floor 2 SVG viewBox must be 0 0 2000 700');
+    assert.ok(floor2Content.includes('viewBox="0 0 2000 540"'), 'floor 2 SVG viewBox must be 0 0 2000 540');
     assert.ok(floor2Content.includes('width="2000"'), 'floor 2 SVG width must be 2000');
-    assert.ok(floor2Content.includes('height="700"'), 'floor 2 SVG height must be 700');
+    assert.ok(floor2Content.includes('height="540"'), 'floor 2 SVG height must be 540');
+    assert.ok(floor2Content.includes('preserveAspectRatio="none"'), 'floor 2 must have preserveAspectRatio none to eliminate letterboxing');
   });
 
   it('25.6: room.html contains Panoramic Camera controls (pills, minimap, viewport wrapper)', () => {

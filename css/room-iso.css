@@ -7,14 +7,14 @@
   position: relative;
   width: 100%;
   max-width: 960px;
-  height: 520px;
+  height: 540px;
   max-height: 70vh;
   margin: 0 auto 1.5rem;
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: 0 12px 36px rgba(255, 133, 161, 0.25);
   border: 3.5px solid var(--pink-pastel);
-  background-color: #EAF5EE;
+  background-color: #FFF0F5;
   touch-action: none;
   user-select: none;
 }
@@ -26,8 +26,8 @@
   left: 0;
   width: 2000px;
   height: 100%;
-  background-size: 2000px 100%;
-  background-position: left top;
+  background-size: 100% 100%;
+  background-position: 0 0;
   background-repeat: no-repeat;
   transition: background-image 0.4s ease-in-out;
   touch-action: none;
